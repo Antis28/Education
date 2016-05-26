@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Extract\WorkFinder.cs" />
     <Compile Include="Extract\XmlConstructor.cs" />
+    <Compile Include="Job\JobInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

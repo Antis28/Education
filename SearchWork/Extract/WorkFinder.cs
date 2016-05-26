@@ -5,14 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using HtmlAgilityPack;
+using SearchWork.Job;
 
 namespace SearchWork.Extract
 {
     class WorkFinder
     {
-
-        public static List<HabraJob> jobList;
-
         string ReadHTML( string site = "http://www.professorweb.ru" )
         {
             return ReadHTML( site, Encoding.UTF8 );
@@ -37,59 +35,70 @@ namespace SearchWork.Extract
 
             //
             // Получаем некоторые данные о сервере
-            string messageServer = "Целевой URL: \t" + request.RequestUri + "\nМетод запроса: \t" + request.Method +
-                 "\nТип полученных данных: \t" + response.ContentType + "\nДлина ответа: \t" + response.ContentLength + "\nЗаголовки";
-            Console.WriteLine( messageServer );
+            //string messageServer = "Целевой URL: \t" + 
+            //                            request.RequestUri + 
+            //                            "\nМетод запроса: \t" + 
+            //                            request.Method +
+            //                            "\nТип полученных данных: \t" + 
+            //                            response.ContentType + 
+            //                            "\nДлина ответа: \t" + 
+            //                            response.ContentLength + 
+            //                            "\nЗаголовки";
+            //Console.WriteLine( messageServer );
             //
 
             return result;
         }
 
 
-        public string GetJobLinksInMozaika()
+        public List<JobInfo> GetJobLinksInMozaika()
         {
+            List<JobInfo> MozaikaJobList = new List<JobInfo>();
             string mozaika = "http://mozaika.dn.ua/vakansy/";
             //string mozaika = "http://html5-ap/mozaika.dn.ua.htm";            
             //xPathQuery
             string xpq_allWorks = "//div[@id=\"dle-content\"]/div[@class=\"rabota-all\"]";          //<div id="dle-content">//class="rabota-all"
             string xpq_currentWork = "/div[@class=\"rabota-data\"]/div[@class=\"rabota-title\"]/a";  // rabota-data/rabota-title/a
-            //string xpq_currentPrice = "/div[@class=\"rabota-data\"]/div[@class=\"rabota-fields12\"]";  ///font[@class=\"rabota-fieldsb\"]
+           
             HtmlDocument allHTML = new HtmlDocument();
             HtmlDocument currentHTML = new HtmlDocument();
 
             allHTML.LoadHtml( ReadHTML( mozaika ) );
             var divNodes = allHTML.DocumentNode.SelectNodes( xpq_allWorks );
 
-            List<string> jobList = new List<string>();
-            List<string> linkList = new List<string>();
-            List<string> priceList = new List<string>();
-            string title = "";
-            string link = "";
-            string descrition = "";
-            string price = "";
             foreach( var node in divNodes )
             {
                 currentHTML.LoadHtml( node.InnerHtml );
 
-                title = currentHTML.DocumentNode.SelectSingleNode( xpq_currentWork ).InnerText;
-                link = currentHTML.DocumentNode
-                                        .SelectSingleNode( xpq_currentWork )
-                                        .Attributes[0].Value;
-
-                descrition = currentHTML.DocumentNode.ChildNodes[1].ChildNodes[7].InnerText;
                 HtmlNode priseNode = currentHTML.DocumentNode.ChildNodes[1].ChildNodes[5];
-                string on = priseNode.InnerHtml;
-                if( on.Contains( "Зарплата" ) )
+                string salary = priseNode.InnerHtml;
+                string price = "Не указано";
+                if( salary.Contains( "Зарплата" ) )
                 {
                     price = priseNode.SelectSingleNode( "font[@class=\"rabota-fieldsb\"]" ).InnerText;
                 }
-                jobList.Add( title );
-                linkList.Add( link );
-                priceList.Add( price );
-                price = "";
+                HtmlNode currentWork = currentHTML
+                                        .DocumentNode
+                                        .SelectSingleNode( xpq_currentWork );
+                MozaikaJobList.Add( new JobInfo
+                {
+                    Title = currentHTML
+                                .DocumentNode
+                                .SelectSingleNode( xpq_currentWork )
+                                .InnerText,
+                    Price = price,
+                    Descrition = currentHTML
+                                    .DocumentNode
+                                    .ChildNodes[1]
+                                    .ChildNodes[7]
+                                    .InnerText,
+                    Url = currentHTML
+                                    .DocumentNode
+                                    .SelectSingleNode( xpq_currentWork )
+                                    .Attributes[0].Value
+                } );                
             }
-
-            return "";//divNodes.Count.ToString();
+            return MozaikaJobList;
         }
 
 
