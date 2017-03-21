@@ -1,0 +1,78 @@
+﻿<Window x:Class="SearchWorkWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SearchWorkWPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="602">
+    <Grid ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" MinHeight="150"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="90" MinHeight="90" MaxHeight="90" ></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <ListView Name="lstw" Margin="5" >
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Path=Title, TargetNullValue=[Данные не предоставлены] }"></GridViewColumn>                        
+                        <GridViewColumn Header="Зарплата" DisplayMemberBinding="{Binding Path=Price, ConverterCulture='ru-ru', StringFormat={}{0:C}, TargetNullValue=[Данные не предоставлены]}"></GridViewColumn>
+                        <!-- Шаблоны ячеек ListView -->                        
+                        
+                        <GridViewColumn Header="Telephone" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">                            
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox 
+                                        Text="{Binding Path=Telephone, 
+                                        TargetNullValue=[Данные не предоставлены]}"
+                                        Margin="5" MouseDown="TextBox_MouseDown"   
+                                        TextWrapping="Wrap"
+                                        />                                    
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Описание" Width="300">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock  FontSize="15" Text="{Binding Path=Description}" 
+                                                TextWrapping="Wrap"
+                                                Foreground="BlueViolet" Margin="5" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Url" Width="50" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">
+                            <!--Header="Url" DisplayMemberBinding="{Binding Path=Url, TargetNullValue=[Данные не предоставлены]}"-->
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox 
+                                        Text="{Binding Path=Url, 
+                                        TargetNullValue=[Данные не предоставлены]}"
+                                        Margin="5" MouseDown="TextBox_MouseDown"                                        
+                                        />
+                                    <!--TextWrapping="Wrap"   -->
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                    </GridView.Columns>
+                    
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" 
+                      VerticalAlignment="Bottom" ResizeBehavior="PreviousAndNext" Height="5" Foreground="Black"/>
+
+        <StackPanel Grid.Row="2" VerticalAlignment="Bottom" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True">
+           
+            <Button  Name="btnGetInfoJob"  Padding="4" Margin="20,10" HorizontalContentAlignment="Left" Click="btnGetInfoJob_Click" HorizontalAlignment="Left" Width="117" Height="26" VerticalAlignment="Bottom">Получить вакансии</Button>
+        </StackPanel>
+    </Grid>
+    
+    
+    
+</Window>

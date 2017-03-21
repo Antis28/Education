@@ -1,4 +1,4 @@
-# Директории в игнор
+# директории в игнор
 /.vs/
 /AbstractFactory/
 /BAK/
@@ -12,6 +12,11 @@
 /System.Windows.Forms.pdb/
 /Timer/
 /TorrentApp/
+/Binding/*
+/FSM/*
+/PagesInterfaces/*
+/Registry/*
+/WpfApplication1/*
 
 /SearchWork/bin
 /SearchWork/obj

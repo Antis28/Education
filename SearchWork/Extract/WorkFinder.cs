@@ -67,16 +67,9 @@ namespace SearchWork.Extract
             var divNodes = allHTML.DocumentNode.SelectNodes( xpq_allWorks );
 
             foreach( var node in divNodes )
-            {
+            {                         
                 currentHTML.LoadHtml( node.InnerHtml );
-
-                HtmlNode priseNode = currentHTML.DocumentNode.ChildNodes[1].ChildNodes[5];
-                string salary = priseNode.InnerHtml;
-                string price = "Не указано";
-                if( salary.Contains( "Зарплата" ) )
-                {
-                    price = priseNode.SelectSingleNode( "font[@class=\"rabota-fieldsb\"]" ).InnerText;
-                }
+                
                 HtmlNode currentWork = currentHTML
                                         .DocumentNode
                                         .SelectSingleNode( xpq_currentWork );
@@ -86,7 +79,7 @@ namespace SearchWork.Extract
                                 .DocumentNode
                                 .SelectSingleNode( xpq_currentWork )
                                 .InnerText,
-                    Price = price,
+                    Price = ExtractSalary( currentHTML ),
                     Descrition = currentHTML
                                     .DocumentNode
                                     .ChildNodes[1]
@@ -96,13 +89,23 @@ namespace SearchWork.Extract
                                     .DocumentNode
                                     .SelectSingleNode( xpq_currentWork )
                                     .Attributes[0].Value
-                } );                
+                } );
             }
             return MozaikaJobList;
         }
 
+        private static string ExtractSalary( HtmlDocument currentHTML )
+        {
+            HtmlNode priseNode = currentHTML.DocumentNode.ChildNodes[1].ChildNodes[5];
+            string salary = priseNode.InnerHtml;
+            string price = "Не указано";
+            if( salary.Contains( "Зарплата" ) )
+            {
+                price = priseNode.SelectSingleNode( "font[@class=\"rabota-fieldsb\"]" ).InnerText;
+            }
 
-
+            return price;
+        }
     }
 }
 

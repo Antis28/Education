@@ -25,8 +25,15 @@ namespace SearchWork
 
             WorkFinder htd = new WorkFinder();
             // Console.WriteLine( htd.ReadHTML() );
+            var d = htd.GetJobLinksInMozaika();
 
-            Console.WriteLine( htd.GetJobLinksInMozaika() );
+            foreach( var item in d.ToArray() )
+            {
+                Console.WriteLine( "{0} | {1}",item.Title , item.Price );
+                Console.WriteLine( "{0}", item.Url);
+                Console.WriteLine();
+            }
+            
 
 
             Console.ReadKey();
