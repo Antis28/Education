@@ -18,9 +18,9 @@
 /Registry/*
 /WpfApplication1/*
 
-/SearchWork/bin
-/SearchWork/obj
-bin/*
+
+*/bin/*
+*/obj/*
 
 # Файлы в игнор
 /icon.ico
