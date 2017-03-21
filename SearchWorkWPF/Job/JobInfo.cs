@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SearchWork.Job
+namespace SearchWorkWPF.Job
 {
     class JobInfo
     {

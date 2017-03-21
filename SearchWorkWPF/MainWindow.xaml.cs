@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 
 using SearchWork.Extract;
-using SearchWork.Job;
+using SearchWorkWPF.Job;
 
 namespace SearchWorkWPF
 {
@@ -30,8 +30,6 @@ namespace SearchWorkWPF
             lstw.ItemsSource = j;
 
         }
-
-
 
         class CarTable
         {

@@ -69,6 +69,8 @@
     <Compile Include="Extract\WorkFinder.cs" />
     <Compile Include="Extract\XmlConstructor.cs" />
     <Compile Include="Job\JobInfo.cs" />
+    <Compile Include="Job\Jobs.cs" />
+    <Compile Include="Job\JobsInMozaika.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
