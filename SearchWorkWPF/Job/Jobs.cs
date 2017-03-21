@@ -10,6 +10,38 @@ namespace SearchWorkWPF.Job
 {
     class Jobs
     {
+        // Объявляем событие для индикатора
+        public event Action ChangeValueEvent;
+        public event Action<int> MaxValueEvent;
+        public event Action<List<JobInfo>> CompleteConvertEvent;
+        public event Action CanceledConvertEvent;
+
+        // Используем метод для запуска события
+        protected void OnChangeValue()
+        {
+            ChangeValueEvent();
+        }
+        protected void OnMaxValue( int maxValue )
+        {
+            MaxValueEvent(maxValue);
+        }
+        protected void OnCompleteConvert( List<JobInfo> lJobs )
+        {
+            CompleteConvertEvent(lJobs);
+        }
+        protected void OnCanceledConvert()
+        {
+            CanceledConvertEvent();
+        }
+
+        protected void ClearEvents()
+        {
+            ChangeValueEvent = null;
+            MaxValueEvent = null;
+            CompleteConvertEvent = null;
+            CanceledConvertEvent = null;
+        }
+
         protected static string ReadHTML( string site, Encoding encoding )
         {
             string result = "";
