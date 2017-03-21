@@ -13,16 +13,16 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="90" MinHeight="90" MaxHeight="90" ></RowDefinition>
         </Grid.RowDefinitions>
-        
+
         <ListView Name="lstw" Margin="5" >
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
-                        <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Path=Title, TargetNullValue=[Данные не предоставлены] }"></GridViewColumn>                        
+                        <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Path=Title, TargetNullValue=[Данные не предоставлены] }"></GridViewColumn>
                         <GridViewColumn Header="Зарплата" DisplayMemberBinding="{Binding Path=Price, ConverterCulture='ru-ru', StringFormat={}{0:C}, TargetNullValue=[Данные не предоставлены]}"></GridViewColumn>
-                        <!-- Шаблоны ячеек ListView -->                        
-                        
-                        <GridViewColumn Header="Telephone" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">                            
+                        <!-- Шаблоны ячеек ListView -->
+
+                        <GridViewColumn Header="Telephone" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox 
@@ -30,7 +30,7 @@
                                         TargetNullValue=[Данные не предоставлены]}"
                                         Margin="5" MouseDown="TextBox_MouseDown"   
                                         TextWrapping="Wrap"
-                                        />                                    
+                                        />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -60,7 +60,7 @@
                         </GridViewColumn>
 
                     </GridView.Columns>
-                    
+
                 </GridView>
             </ListView.View>
         </ListView>
@@ -68,11 +68,13 @@
                       VerticalAlignment="Bottom" ResizeBehavior="PreviousAndNext" Height="5" Foreground="Black"/>
 
         <StackPanel Grid.Row="2" VerticalAlignment="Bottom" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True">
-           
+
             <Button  Name="btnGetInfoJob"  Padding="4" Margin="20,10" HorizontalContentAlignment="Left" Click="btnGetInfoJob_Click" HorizontalAlignment="Left" Width="117" Height="26" VerticalAlignment="Bottom">Получить вакансии</Button>
         </StackPanel>
+        <ProgressBar Name="pb_loadJob" HorizontalAlignment="Left" Height="17" Margin="157,54,0,0" Grid.Row="2" VerticalAlignment="Top" Width="409"/>
+        <TextBlock x:Name="tb_loadJob" HorizontalAlignment="Left" Margin="268,54,0,0" Grid.Row="2" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
     </Grid>
-    
-    
-    
+
+
+
 </Window>
