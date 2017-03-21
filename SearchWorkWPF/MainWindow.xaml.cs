@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
@@ -54,6 +55,35 @@ namespace SearchWorkWPF
         {
             JobInfo ji = lstw.SelectedItem as JobInfo;
             Clipboard.SetText( ji.Url);
+        }
+
+        public bool isPercent = false;
+        void onChangeIndicator()
+        {
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
+                    (Action)delegate
+                    {
+                        pb_loadJob.Value += 1;
+                        string currentValue;
+                        if( isPercent )
+                            currentValue = (int)(pb_loadJob.Value / pb_loadJob.Maximum * 100) + " %";
+                        else
+                            currentValue = pb_loadJob.Value + " из " + pb_loadJob.Maximum;
+
+                        tb_loadJob.Text = currentValue;//;
+                    });
+
+        }
+
+        void onInitialValue( int maximum )
+        {
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
+                    (Action)delegate
+                    {
+                        pb_loadJob.Value = 0;
+                        pb_loadJob.Maximum = maximum;
+                    });
+
         }
     }
 }

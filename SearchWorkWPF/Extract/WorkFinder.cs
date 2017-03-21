@@ -27,10 +27,6 @@ namespace SearchWork.Extract
 
             return price;
         }
-
-        
-
-        
     }
 }
 
