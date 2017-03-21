@@ -26,11 +26,26 @@ namespace SearchWorkWPF
             //};
             //lstw.ItemsSource = lk;
 
-            WorkFinder htd = new WorkFinder();           
+            //WorkFinder htd = new WorkFinder();           
 
-            List<JobInfo> j = htd.GetJobLinksInMozaika();
-            lstw.ItemsSource = j;
-
+            //List<JobInfo> j = htd.GetJobLinksInMozaika();
+            //lstw.ItemsSource = j;
+						
+						// Подготовка вызова в другом потоке
+            BeginGetJobInMozaika();
+        }
+				
+				private void BeginGetJobInMozaika()
+        {
+            JobsInMozaika jMozaika = new JobsInMozaika();
+            // Добавляем обработчик события             
+            jMozaika.MaxValueEvent += onInitialValue;
+            jMozaika.ChangeValueEvent += onChangeIndicator;
+            jMozaika.CompleteConvertEvent += onCompleteConvert;
+            jMozaika.CanceledConvertEvent += onCanceledConvert;
+						
+						// Вызов в другом потоке
+            jMozaika.BeginGetJobList();
         }
 
         class CarTable
@@ -56,19 +71,6 @@ namespace SearchWorkWPF
         {
             JobInfo ji = lstw.SelectedItem as JobInfo;
             Clipboard.SetText( ji.Url);
-        }
-
-
-        private void BeginGetJobInMozaika()
-        {
-            JobsInMozaika jMozaika = new JobsInMozaika();
-            // Добавляем обработчик события             
-            jMozaika.MaxValueEvent += onInitialValue;
-            jMozaika.ChangeValueEvent += onChangeIndicator;
-            jMozaika.CompleteConvertEvent += onCompleteConvert;
-            jMozaika.CanceledConvertEvent += onCanceledConvert;
-
-            jMozaika.BeginGetJobList();
         }
 
         public bool isPercent = false;
@@ -119,6 +121,5 @@ namespace SearchWorkWPF
                     });
 
         }
-
     }
 }
