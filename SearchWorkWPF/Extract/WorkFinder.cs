@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
+using System.Windows.Threading;
 using HtmlAgilityPack;
 using SearchWorkWPF.Job;
 
@@ -13,8 +15,10 @@ namespace SearchWork.Extract
     {
         public List<JobInfo> GetJobLinksInMozaika()
         {
-            return JobsInMozaika.GetJobList();
+            JobsInMozaika jMozaika = new JobsInMozaika();
+            return jMozaika.GetJobList();
         }
+
         private static string ExtractSalary(HtmlDocument currentHTML)
         {
             HtmlNode priseNode = currentHTML.DocumentNode.ChildNodes[1].ChildNodes[5];
@@ -29,10 +33,3 @@ namespace SearchWork.Extract
         }
     }
 }
-
-
-
-
-
-
-
