@@ -1,15 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using HtmlAgilityPack;
 
 namespace SearchWorkWPF.Job
 {
     class JobsInMozaika : Jobs
     {
-        public static List<JobInfo> GetJobList()
+        public void BeginGetJobList()
+        {
+            Thread backgroundThread = new Thread(new ThreadStart(Start));
+            backgroundThread.Name = "Вторичный";
+            backgroundThread.IsBackground = true;
+            backgroundThread.Start();
+        }
+        public List<JobInfo> GetJobList()
         {
             List<JobInfo> MozaikaJobList = new List<JobInfo>();
 
@@ -25,6 +30,8 @@ namespace SearchWorkWPF.Job
 
             allHTML.LoadHtml(ReadHTML(mozaika));
             var divNodes = allHTML.DocumentNode.SelectNodes(xpq_allWorks);
+
+            OnMaxValue(divNodes.Count());
 
             foreach( var node in divNodes )
             {
@@ -60,14 +67,19 @@ namespace SearchWorkWPF.Job
 
                 });
 
-
+                OnChangeValue();
 
             }
 
             return MozaikaJobList;
         }
 
-        private static string searchByTitle( string URL, string title, string xPath )
+        private void Start()
+        {
+            OnCompleteConvert(GetJobList());
+        }
+
+        private  string searchByTitle( string URL, string title, string xPath )
         {
             HtmlDocument curHtmlDocument = new HtmlDocument();
             string curHtml = ReadHTML(URL);
@@ -88,7 +100,7 @@ namespace SearchWorkWPF.Job
             return "";
         }
 
-        private static string ExtractSalary( HtmlDocument currentHTML )
+        private  string ExtractSalary( HtmlDocument currentHTML )
         {
             HtmlNode priseNode = currentHTML.DocumentNode.ChildNodes[1].ChildNodes[5];
             string salary = priseNode.InnerHtml;
