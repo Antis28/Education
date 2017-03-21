@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
-
 using SearchWork.Extract;
 using SearchWorkWPF.Job;
 
@@ -26,7 +25,9 @@ namespace SearchWorkWPF
             //    new CarTable(1), new CarTable(2),new CarTable(3)
             //};
             //lstw.ItemsSource = lk;
-            WorkFinder htd = new WorkFinder();            
+
+            WorkFinder htd = new WorkFinder();           
+
             List<JobInfo> j = htd.GetJobLinksInMozaika();
             lstw.ItemsSource = j;
 
@@ -57,6 +58,19 @@ namespace SearchWorkWPF
             Clipboard.SetText( ji.Url);
         }
 
+
+        private void BeginGetJobInMozaika()
+        {
+            JobsInMozaika jMozaika = new JobsInMozaika();
+            // Добавляем обработчик события             
+            jMozaika.MaxValueEvent += onInitialValue;
+            jMozaika.ChangeValueEvent += onChangeIndicator;
+            jMozaika.CompleteConvertEvent += onCompleteConvert;
+            jMozaika.CanceledConvertEvent += onCanceledConvert;
+
+            jMozaika.BeginGetJobList();
+        }
+
         public bool isPercent = false;
         void onChangeIndicator()
         {
@@ -74,16 +88,37 @@ namespace SearchWorkWPF
                     });
 
         }
-
-        void onInitialValue( int maximum )
+        protected void onInitialValue( int maximum )
         {
-            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate
+            {
+                pb_loadJob.Value = 0;
+                pb_loadJob.Maximum = maximum;
+            });
+
+        }
+        void onCanceledConvert()
+        {
+            this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
                     (Action)delegate
                     {
-                        pb_loadJob.Value = 0;
-                        pb_loadJob.Maximum = maximum;
+                        //tb_percentConvert.Text = "Конвертировние отменено";
+                        //btn_convert.Content = "Начать";
                     });
 
         }
+        void onCompleteConvert( List<JobInfo> lJobs )
+        {
+            this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
+                    (Action)delegate
+                    {
+                        this.tb_loadJob.Text = "Загрузка завершена";
+                        //isRunning = !isRunning;
+                        //this.btn_convert.Content = "Начать";                        
+                        lstw.ItemsSource = lJobs;
+                    });
+
+        }
+
     }
 }
