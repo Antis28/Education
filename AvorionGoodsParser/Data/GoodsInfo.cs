@@ -27,6 +27,10 @@ namespace AvorionGoodsParser.Data
         {
             SoldBy.Contains("d");
         }
+        public override string ToString()
+        {
+            return Name;
+        }
 
     }
 }

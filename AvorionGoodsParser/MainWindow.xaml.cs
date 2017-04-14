@@ -29,7 +29,19 @@ namespace AvorionGoodsParser
         private void button_Click( object sender, RoutedEventArgs e )
         {
             SiteParser siteParser = new SiteParser();
+            siteParser.CompleteConvertEvent += SiteParser_CompleteConvertEvent;
             siteParser.BeginParse();
+            //comboBox.
+        }
+
+        private void SiteParser_CompleteConvertEvent( List<Data.GoodsInfo> obj )
+        {
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
+                    (Action)delegate
+                    {
+                        comboBoxGoods.ItemsSource = obj;
+                    });
+
         }
     }
 }

@@ -21,8 +21,8 @@ namespace AvorionGoodsParser.Parser
 
         private void Start()
         {
-            //OnCompleteConvert(GetJobList());
-            GetGoodsList();
+            OnCompleteConvert(GetGoodsList());
+            //GetGoodsList();
         }
 
         public List<GoodsInfo> GetGoodsList()
@@ -57,13 +57,13 @@ namespace AvorionGoodsParser.Parser
                 
                 GoodsList.Add(new GoodsInfo
                 {
-                    Name = tdNodes[0].InnerText.Replace("\r\n", ""),
-                    Volume = tdNodes[1].InnerText.Replace("\r\n", ""),
-                    Price = tdNodes[2].InnerText.Replace("\r\n", ""),
+                    Name = tdNodes[0].InnerText.Replace("\n", "").Replace("\r", ""),
+                    Volume = tdNodes[1].InnerText.Replace("\n", "").Replace("\r", ""),
+                    Price = tdNodes[2].InnerText.Replace("\n", "").Replace("\r", ""),
                     SoldBy = soldByArr,
                     BoughtBy = boughtByArr,
-                    isIllegal = tdNodes[5].InnerText.Replace("\r\n", ""),
-                    isDangerous = tdNodes[6].InnerText.Replace("\r\n", "")
+                    isIllegal = tdNodes[5].InnerText.Replace("\n", "").Replace("\r", ""),
+                    isDangerous = tdNodes[6].InnerText.Replace("\n", "").Replace("\r", "")
                 });                           
                 OnChangeValue();
             }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using AvorionGoodsParser.Data;
 
 namespace AvorionGoodsParser.Parser
 {
@@ -13,7 +14,7 @@ namespace AvorionGoodsParser.Parser
         // Объявляем событие для индикатора
         public event Action ChangeValueEvent;
         public event Action<int> MaxValueEvent;
-        //public event Action<List<JobInfo>> CompleteConvertEvent;
+        public event Action<List<GoodsInfo>> CompleteConvertEvent;
         public event Action CanceledConvertEvent;
 
         // Используем метод для запуска события
@@ -27,10 +28,10 @@ namespace AvorionGoodsParser.Parser
             if( MaxValueEvent != null )
                 MaxValueEvent(maxValue);
         }
-        //protected void OnCompleteConvert( List<JobInfo> lJobs )
-        //{
-        //    CompleteConvertEvent(lJobs);
-        //}
+        protected void OnCompleteConvert( List<GoodsInfo> lJobs )
+        {
+            CompleteConvertEvent(lJobs);
+        }
         protected void OnCanceledConvert()
         {
             if( CanceledConvertEvent != null )
