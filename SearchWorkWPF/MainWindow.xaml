@@ -14,7 +14,7 @@
             <RowDefinition Height="90" MinHeight="90" MaxHeight="90" ></RowDefinition>
         </Grid.RowDefinitions>
 
-        <ListView Name="lstw" Margin="5" >
+        <ListView Name="lstw" Margin="5" ScrollViewer.CanContentScroll="False" >
             <ListView.View>
                 <GridView>
                     <GridView.Columns>

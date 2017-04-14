@@ -33,7 +33,7 @@ namespace AvorionGoodsParser.Parser
             string siteAddress = "Goods.txt";//"Goods - Official Avorion Wiki.htm";            
             //xPathQuery
             string xpq_allWorks = "//table[@class=\"wikitable sortable\"]/tr";          //<table class="wikitable sortable">   //<div id="dle-content">//class="rabota-all"
-           
+
             HtmlDocument allHTML = new HtmlDocument();
             HtmlDocument currentHTML = new HtmlDocument();
 
@@ -51,10 +51,10 @@ namespace AvorionGoodsParser.Parser
                 string[] soldByArr = NodeToStringArr(tdNodes[3].SelectNodes("a"), out soldByArr);
                 string[] boughtByArr = NodeToStringArr(tdNodes[4].SelectNodes("a"), out boughtByArr);
                 if( tdNodes.Count < 7)
-                {                    
+                {
                     continue;
                 }
-                
+
                 GoodsList.Add(new GoodsInfo
                 {
                     Name = tdNodes[0].InnerText.Replace("\n", "").Replace("\r", ""),
@@ -64,13 +64,13 @@ namespace AvorionGoodsParser.Parser
                     BoughtBy = boughtByArr,
                     isIllegal = tdNodes[5].InnerText.Replace("\n", "").Replace("\r", ""),
                     isDangerous = tdNodes[6].InnerText.Replace("\n", "").Replace("\r", "")
-                });                           
+                });
                 OnChangeValue();
             }
 
             return GoodsList;
         }
-        
+
         private static string[] NodeToStringArr(HtmlNodeCollection selectedCollection, out string[] soldByArr )
         {
             if( selectedCollection != null )

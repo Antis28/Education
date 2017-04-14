@@ -5,53 +5,60 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AvorionGoodsParser"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Button x:Name="button" Content="Load" HorizontalAlignment="Left" Margin="10,19,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
-        <ComboBox x:Name="comboBoxGoods" HorizontalAlignment="Left" Margin="113,17,0,0" VerticalAlignment="Top" Width="120" IsEditable="True"/>
-        <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" ResizeBehavior="PreviousAndNext" Height="5"/>
-        <Grid Name="gridCarDetails" DataContext="{Binding ElementName=comboBoxGoods, Path=SelectedItem}" Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
+        Title="MainWindow" Height="350" Width="525" ScrollViewer.CanContentScroll="True" FontSize="14">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid ScrollViewer.CanContentScroll="True">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
+            <Button x:Name="button" Content="Load" HorizontalAlignment="Left" Margin="10,19,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+            <ComboBox x:Name="comboBoxGoods" HorizontalAlignment="Left" Margin="113,17,0,0" VerticalAlignment="Top" Width="120" IsEditable="True"/>
+            <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" ResizeBehavior="PreviousAndNext" Height="5"/>
+            <Grid Name="gridCarDetails" DataContext="{Binding ElementName=comboBoxGoods, Path=SelectedItem}" Grid.Row="2" MinWidth="200" MinHeight="50" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
 
-            <TextBlock Text="Name:" Grid.Column="0" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
-            <TextBlock Text="{Binding Path=Name}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+                <TextBlock Text="Name:" Grid.Column="0" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+                <TextBlock Text="{Binding Path=Name}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
 
 
-            <TextBlock x:Name="textBlockVolume" Text="Volume:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
-            <TextBlock Text="{Binding Path=Volume}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+                <TextBlock x:Name="textBlockVolume" Text="Volume:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+                <TextBlock Text="{Binding Path=Volume}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
 
-            <TextBlock x:Name="textBlockPrice" Text="Avg. Price:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
-            <TextBlock Text="{Binding Path=Price}" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+                <TextBlock x:Name="textBlockPrice" Text="Avg. Price:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+                <TextBlock Text="{Binding Path=Price}" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
 
-            <TextBlock x:Name="textBlockSold" Text="Sold By:" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
-            <TextBlock Text="{Binding Path=SoldBy}" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+                <TextBlock Text="Sold By:" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+                <ListBox x:Name="listViewSold" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" Width="auto" MinHeight="50" MinWidth="200" />
 
-            <TextBlock x:Name="textBlockBought" Text="Bought By:" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
-            <TextBlock Text="{Binding Path=BoughtBy}" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
 
-            <TextBlock x:Name="textBlockIllegal" Text="Illegal:" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
-            <TextBlock Text="{Binding Path=isIllegal}" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
 
-            <TextBlock x:Name="textBlockDangerous" Text="Dangerous:" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
-            <TextBlock Text="{Binding Path=isDangerous}" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+                <TextBlock Text="Bought By:" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+                <ListBox x:Name="listViewBought" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" Width="auto" MinWidth="200" MinHeight="50" />
 
+
+
+                <TextBlock x:Name="textBlockIllegal" Text="Illegal:" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+                <TextBlock Text="{Binding Path=isIllegal}" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+
+                <TextBlock x:Name="textBlockDangerous" Text="Dangerous:" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+                <TextBlock Text="{Binding Path=isDangerous}" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+
+            </Grid>
         </Grid>
-    </Grid>
+    </ScrollViewer>
+    
 </Window>

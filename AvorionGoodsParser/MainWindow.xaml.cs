@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AvorionGoodsParser.Parser;
+using AvorionGoodsParser.Data;
 
 namespace AvorionGoodsParser
 {
@@ -31,7 +32,14 @@ namespace AvorionGoodsParser
             SiteParser siteParser = new SiteParser();
             siteParser.CompleteConvertEvent += SiteParser_CompleteConvertEvent;
             siteParser.BeginParse();
-            //comboBox.
+            comboBoxGoods.SelectionChanged += ComboBoxGoods_SelectionChanged;
+            
+        }
+
+        private void ComboBoxGoods_SelectionChanged( object sender, SelectionChangedEventArgs e )
+        {
+            listViewSold.ItemsSource = ((GoodsInfo)comboBoxGoods.SelectedItem).SoldBy;
+            listViewBought.ItemsSource = ((GoodsInfo)comboBoxGoods.SelectedItem).BoughtBy;
         }
 
         private void SiteParser_CompleteConvertEvent( List<Data.GoodsInfo> obj )
