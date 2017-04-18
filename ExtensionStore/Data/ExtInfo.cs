@@ -8,19 +8,31 @@ namespace ExtensionStore
 {
     class ExtInfo
     {
-        public string Name { get; set; }
-        public string Price { get; set; }
-        public string Volume { get; set; }
-        public string isIllegal { get; set; }
-        public string isDangerous { get; set; }
-
-        public string[] SoldBy { get; set; }
-        public string[] BoughtBy { get; set; }
-
-        void dsds()
+        public ExtInfo()
         {
-            SoldBy.Contains("d");
+            WhatOpenWindows = new List<string>();
+            WhatOpenMac = new List<string>();
+            WhatOpenLinux = new List<string>();
+            DetailedDescription = new List<string>();
+            InfoHeaderFile = new List<string>();
         }
+
+        public string Name { get; set; }
+        public string Link { get; set; }
+
+        public string Header { get; set; }
+        public string TypeFile { get; set; }
+        public string RusDescription { get; set; }
+        public string EngDescription { get; set; }
+
+        public string WhatOpen { get; set; }
+        public List<string> WhatOpenWindows { get; set; }
+        public List<string> WhatOpenMac { get; set; }
+        public List<string> WhatOpenLinux { get; set; }
+
+        public List<string> DetailedDescription { get; set; }
+        public List<string> InfoHeaderFile { get; set; }
+
         public override string ToString()
         {
             return Name;
