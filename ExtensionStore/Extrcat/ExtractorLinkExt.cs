@@ -19,10 +19,10 @@ namespace ExtensionStore
 
         public Encoding encoding;
 
-        public new event Action<List<string>> CompleteConvertEvent;
-        protected void OnCompleteConvert( List<string> lJobs )
+        public new event Action<Dictionary<string, string>> CompleteConvertEvent;
+        protected void OnCompleteConvert( Dictionary<string, string> list )
         {
-            CompleteConvertEvent(lJobs);
+            CompleteConvertEvent(list);
         }
 
         public ExtractorLinkExt()
@@ -52,9 +52,9 @@ namespace ExtensionStore
             //GetGoodsList();
         }
 
-        public List<string> GetList()
+        public Dictionary<string,string> GetList()
         {
-            List<string> ExtList = new List<string>();
+            Dictionary<string, string> ExtList = new Dictionary<string, string>();
 
             //xPathQuery
             string xpq_allWorks = "//ul[@class=\"nav-list\"]"; //ul class="nav-list"
@@ -80,9 +80,12 @@ namespace ExtensionStore
                 if( lineNode.Name == "#text" )
                     continue;
 
-                var tdNodes = lineNode.SelectSingleNode("a");
-                string link = tdNodes.Attributes["href"].Value;
-                ExtList.Add(link);
+                HtmlNode tdNodes = lineNode.SelectSingleNode("a");
+
+                HtmlAttribute href = tdNodes.Attributes["href"];
+                string name = tdNodes.InnerText;
+                string link = href.Value;
+                ExtList.Add(name,link);
                 OnChangeValue();
             }
 
