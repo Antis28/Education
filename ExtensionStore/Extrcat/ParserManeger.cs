@@ -25,9 +25,17 @@ namespace ExtensionStore
             //Имя катекории, список расширений
             Dictionary<string, List<string>> linkAllExtensonDictionary;
 
-            ExtractorLinkExt extractor = new ExtractorLinkExt();
+            Encoding codePage = Encoding.GetEncoding(1251);
+
+            ExtractorLinkExt extractor = new ExtractorLinkExt("http://open-file.ru/", codePage);
             extractor.CompleteConvertEvent += Extractor_CompleteConvertEvent;
             extractor.BeginParse();
+
+            ExtParser parser = new ExtParser("", codePage);
+            parser.fileTempAddress = "psd.htm";
+            parser.CompleteConvertEvent += Parser_CompleteConvertEvent;
+            
+            parser.BeginParse();
 
             #region Create XML            
             ///////////////////////////////////////////////////////////////////////////////////// 
@@ -86,15 +94,39 @@ namespace ExtensionStore
             #endregion
 
 
-            
+
         }
 
-        private void Extractor_CompleteConvertEvent( List<string> obj )
+        private void Parser_CompleteConvertEvent( ExtInfo obj )
         {
             mainWindow.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
                     (Action)delegate
                     {
-                        mainWindow.listBox.ItemsSource = obj;
+                        mainWindow.listBox.Items.Add(obj.Name);
+                        mainWindow.listBox.Items.Add(obj.Header);
+                        mainWindow.listBox.Items.Add(obj.TypeFile);
+                        
+                        mainWindow.listBox.Items.Add(obj.RusDescription);
+                        mainWindow.listBox.Items.Add(obj.EngDescription);
+
+                        mainWindow.listBox.Items.Add(obj.InfoHeaderFile);
+                        foreach( var item in obj.WhatOpenWindows )
+                        {
+                            mainWindow.listBox.Items.Add(item);
+                        }
+                        
+                    });
+        }
+
+        private void Extractor_CompleteConvertEvent( Dictionary<string, string> obj )
+        {
+            mainWindow.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
+                    (Action)delegate
+                    {
+                        foreach( KeyValuePair<string, string> item in obj )
+                        {
+                            mainWindow.listBox.Items.Add(item.Key);
+                        }                        
                     });
         }
 
