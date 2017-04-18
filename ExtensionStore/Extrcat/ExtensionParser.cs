@@ -30,6 +30,11 @@ namespace ExtensionStore
             this.siteAddress = siteAddress;
             this.encoding = encoding;
         }
+        public event Action<ExtInfo> CompleteConvertEvent;
+        protected void OnCompleteConvert( ExtInfo lJobs )
+        {
+            CompleteConvertEvent(lJobs);
+        }
 
         public void BeginParse()
         {
