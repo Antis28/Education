@@ -61,6 +61,7 @@
     </ApplicationDefinition>
     <Compile Include="Data\ExtInfo.cs" />
     <Compile Include="Extrcat\ExtractHtml.cs" />
+    <Compile Include="Extrcat\ExtractorLinkExt.cs" />
     <Compile Include="Extrcat\ExtractOnFile.cs" />
     <Compile Include="Extrcat\HtmlString.cs" />
     <Compile Include="Extrcat\ParserManeger.cs" />
