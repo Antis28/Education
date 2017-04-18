@@ -27,7 +27,7 @@ namespace ExtensionStore
 
         private void button_Click( object sender, RoutedEventArgs e )
         {
-            ParserManeger pm = new ParserManeger();
+            ParserManeger pm = new ParserManeger(this);
             pm.Parse();
         }
     }

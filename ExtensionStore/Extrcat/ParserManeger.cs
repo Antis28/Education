@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace ExtensionStore
 {
@@ -12,10 +13,21 @@ namespace ExtensionStore
     /// </summary>
     class ParserManeger
     {
+        MainWindow mainWindow;
+        public ParserManeger( MainWindow mainWindow )
+        {
+            this.mainWindow = mainWindow;
+        }
         public void Parse()
-        {   
-            List<string> linkCategoryList = new List<string>(); //Ссылки на категории расширений
-            Dictionary<string, List<string>> linkAllExtensonDictionary;   //Имя катекории, список расширений      
+        {
+            //Ссылки на категории расширений
+            List<string> linkCategoryList = new List<string>();
+            //Имя катекории, список расширений
+            Dictionary<string, List<string>> linkAllExtensonDictionary;
+
+            ExtractorLinkExt extractor = new ExtractorLinkExt();
+            extractor.CompleteConvertEvent += Extractor_CompleteConvertEvent;
+            extractor.BeginParse();
 
             #region Create XML            
             ///////////////////////////////////////////////////////////////////////////////////// 
@@ -30,13 +42,13 @@ namespace ExtensionStore
 
 
             // 2) Вытащить ссылки для каждой категории из файла 
-            ExtractOnFile fileLoader = new ExtractOnFile();
-            linkAllExtensonDictionary = fileLoader.ExtractLinksExtension(linkCategoryList);
-            Console.Write("All list extensions load!\n");
+            //ExtractOnFile fileLoader = new ExtractOnFile();
+            //linkAllExtensonDictionary = fileLoader.ExtractLinksExtension(linkCategoryList);
+            //Console.Write("All list extensions load!\n");
 
             // 4) Парсинг страниц и загрузка таблиц в xml
-            Thread thread = new Thread(Parsing);
-            thread.Start(linkAllExtensonDictionary);
+            //Thread thread = new Thread(Parsing);
+            //thread.Start(linkAllExtensonDictionary);
 
             //foreach( KeyValuePair<string, List<string>> item in cNameFile )
             //{
@@ -74,7 +86,16 @@ namespace ExtensionStore
             #endregion
 
 
-            Console.ReadKey();
+            
+        }
+
+        private void Extractor_CompleteConvertEvent( List<string> obj )
+        {
+            mainWindow.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
+                    (Action)delegate
+                    {
+                        mainWindow.listBox.ItemsSource = obj;
+                    });
         }
 
         private void Parsing( object box )
