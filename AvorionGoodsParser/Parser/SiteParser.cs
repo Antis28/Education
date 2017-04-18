@@ -11,6 +11,20 @@ namespace AvorionGoodsParser.Parser
 {
     class SiteParser : HtmlString
     {
+        private string siteAddress;
+
+        public SiteParser( )
+        {
+            siteAddress = "http://avorion.gamepedia.com/index.php?title=Goods";
+            siteAddress = "Goods.txt";//"Goods - Official Avorion Wiki.htm";
+            siteAddress = "psd.htm";//"Goods - Official Avorion Wiki.htm";
+        }
+
+        public SiteParser( string siteAddress )
+        {
+            this.siteAddress = siteAddress;
+        }
+
         public void BeginParse()
         {
             Thread backgroundThread = new Thread(new ThreadStart(Start));
@@ -29,8 +43,6 @@ namespace AvorionGoodsParser.Parser
         {
             List<GoodsInfo> GoodsList = new List<GoodsInfo>();
 
-            //string siteAddress = "http://avorion.gamepedia.com/index.php?title=Goods";
-            string siteAddress = "Goods.txt";//"Goods - Official Avorion Wiki.htm";            
             //xPathQuery
             string xpq_allWorks = "//table[@class=\"wikitable sortable\"]/tr";          //<table class="wikitable sortable">   //<div id="dle-content">//class="rabota-all"
 
