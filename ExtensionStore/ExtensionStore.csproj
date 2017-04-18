@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\ParserHTML\bin\Debug\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -55,6 +59,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data\ExtInfo.cs" />
+    <Compile Include="Extrcat\ExtractHtml.cs" />
+    <Compile Include="Extrcat\ExtractOnFile.cs" />
+    <Compile Include="Extrcat\HtmlString.cs" />
+    <Compile Include="Extrcat\ParserManeger.cs" />
+    <Compile Include="Extrcat\SiteParser.cs" />
     <Compile Include="XmlAdd\XmlConstructor.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -95,6 +105,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AvorionGoodsParser\AvorionGoodsParser.csproj">
+      <Project>{95b608f5-b52f-436d-9673-d851fb8051e6}</Project>
+      <Name>AvorionGoodsParser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
