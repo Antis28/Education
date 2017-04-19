@@ -278,43 +278,10 @@ namespace ExtensionStore
                 string key = null;
                 key = tdNode.InnerText;
                 int index = TableNodes.IndexOf(tdNode);
-                //if( tdNodes == null )
-                //{
-                //    tdNodes = lineNode.SelectNodes("th");
-                //    if( tdNodes.Count <= 2 )
-                //    {
-                //        key = tdNodes[0].InnerText.Replace("\n", "").Replace("\r", "");
-                //        MatchCollection m = Regex.Matches(key, @"([А-я]\w+\s*\w*\s*)(\.*[a-z]*)");//[А-я]\w+\s+\w+
-                //        ext.Header = m[0].Value;
-                //        if( m.Count > 1 )
-                //            key = m[1].Value;
-                //        m = Regex.Matches(tdNodes[0].InnerText, @"\.[a-z]*");//[А-я]\w+\s+\w+
-                //        if( m.Count > 0 )
-                //            val = m[0].Value;
-                //    }
-                //    //continue;
-                //}
-                //else
-                //{
-                //    if( tdNodes.Count == 2 )
-                //    {
-                //        key = tdNodes[0].InnerText;
-                //        val = tdNodes[1].InnerText;
-                //    }
-                //    else if( tdNodes.Count == 1 )
-                //    {
-                //        key = tdNodes[0].InnerText;
-                //        val = null;
-                //    }
-                //}
-                switch( key )
+
+                if( key.Contains("Формат") )
                 {
-                    case "Информация о заголовке файла ":
-                        //ext.InfoHeaderFile.Add(TableNodes[index + 1].InnerText);
-                        break;
-                    case "Тип файла":
-                        ext.TypeFile = TableNodes[index + 1].InnerText;
-                        break;
+                    ext.TypeFile = TableNodes[index + 1].InnerText;
                 }
                 if( key.Contains("Формат") )
                 {
@@ -322,7 +289,6 @@ namespace ExtensionStore
                     ext.Name = m.Value;
                     ext.Header = m.Value;
                 }
-
                 if( key.Contains("ASCII:") )
                 {
                     ext.InfoHeaderFile.Add(key);
@@ -331,7 +297,6 @@ namespace ExtensionStore
                 {
                     ext.InfoHeaderFile.Add(key);
                 }
-                
                 if( key.Contains("на русском") )
                 {
                     ext.RusDescription = TableNodes[index + 1].InnerText;
