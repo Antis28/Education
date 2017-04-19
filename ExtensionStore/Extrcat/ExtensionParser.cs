@@ -19,6 +19,8 @@ namespace ExtensionStore
         public Encoding encoding;
         public string fileTempAddress = "temp.txt";
 
+        public event Action<ExtInfo> CompleteExtractLinkEvent;        
+
         public ExtParser()
         {
             siteAddress = "http://open-file.ru/";
@@ -30,10 +32,10 @@ namespace ExtensionStore
             this.siteAddress = siteAddress;
             this.encoding = encoding;
         }
-        public event Action<ExtInfo> CompleteConvertEvent;
-        protected void OnCompleteConvert( ExtInfo lJobs )
+
+        protected void OnCompleteExtractLink( ExtInfo lJobs )
         {
-            CompleteConvertEvent(lJobs);
+            CompleteExtractLinkEvent(lJobs);
         }
 
         public void BeginParse()
@@ -46,7 +48,7 @@ namespace ExtensionStore
 
         private void Start()
         {
-            OnCompleteConvert(GetList());
+            OnCompleteExtractLink(GetList());
             //GetGoodsList();
         }
 
