@@ -13,7 +13,7 @@ namespace ExtensionStore
         // Объявляем событие для индикатора
         public event Action ChangeValueEvent;
         public event Action<int> MaxValueEvent;
-        public event Action<List<ExtInfo>> CompleteConvertEvent;
+        public event Action<List<Object>> CompleteEvent;
         public event Action CanceledConvertEvent;
 
         // Используем метод для запуска события
@@ -27,9 +27,9 @@ namespace ExtensionStore
             if( MaxValueEvent != null )
                 MaxValueEvent(maxValue);
         }
-        protected void OnCompleteConvert( List<ExtInfo> lJobs )
+        protected void OnComplete( List<Object> lJobs )
         {
-            CompleteConvertEvent(lJobs);
+            CompleteEvent(lJobs);
         }
         protected void OnCanceledConvert()
         {
