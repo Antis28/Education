@@ -28,12 +28,12 @@ namespace ExtensionStore
             Encoding codePage = Encoding.GetEncoding(1251);
 
             ExtractorLinkExt extractor = new ExtractorLinkExt("http://open-file.ru/", codePage);
-            extractor.CompleteConvertEvent += Extractor_CompleteConvertEvent;
+            extractor.CompleteGenLinkParseEvent += Extractor_CompleteConvertEvent;
             extractor.BeginParse();
 
             ExtParser parser = new ExtParser("", codePage);
             parser.fileTempAddress = "psd.htm";
-            parser.CompleteConvertEvent += Parser_CompleteConvertEvent;
+            parser.CompleteExtractLinkEvent += Parser_CompleteConvertEvent;
             
             parser.BeginParse();
 
