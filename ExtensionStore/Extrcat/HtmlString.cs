@@ -45,7 +45,7 @@ namespace ExtensionStore
             CanceledConvertEvent = null;
         }
 
-        protected static string ReadHTML( string site, Encoding encoding )
+        protected static string ReadHTML( string site, Encoding encoding, string fileTemp = null )
         {
             string result = "";
             // Создать объект запроса
@@ -61,13 +61,16 @@ namespace ExtensionStore
                 // Выводим исходный код страницы
                 result = stream.ReadToEnd();
             }
-            using( StreamWriter streawr = new StreamWriter(
-                Environment.CurrentDirectory + "\\" + "temp.txt"
-                , false
-                , encoding) )
+            if( fileTemp != null )
             {
-                streawr.WriteLine(result);
-            }            
+                using( StreamWriter streawr = new StreamWriter(
+                    Environment.CurrentDirectory + "\\" + fileTemp
+                    , false
+                    , encoding) )
+                {
+                    streawr.WriteLine(result);
+                }
+            }     
             //
             // Получаем некоторые данные о сервере
             //string messageServer = "Целевой URL: \t" + 
