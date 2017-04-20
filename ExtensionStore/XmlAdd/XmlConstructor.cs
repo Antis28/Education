@@ -11,9 +11,7 @@ namespace ExtensionStore
     class XmlConstructor
     {
         string fileName = "ExtensionsBase.xml";
-        string extension;
-
-        string category;
+        
         XmlTextWriter xmlTWriter;
         XDocument doc;
         XElement root;
@@ -167,7 +165,6 @@ namespace ExtensionStore
         void AddExtension( ExtInfo itemExt, XmlWriter xmlTWriter )
         {
             string element = "e";
-            extension = "extension";
 
             xmlTWriter.WriteStartElement("ext");
             {
