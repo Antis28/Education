@@ -256,8 +256,6 @@ namespace ExtensionStore
             }
 
 
-            Dictionary<string, string> dic = new Dictionary<string, string>();
-
             foreach( var tdNode in TableNodes )
             {
                 string key = null;
@@ -267,29 +265,31 @@ namespace ExtensionStore
                 if( key.Contains("Тип файла") )
                 {
                     ext.TypeFile = TableNodes[index + 1].InnerText;
-                }
-                if( key.Contains("Формат") )
-                {
+                }else if( key.Contains("Формат") ) {
                     Match m = Regex.Match(tdNode.InnerText, @"\.[a-zа-я0-9]*");
                     ext.Name = m.Value;
                 }
-                if( key.Contains("ASCII:") )
-                {
-                    ext.InfoHeaderFile.Add(key);
-                }
-                if( key.Contains("HEX:") )
-                {
-                    ext.InfoHeaderFile.Add(key);
-                }
-                if( key.Contains("на русском") )
+                else if( key.Contains("на русском") )
                 {
                     ext.RusDescription = TableNodes[index + 1].InnerText;
                 }
-                if( key.Contains("на английском") )
+                else if( key.Contains("на английском") )
                 {
                     ext.EngDescription = TableNodes[index + 1].InnerText;
                 }
-                if( key == " Windows" || key == "Windows" )
+                else if( key.Contains("Подробное описание") )
+                {
+                    ext.DetailedDescription = TableNodes[index + 1].InnerText;
+                }
+                else if( key.Contains("ASCII:") )
+                {
+                    ext.InfoHeaderFile.Add(key);
+                }
+                else if( key.Contains("HEX:") )
+                {
+                    ext.InfoHeaderFile.Add(key);
+                }
+                else if( key == " Windows" || key == "Windows" )
                 {
                     ext.WhatOpen = TableNodes[index + 1].InnerText;
 
@@ -299,7 +299,7 @@ namespace ExtensionStore
                         ext.WhatOpenWindows.Add(li.InnerText);
                     }
                 }
-                if( key == " Linux" || key == "Linux" )
+                else if( key == " Linux" || key == "Linux" )
                 {
                     ext.WhatOpen += TableNodes[index + 1].InnerText;
                     HtmlNodeCollection li_s = TableNodes[index + 1].SelectNodes("*/li");
@@ -310,7 +310,7 @@ namespace ExtensionStore
                     }
 
                 }
-                if( key == " MacOS" )
+                else if( key == " MacOS" )
                 {
                     ext.WhatOpen += TableNodes[index + 1].InnerText;
                     HtmlNodeCollection li_s = TableNodes[index + 1].SelectNodes("*/li");
@@ -318,10 +318,6 @@ namespace ExtensionStore
                     {
                         ext.WhatOpenLinux.Add(li.InnerText);
                     }
-                }
-                if( key.Contains("Подробное описание") )
-                {
-                    ext.DetailedDescription = TableNodes[index + 1].InnerText;
                 }
             }
             if( ext.EngDescription == null
@@ -331,6 +327,7 @@ namespace ExtensionStore
                 || ext.Link == null
                 )
                 ;
+
             return ext;
         }
         private List<ExtInfo> GetExtensionList( Dictionary<string, List<string>> AllLink )
@@ -345,9 +342,10 @@ namespace ExtensionStore
             OnMaxValueExtParse(count);
             foreach( KeyValuePair<string, List<string>> item in AllLink )
             {
-                OnMaxValueExtParse(item.Value.Count());
-                foreach( var link in item.Value )
+                foreach( string link in item.Value )
+                    //for( int i = 0; i < 5; i++ )
                 {
+                    //ExtInfo ext = GetDescriptionExtension(item.Value[i]);
                     ExtInfo ext = GetDescriptionExtension(link);
                     extList.Add(ext);
                     OnChangeValueExtParse();
