@@ -23,7 +23,7 @@ namespace ExtensionStore
 
         ///////////////////////////////////////////////////////////////////////
 
-        //события для ссылок на категории форматов
+        //события заполнения словаря на категории форматов
         public event Action<Dictionary<string, string>> CompleteGenLinkParseEvent;
         public event Action<int> MaxValueGeneralEvent;
         public event Action ChangeValueGeneralEvent;
@@ -45,7 +45,7 @@ namespace ExtensionStore
 
         ///////////////////////////////////////////////////////////////////////
 
-        //события для ссылок на все форматы
+        //события заполнения словаря ссылок на все форматы
         public event Action<Dictionary<string, List<string>>> CompleteAllLinkParseEvent;
         public event Action<int> MaxValueAllEvent;
         public event Action ChangeValueAllEvent;
@@ -68,12 +68,12 @@ namespace ExtensionStore
 
         ///////////////////////////////////////////////////////////////////////
 
-        //события для ссылок на все форматы
-        public event Action<Dictionary<string, List<string>>> CompleteExtParseEvent;
+        //события заполнения списка объектов на расширения
+        public event Action<List<ExtInfo>> CompleteExtParseEvent;
         public event Action<int> MaxValueExtParseEvent;
         public event Action ChangeValueExtParseEvent;
 
-        protected void OnCompleteExtParse( Dictionary<string, List<string>> list )
+        protected void OnCompleteExtParse( List<ExtInfo> list )
         {
             if( CompleteExtParseEvent != null )
                 CompleteExtParseEvent(list);
@@ -217,25 +217,6 @@ namespace ExtensionStore
 
             return allLinkDict;
         }
-        private List<ExtInfo> GetExtensionList( Dictionary<string, List<string>> AllLink )
-        {
-            List<ExtInfo> extList = new List<ExtInfo>();
-
-            OnMaxValueAll(AllLink.Count);
-            foreach( KeyValuePair<string, List<string>> item in AllLink )
-            {
-                OnMaxValueExtParse(item.Value.Count());
-                foreach( var link in item.Value )
-                {
-                    ExtInfo ext = GetDescriptionExtension(link);
-                    extList.Add(ext);
-                    OnChangeValueExtParse();
-                }
-                OnChangeValueAll();
-            }
-            return extList;
-        }
-
         private ExtInfo GetDescriptionExtension( string link )
         {
             ExtInfo ext = new ExtInfo();
@@ -251,11 +232,14 @@ namespace ExtensionStore
             fileTempAddress = "types\\" + fileTempAddress + ".txt";
             if( File.Exists(fileTempAddress) )
             {
-                allHTML.LoadHtml(ReadFileHTML(fileTempAddress, encoding));
+                allHTML.LoadHtml(HtmlToString.ReadCacheFile(fileTempAddress, encoding));
             }
             else
             {
                 string s = HtmlToString.Read(siteAddress, encoding, fileTempAddress);
+                if( s == "" )
+                    return ext;
+                allHTML.LoadHtml(s);
             }
             //xPathQuery
             //table class="desc"
@@ -279,7 +263,7 @@ namespace ExtensionStore
                 key = tdNode.InnerText;
                 int index = TableNodes.IndexOf(tdNode);
 
-                if( key.Contains("Формат") )
+                if( key.Contains("Тип файла") )
                 {
                     ext.TypeFile = TableNodes[index + 1].InnerText;
                 }
@@ -287,7 +271,6 @@ namespace ExtensionStore
                 {
                     Match m = Regex.Match(tdNode.InnerText, @"\.[a-zа-я0-9]*");
                     ext.Name = m.Value;
-                    ext.Header = m.Value;
                 }
                 if( key.Contains("ASCII:") )
                 {
@@ -326,7 +309,7 @@ namespace ExtensionStore
                     }
 
                 }
-                if( key.Contains("MacOS") )
+                if( key == " MacOS" )
                 {
                     ext.WhatOpen += TableNodes[index + 1].InnerText;
                     HtmlNodeCollection li_s = TableNodes[index + 1].SelectNodes("*/li");
@@ -335,9 +318,37 @@ namespace ExtensionStore
                         ext.WhatOpenLinux.Add(li.InnerText);
                     }
                 }
-                //dic.Add(key, val);                
+                if( key.Contains("Подробное описание") )
+                {
+                    ext.DetailedDescription = TableNodes[index + 1].InnerText;
+                }
             }
+            if( ext.EngDescription == null
+                || ext.RusDescription == null
+                || ext.Name == null
+                || ext.TypeFile == null
+                || ext.Link == null
+                )
+                ;
             return ext;
+        }
+        private List<ExtInfo> GetExtensionList( Dictionary<string, List<string>> AllLink )
+        {
+            List<ExtInfo> extList = new List<ExtInfo>();
+
+            OnMaxValueAll(AllLink.Count);
+            foreach( KeyValuePair<string, List<string>> item in AllLink )
+            {
+                OnMaxValueExtParse(item.Value.Count());
+                foreach( var link in item.Value )
+                {
+                    ExtInfo ext = GetDescriptionExtension(link);
+                    extList.Add(ext);
+                    OnChangeValueExtParse();
+                }
+                OnChangeValueAll();
+            }
+            return extList;
         }
     }
 }
