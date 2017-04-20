@@ -53,13 +53,22 @@ namespace ExtensionStore
                 // если найдена категория из словаря
                 if( itemExt.TypeFile.Contains(cat.Value) )
                 {
-                    XmlWriter xmlTWriter;
                     // то ищем ее в xml
-                    XElement el = root.Element(cat.Key);
-                    // категория найдена?
-                    if( el != null )
+                    XElement category = root.Element(cat.Key);
+                    var ext = category.Elements("ext");
+                    // ищем в xml полученое разрешение
+                    foreach( var item in ext )
                     {
-                        xmlTWriter = el.CreateWriter();
+                        bool coincidence = item.Attribute("Name").Value == itemExt.Name;
+                        // если xml уже есть токое расширение выходим
+                        if( coincidence )
+                            return;
+                    }
+                    XmlWriter xmlTWriter;
+                    // категория найдена?
+                    if( category != null )
+                    {
+                        xmlTWriter = category.CreateWriter();
                         AddExtension(itemExt, xmlTWriter);
                     }
                     else
@@ -72,6 +81,10 @@ namespace ExtensionStore
                     }
                     xmlTWriter.Close();
                     break;
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("В словаре не найдено категории файла");
                 }
             }
         }
