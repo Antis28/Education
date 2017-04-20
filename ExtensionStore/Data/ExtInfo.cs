@@ -13,14 +13,12 @@ namespace ExtensionStore
             WhatOpenWindows = new List<string>();
             WhatOpenMac = new List<string>();
             WhatOpenLinux = new List<string>();
-            DetailedDescription = new List<string>();
             InfoHeaderFile = new List<string>();
         }
 
         public string Name { get; set; }
         public string Link { get; set; }
-
-        public string Header { get; set; }
+        
         public string TypeFile { get; set; }
         public string RusDescription { get; set; }
         public string EngDescription { get; set; }
@@ -30,7 +28,7 @@ namespace ExtensionStore
         public List<string> WhatOpenMac { get; set; }
         public List<string> WhatOpenLinux { get; set; }
 
-        public List<string> DetailedDescription { get; set; }
+        public string DetailedDescription { get; set; }
         public List<string> InfoHeaderFile { get; set; }
 
         public override string ToString()
