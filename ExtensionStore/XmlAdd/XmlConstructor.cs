@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using System.Xml;
 
 namespace ExtensionStore
@@ -13,241 +14,218 @@ namespace ExtensionStore
         string extension;
 
         string category;
-        List<string> header;
-        List<string> rusDescription;
-        List<string> engDescription;
-        List<string> typeFile;
-        List<string> whatOpen;
-        List<string> detailedDescription;
-        List<string> infoHeaderFile;
-        XmlTextWriter xmlWriter;
+        XmlTextWriter xmlTWriter;
+        XDocument doc;
+        XElement root;
 
         public XmlConstructor()
         {
-            xmlWriter = new XmlTextWriter(fileName, Encoding.UTF8)
+            /////////////////////////////////////////////////////////////////
+            try
             {
-                Formatting = Formatting.Indented,   // Включить форматирование документа (с отступом).
-                IndentChar = '\t',                  // Для выделения уровня элемента использовать табуляцию.
-                Indentation = 1,                    // использовать один символ табуляции.
-                //QuoteChar = '\''                  // способ записи ковычек
-            };
-            if( !System.IO.File.Exists("ExtensionsBase.xml") )
-                xmlWriter.WriteStartDocument();         //<? xml version = "1.0" ?>
+                doc = XDocument.Load(fileName);
+                doc.Declaration = new XDeclaration("1.0", "utf-8", "yes");
+                root = doc.Element("ListOfExtension");
+            } catch
+            {
+                xmlTWriter = new XmlTextWriter(fileName, Encoding.UTF8)
+                {
+                    Formatting = Formatting.Indented,   // Включить форматирование документа (с отступом).
+                    IndentChar = '\t',                  // Для выделения уровня элемента использовать табуляцию.
+                    Indentation = 1,                    // использовать один символ табуляции.
+                    //QuoteChar = '\''                  // способ записи ковычек
+                };
+                xmlTWriter.WriteStartDocument(true);         //<? xml version = "1.0" ?>
 
-            xmlWriter.WriteComment("Список всех расширений.");
-            xmlWriter.WriteStartElement("ListOfExtension");
-            //xmlWriter.WriteComment( "Кактегория файла(аудио, видео, архив)." );
-            //xmlWriter.WriteStartElement( "Category" );
+                xmlTWriter.WriteComment("Список всех расширений.");
+                xmlTWriter.WriteStartElement("ListOfExtension");
+                xmlTWriter.Close();
+            }
+            doc = XDocument.Load(fileName);
+            //doc.Declaration = new XDeclaration("1.0", "utf-8", "yes");
+            root = doc.Element("ListOfExtension");
         }
 
-        public void Add()
+        public void AddToCategory( ExtInfo itemExt )
         {
-            //xmlWriter.WriteStartElement( category );
-            xmlWriter.WriteStartElement(extension);
-            foreach( var item in header )
+            if( itemExt.TypeFile == null )
+                return;
+            foreach( KeyValuePair<string, string> cat in Category.categoryes2 )
             {
-                xmlWriter.WriteStartElement("Header");
-                xmlWriter.WriteAttributeString("Value", item);
-                xmlWriter.WriteEndElement();
-            }
+                // если найдена категория из словаря
+                if( itemExt.TypeFile.Contains(cat.Value) )
+                {
+                    XmlWriter xmlTWriter;
+                    // то ищем ее в xml
+                    XElement el = root.Element(cat.Key);
+                    // категория найдена?
+                    if( el != null )
+                    {
+                        xmlTWriter = el.CreateWriter();
+                        AddExtension(itemExt, xmlTWriter);
+                    }
+                    else
+                    {
+                        xmlTWriter = root.CreateWriter();
 
-            foreach( var item in rusDescription )
+                        xmlTWriter.WriteStartElement(cat.Key);
+                        AddExtension(itemExt, xmlTWriter);
+                        xmlTWriter.WriteEndElement();
+                    }
+                    xmlTWriter.Close();
+                    break;
+                }
+            }
+        }
+
+        class Category
+        {
+            public string audio = "Аудио-файлы";
+            public string video = "Видео-файлы";
+            public string other = "Другие файлы";
+            public string picture = "Рисунки, изображения";
+            public string rastr = "Растровые изображения";
+            public string vector = "Векторные изображения";
+            public string cad = "CAD-файлы";
+            public string threeD = "3D-модели, изображения";
+            public string text = "Текст, документы";
+            public string game = "Файлы игр";
+            public string archive = "Архивы, сжатые файлы";
+            public string exe = "Исполняемые файлы";
+            public string internet = "Интернет, web файлы";
+            public string setting = "Файлы настроек";
+            public string imageDisk = "Образы дисков";
+            public string system = "Системные файлы";
+            public string font = "Файлы шрифтов";
+            public string encrypted = "Зашифрованные файлы";
+            public string marked = "Размеченные документы";
+            public string backup = "Файлы резервных копий";
+            public string data = "Файлы данных";
+            public string dataBase = "Файлы баз данных";
+            public string source = "Скрипты, исходный код";
+            public string plugin = "Подключаемые модули";
+            public string geo = "Географические файлы, карты";
+
+            public static List<string> categoryes = new List<string>()
             {
-                xmlWriter.WriteStartElement("rusDescription");
-                xmlWriter.WriteAttributeString("Value", item);
-                xmlWriter.WriteEndElement();
-            }
-
-            foreach( var item in engDescription )
+                "Аудио-файлы",
+                "Видео-файлы",
+                "Другие файлы",
+                "Рисунки, изображения",
+                "Растровые изображения",
+                "Векторные изображения",
+                "CAD-файлы",
+                "3D-модели, изображения",
+                "Текст, документы",
+                "Файлы игр",
+                "Архивы, сжатые файлы",
+                "Исполняемые файлы",
+                "Интернет, web файлы",
+                "Файлы настроек",
+                "Образы дисков",
+                "Системные файлы",
+                "Файлы шрифтов",
+                "Зашифрованные файлы",
+                "Размеченные документы",
+                "Файлы резервных копий",
+                "Файлы данных",
+                "Файлы баз данных",
+                "Скрипты, исходный код",
+                "Подключаемые модули",
+                "Географические файлы, карты",
+        };
+            public static Dictionary<string, string> categoryes2 = new Dictionary<string, string>()
             {
-                xmlWriter.WriteStartElement("engDescription");
-                xmlWriter.WriteAttributeString("Value", item);
-                xmlWriter.WriteEndElement();
-            }
+                { "audio" , "Аудио-файлы" },
+                { "video" , "Видео-файлы" },
+                { "other" , "Другие файлы" },
+                { "picture", "Рисунки, изображения" },
+                { "rastr" , "Растровые изображения" },
+                { "vector" , "Векторные изображения" },
+                { "cad" , "CAD-файлы" },
+                { "threeD" , "3D-модели, изображения" },
+                { "text" , "Текст, документы" },
+                { "game" , "Файлы игр" },
+                { "archive" , "Архивы, сжатые файлы" },
+                { "exe" , "Исполняемые файлы" },
+                { "internet" , "Интернет, web файлы" },
+                { "setting" , "Файлы настроек" },
+                { "imageDisk" , "Образы дисков" },
+                { "system" , "Системные файлы" },
+                { "font" , "Файлы шрифтов" },
+                { "encrypted" , "Зашифрованные файлы" },
+                { "marked" , "Размеченные документы" },
+                { "backup" , "Файлы резервных копий"},
+                { "data" , "Файлы данных"},
+                { "dataBase" , "Файлы баз данных"},
+                { "source" , "Скрипты, исходный код"},
+                { "plugin" , "Подключаемые модули"},
+                { "geo" , "Географические файлы, карты"}
+        };
+        }
 
-            foreach( var item in typeFile )
+        void AddExtension( ExtInfo itemExt, XmlWriter xmlTWriter )
+        {
+            string element = "e";
+            extension = "extension";
+
+            xmlTWriter.WriteStartElement("ext");
             {
-                xmlWriter.WriteStartElement("typeFile");
-                xmlWriter.WriteAttributeString("Value", item);
-                xmlWriter.WriteEndElement();
+                xmlTWriter.WriteAttributeString("Name", itemExt.Name);
+                xmlTWriter.WriteAttributeString("typeFile", itemExt.TypeFile);
+                xmlTWriter.WriteAttributeString("rusDescription", itemExt.RusDescription);
+                xmlTWriter.WriteAttributeString("engDescription", itemExt.EngDescription);
+                xmlTWriter.WriteAttributeString("detailedDescription", itemExt.DetailedDescription);
+
+                if( itemExt.InfoHeaderFile.Count > 0 )
+                {
+                    xmlTWriter.WriteStartElement("infoHeaderFile");
+                    foreach( var item in itemExt.InfoHeaderFile )
+                    {
+                        xmlTWriter.WriteElementString(element, item);
+                    }
+                    xmlTWriter.WriteEndElement();
+                }
+                if( itemExt.WhatOpenWindows.Count > 0 )
+                {
+                    xmlTWriter.WriteStartElement("WhatOpenWindows");
+                    foreach( var item in itemExt.WhatOpenWindows )
+                    {
+                        xmlTWriter.WriteElementString(element, item);
+                    }
+                    xmlTWriter.WriteEndElement();
+                }
+                if( itemExt.WhatOpenLinux.Count > 0 )
+                {
+                    xmlTWriter.WriteStartElement("WhatOpenLinux");
+                    foreach( var item in itemExt.WhatOpenLinux )
+                    {
+                        xmlTWriter.WriteElementString(element, item);
+                    }
+                    xmlTWriter.WriteEndElement();
+                }
+                if( itemExt.WhatOpenMac.Count > 0 )
+                {
+                    xmlTWriter.WriteStartElement("WhatOpenMac");
+                    foreach( var item in itemExt.WhatOpenMac )
+                    {
+                        xmlTWriter.WriteElementString(element, item);
+                    }
+                    xmlTWriter.WriteEndElement();
+                }
             }
-
-            foreach( var item in infoHeaderFile )
-            {
-                xmlWriter.WriteStartElement("infoHeaderFile");
-                xmlWriter.WriteAttributeString("Value", item);
-                xmlWriter.WriteEndElement();
-            }
-
-            foreach( var item in detailedDescription )
-            {
-                xmlWriter.WriteStartElement("detailedDescription");
-                xmlWriter.WriteAttributeString("Value", item);
-                xmlWriter.WriteEndElement();
-            }
-
-            foreach( var item in whatOpen )
-            {
-                xmlWriter.WriteStartElement("WhatOpen");
-                xmlWriter.WriteAttributeString("Value", item);
-                xmlWriter.WriteEndElement();
-            }
-            xmlWriter.WriteEndElement();
-
-
+            xmlTWriter.WriteEndElement();
         }
 
         public void Close()
         {
-            xmlWriter.Close();
-        }
-
-        public void Initialization( string category,
-                                    List<string> headers,
-                                    List<string> cells,
-                                    List<string> WhatOpen
-                                    )
-        {
-            rusDescription = new List<string>();
-            engDescription = new List<string>();
-            typeFile = new List<string>();
-            detailedDescription = new List<string>();
-            infoHeaderFile = new List<string>();
-            Regex regex = new Regex(@"\.\S+");
-            var match = regex.Match(headers[0]);
-            this.extension = match.Value;
-
-
-            this.category = category;
-            this.header = headers;
-            this.whatOpen = new List<string>(); //WhatOpen;
-            string currentCase;
-            for( int i = 0; i < cells.Count; i++ )
+            if( xmlTWriter != null )
+                xmlTWriter.Close();
+            if( doc != null )
             {
-
-                currentCase = CorrectorWords(cells[i], extension);
-
-                switch( currentCase )//ceurrentCase
-                {
-                    case "Описание файла на русском":
-                    case "Описани�� файла на русском":
-                        this.rusDescription.Add(cells[i += 1]);
-                        break;
-                    case "Описание файла на английском":
-                        this.engDescription.Add(cells[i += 1]);
-                        break;
-                    case "Информация о заголовке файла ":
-                        this.infoHeaderFile.Add(cells[i += 1]);
-                        regex = new Regex("ASCII");
-                        if( i < cells.Count - 1 && regex.IsMatch(cells[i + 1]) )
-                        {
-                            this.infoHeaderFile.Add(cells[i += 1]);
-                            if( i < cells.Count - 1 && regex.IsMatch(cells[i + 1]) )
-                                this.infoHeaderFile.Add(cells[i += 1]);
-                        }
-                        break;
-                    case "Тип файла":
-                        this.typeFile.Add(cells[i += 1]);
-                        break;
-                    case "Подробное описание":
-                        this.detailedDescription.Add(cells[i += 1]);
-                        break;
-                    case "Как, чем открыть файл":
-                        //i++;
-                        try
-                        {
-                            while( i < cells.Count - 1 )
-                            {
-                                if( !("Описание файла на русском" == currentCase || "Описани�� файла на русском" == currentCase) )
-                                {
-                                    whatOpen.Add(cells[i += 1]);
-                                    if( i < cells.Count - 1 )
-                                    {
-                                        i++;
-                                        currentCase = CorrectorWords(cells[i], extension);
-                                    }
-                                }
-                                else
-                                { i--; break; }
-                            }
-                        } catch( IndexOutOfRangeException ) { }
-                        break;
-
-                    default:
-                        Console.WriteLine("Нет совпадения со столбцом в таблице = " + "\"" + cells[i] + "\"\n");//throw new Exception( "Нет совпадения со столбцом в таблице = " + ceurrentCase );
-                        Console.BackgroundColor = ConsoleColor.Yellow;
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Расширение файла" + extension);
-                        Console.ResetColor();
-                        break;
-                }
+                doc.Save(fileName);                
             }
-        }
-
-        private static string CorrectorWords( string word, string extension )
-        {
-            string descriptOnRussian = "Описание файла на русском";
-            string descriptOnEnglish = "Описание файла на английском";
-            string typeFile = "Тип файла";
-            string infoHeader = "Информация о заголовке файла ";
-            string fullDescript = "Подробное описание";
-            string whatOpen = "Как, чем открыть файл";
-            bool isWrongWords;
-
-            string currentCase = Regex.Replace(word, @"\.\S+ ", "");
-            currentCase = Regex.Replace(currentCase, @" \.\S+\?", "");
-
-            isWrongWords = descriptOnRussian != currentCase &&
-                                descriptOnEnglish != currentCase &&
-                                typeFile != currentCase &&
-                                whatOpen != currentCase &&
-                                infoHeader != currentCase &&
-                                fullDescript != currentCase;
-            if( isWrongWords )
-            {
-                //Описани�� файла .5xb на русском              
-
-                currentCase = Regex.Replace(currentCase, @"^\S+ ф\S+а на русском", descriptOnRussian);
-                currentCase = Regex.Replace(currentCase, @"^\S+ие ф\S+а на английском", descriptOnEnglish);
-                currentCase = Regex.Replace(currentCase, @"Описание файла на английск��м", descriptOnEnglish);
-
-                currentCase = Regex.Replace(currentCase, @"^\S+п ф\S+", typeFile);
-                currentCase = Regex.Replace(currentCase, @"^Т\S+ \S+ла^", typeFile);
-                //ceurrentCase = Regex.Replace( ceurrentCase, @"\w+ файла^", "Тип файла" );
-                currentCase = Regex.Replace(currentCase, @"^Тип .+", typeFile);
-                currentCase = Regex.Replace(currentCase, @"^Тип ��айла", typeFile);
-                currentCase = Regex.Replace(currentCase, @"Ти�� файла", typeFile);
-
-                currentCase = Regex.Replace(currentCase, @"^Ин\S+ о за\S+ ф\S+ ", infoHeader);
-                currentCase = Regex.Replace(currentCase, @"^\S+я о за\S+ ф\S+ ", infoHeader);
-                currentCase = Regex.Replace(currentCase, @"Информация о заголовке ��айла ", infoHeader);
-                currentCase = Regex.Replace(currentCase, @"Информация �� заголовке файла ", infoHeader);
-                currentCase = Regex.Replace(currentCase, @"Информация \S+ заголовке файла ", infoHeader);
-                currentCase = Regex.Replace(currentCase, @"Информация о \S+ файла ", infoHeader);
-                currentCase = Regex.Replace(currentCase, @"Информация о заголовке \S+ ", infoHeader);
-
-                currentCase = Regex.Replace(currentCase, @"^П\S+ое оп\S+е", fullDescript);
-                currentCase = Regex.Replace(currentCase, @"^К\S+к, ч\S+ о\S+ь ф\S+", whatOpen);
-
-                isWrongWords = descriptOnRussian != currentCase &&
-                                     descriptOnEnglish != currentCase &&
-                                     typeFile != currentCase &&
-                                     whatOpen != currentCase &&
-                                     infoHeader != currentCase &&
-                                     fullDescript != currentCase;
-
-                if( isWrongWords )
-                {
-                    FileInfo fileLog = new FileInfo("Log Errors.txt");
-                    StreamWriter writer = fileLog.AppendText();
-                    writer.WriteLine("Страница с расширением файла: " + extension);
-                    writer.WriteLine("Слово которое не было распознано: " + word);
-                    writer.WriteLine();
-                    writer.Close();
-                }
-            }            
-            return currentCase;
-        }
+        }               
     }
 }
 
