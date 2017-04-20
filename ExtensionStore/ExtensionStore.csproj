@@ -65,8 +65,8 @@
     <Compile Include="Extrcat\ExtractOnFile.cs" />
     <Compile Include="Extrcat\HtmlString.cs" />
     <Compile Include="Extrcat\ParserManeger.cs" />
-    <Compile Include="Extrcat\ExtensionParser.cs" />
     <Compile Include="XmlAdd\XmlConstructor.cs" />
+    <Compile Include="XmlAdd\xmlSanitizingString.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
