@@ -116,7 +116,8 @@ namespace ExtensionStore
             Dictionary<string, string> linkList = GetTypeLinkList();
             OnCompleteGenLinkParse(linkList);
             Dictionary<string, List<string>> allLinkDict = GetAllLinkList(linkList);
-            GetExtensionList(allLinkDict);
+            List<ExtInfo> extList = GetExtensionList(allLinkDict);
+            CompleteExtParseEvent(extList);
         }
 
         private Dictionary<string, string> GetTypeLinkList()
@@ -336,7 +337,12 @@ namespace ExtensionStore
         {
             List<ExtInfo> extList = new List<ExtInfo>();
 
-            OnMaxValueAll(AllLink.Count);
+            int count = 0;
+            foreach( KeyValuePair<string, List<string>> item in AllLink )
+            {
+                count += item.Value.Count;
+            }
+            OnMaxValueExtParse(count);
             foreach( KeyValuePair<string, List<string>> item in AllLink )
             {
                 OnMaxValueExtParse(item.Value.Count());
@@ -346,7 +352,6 @@ namespace ExtensionStore
                     extList.Add(ext);
                     OnChangeValueExtParse();
                 }
-                OnChangeValueAll();
             }
             return extList;
         }
