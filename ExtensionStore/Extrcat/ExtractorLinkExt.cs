@@ -326,7 +326,7 @@ namespace ExtensionStore
                 || ext.TypeFile == null
                 || ext.Link == null
                 )
-                ;
+                MessageBox.Show("Не найдены данные");
 
             return ext;
         }
