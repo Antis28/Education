@@ -69,7 +69,8 @@ namespace ExtensionStore
             //                            "\nЗаголовки";
             //Console.WriteLine( messageServer );
             //
-            return result;
+            xmlSanitizingString sanizer = new xmlSanitizingString();
+            return sanizer.SanitizeXmlString(result);
         }
         public static string ReadHTML( string url = "http://www.professorweb.ru" )
         {
@@ -90,7 +91,8 @@ namespace ExtensionStore
                 // Выводим исходный код страницы
                 result = stream.ReadToEnd();
             }
-            return result;
+            xmlSanitizingString sanizer = new xmlSanitizingString();            
+            return sanizer.SanitizeXmlString(result);
         }
     }
 }
