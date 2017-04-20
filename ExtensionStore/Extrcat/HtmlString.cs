@@ -8,69 +8,54 @@ using System.Threading.Tasks;
 
 namespace ExtensionStore
 {
-    class HtmlString
+    class HtmlToString
     {
-        // Объявляем событие для индикатора
-        public event Action ChangeValueEvent;
-        public event Action<int> MaxValueEvent;
-        public event Action<List<Object>> CompleteEvent;
-        public event Action CanceledConvertEvent;
-
-        // Используем метод для запуска события
-        protected void OnChangeValue()
-        {
-            if( ChangeValueEvent != null )
-                ChangeValueEvent();
-        }
-        protected void OnMaxValue( int maxValue )
-        {
-            if( MaxValueEvent != null )
-                MaxValueEvent(maxValue);
-        }
-        protected void OnComplete( List<Object> lJobs )
-        {
-            CompleteEvent(lJobs);
-        }
-        protected void OnCanceledConvert()
-        {
-            if( CanceledConvertEvent != null )
-                CanceledConvertEvent();
-        }
-
-        protected void ClearEvents()
-        {
-            ChangeValueEvent = null;
-            MaxValueEvent = null;
-            //CompleteConvertEvent = null;
-            CanceledConvertEvent = null;
-        }
-
-        protected static string ReadHTML( string site, Encoding encoding, string fileTemp = null )
+        /// <summary>
+        /// Запрашивает интернет страницу по url
+        /// и преобразует ее в строку.
+        /// если задано имя файла сохраняет страницу в файл
+        /// для последующего использования в ReadFileHTML()
+        /// </summary>
+        /// <param name="url">Url сайта</param>
+        /// <param name="encoding">кодировка сайта</param>
+        /// <param name="fileTemp">имя файла для кэширования страницы </param>
+        /// <returns>html код</returns>
+        public static string Read( string url, Encoding encoding, string fileTemp = null )
         {
             string result = "";
             // Создать объект запроса
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(site);
-
-            // Получить ответ с сервера
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-            // Получаем поток данных из ответа
-            using( StreamReader stream = new StreamReader(
-                 response.GetResponseStream(), encoding) )
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            HttpWebResponse response;
+            try
             {
-                // Выводим исходный код страницы
-                result = stream.ReadToEnd();
-            }
-            if( fileTemp != null )
-            {
-                using( StreamWriter streawr = new StreamWriter(
-                    Environment.CurrentDirectory + "\\" + fileTemp
-                    , false
-                    , encoding) )
+                // Получить ответ с сервера
+                response = (HttpWebResponse)request.GetResponse();
+
+                // Получаем поток данных из ответа
+                using( StreamReader stream = new StreamReader(response.GetResponseStream(), encoding) )
                 {
-                    streawr.WriteLine(result);
+                    // Выводим исходный код страницы
+                    result = stream.ReadToEnd();
                 }
-            }     
+                if( fileTemp != null )
+                {
+                    using( StreamWriter streawr = new StreamWriter(
+                        Environment.CurrentDirectory + "\\" + fileTemp
+                        , false
+                        , encoding) )
+                    {
+                        streawr.WriteLine(result);
+                    }
+                }
+            } catch {
+                using( StreamWriter streawr = new StreamWriter(
+                        Environment.CurrentDirectory + "\\" + "logError"
+                        , true
+                        , encoding) )
+                {
+                    //streawr.WriteLine(fileTemp);
+                }
+            }
             //
             // Получаем некоторые данные о сервере
             //string messageServer = "Целевой URL: \t" + 
@@ -86,11 +71,11 @@ namespace ExtensionStore
             //
             return result;
         }
-        protected static string ReadHTML( string site = "http://www.professorweb.ru" )
+        public static string ReadHTML( string url = "http://www.professorweb.ru" )
         {
-            return ReadHTML(site, Encoding.UTF8);
+            return Read(url, Encoding.UTF8);
         }
-        protected string ReadFileHTML( string file, Encoding encoding = null )
+        public static string ReadCacheFile( string fileСache, Encoding encoding = null )
         {
             string result = "";
 
@@ -99,7 +84,7 @@ namespace ExtensionStore
 
             // Получаем поток данных из ответа
             using( StreamReader stream = new StreamReader(
-                Environment.CurrentDirectory + "\\" + file
+                Environment.CurrentDirectory + "\\" + fileСache
                  , encoding) )
             {
                 // Выводим исходный код страницы
