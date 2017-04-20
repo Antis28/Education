@@ -14,7 +14,7 @@ namespace ExtensionStore
     /// <summary>
     /// Получает ссылки со страницы
     /// </summary>
-    class ExtractorLinkExt : HtmlString
+    class ExtractorLinkExt
     {
         private string siteAddress;
         private string fileTempAddress;
@@ -66,7 +66,7 @@ namespace ExtensionStore
                 ChangeValueAllEvent();
         }
 
-        ///////////////////////////////////////////////////////////////////////        
+        ///////////////////////////////////////////////////////////////////////
 
         //события для ссылок на все форматы
         public event Action<Dictionary<string, List<string>>> CompleteExtParseEvent;
@@ -132,11 +132,11 @@ namespace ExtensionStore
             fileTempAddress = "links.txt";
             if( File.Exists(fileTempAddress) )
             {
-                allHTML.LoadHtml(ReadFileHTML(fileTempAddress, encoding));
+                allHTML.LoadHtml(HtmlToString.ReadCacheFile(fileTempAddress, encoding));
             }
             else
             {
-                allHTML.LoadHtml(ReadHTML(siteAddress, encoding, fileTempAddress));
+                allHTML.LoadHtml(HtmlToString.Read(siteAddress, encoding, fileTempAddress));
             }
 
             var TableNodes = allHTML.DocumentNode.SelectSingleNode(xpq_allWorks).SelectNodes("li");
@@ -183,11 +183,11 @@ namespace ExtensionStore
 
                 if( File.Exists(fileTempAddress) )
                 {
-                    allHTML.LoadHtml(ReadFileHTML(fileTempAddress, encoding));
+                    allHTML.LoadHtml(HtmlToString.ReadCacheFile(fileTempAddress, encoding));
                 }
                 else
                 {
-                    allHTML.LoadHtml(ReadHTML(siteAddress + item.Value, encoding, fileTempAddress));
+                    allHTML.LoadHtml(HtmlToString.Read(siteAddress + item.Value, encoding, fileTempAddress));
                 }
                 string xpq_allWorks;
                 HtmlNodeCollection TableNodes;
@@ -255,7 +255,7 @@ namespace ExtensionStore
             }
             else
             {
-                allHTML.LoadHtml(ReadHTML(siteAddress, encoding, fileTempAddress));
+                string s = HtmlToString.Read(siteAddress, encoding, fileTempAddress);
             }
             //xPathQuery
             //table class="desc"
