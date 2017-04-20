@@ -34,78 +34,24 @@ namespace ExtensionStore
             extractor.ChangeValueAllEvent += Extractor_ChangeValueAllEvent;
             extractor.CompleteAllLinkParseEvent += Extractor_CompleteAllLinkParseEvent;
 
-            //события для ссылок всех форматов
+            //события заполнения списка объектов на расширения
             extractor.MaxValueExtParseEvent += Extractor_MaxValueExtParseEvent; ;
             extractor.ChangeValueExtParseEvent += Extractor_ChangeValueExtParseEvent; ;
             extractor.CompleteExtParseEvent += Extractor_CompleteExtParseEvent; ;
 
             extractor.BeginParse();
 
-            
-
-            #region Create XML            
-            ///////////////////////////////////////////////////////////////////////////////////// 
-            //1)Вытащить ссылки на категории расширений из браузера
-            //extract.ExtractHtmlAttributes(AllAddressExtenson, "http://open-file.ru/", "//div[@class=\"menu\"]/ul/li", "a", "href");
-
-            //1)Вытащить ссылки на категории расширений из файла            
-            //ExtractOnFile fileLoader = new ExtractOnFile();
-            //linkCategoryList = fileLoader.ExtractCategory();
-
-            //"Menu load!
-
-
-            // 2) Вытащить ссылки для каждой категории из файла 
-            //ExtractOnFile fileLoader = new ExtractOnFile();
-            //linkAllExtensonDictionary = fileLoader.ExtractLinksExtension(linkCategoryList);
-            //Console.Write("All list extensions load!\n");
-
-            // 4) Парсинг страниц и загрузка таблиц в xml
-            //Thread thread = new Thread(Parsing);
-            //thread.Start(linkAllExtensonDictionary);
-
-            //foreach( KeyValuePair<string, List<string>> item in cNameFile )
-            //{
-            //    count += item.Value.Count;
-            //}
-            //Console.WriteLine( "Найдено записей = " + count );
-            #endregion
-
-            #region 5) Вытаскивает из Xml информацию о расширении файла
-            ////Console.WriteLine( "Введите расширение файла:" );
-            ////string s = Console.ReadLine();
-            //XmlExtractor extractor = new XmlExtractor();
-            //extractor.Extract();
-            //foreach( var item in extractor.Header )
-            //{
-            //    Console.WriteLine( item );
-            //}
-            //foreach( var item in extractor.RusDescription )
-            //{
-            //    Console.WriteLine( item );
-            //}
-            //foreach( var item in extractor.EngDescription )
-            //{
-            //    Console.WriteLine( item );
-            //}
-            //foreach( var item in extractor.TypeFile )
-            //{
-            //    Console.WriteLine( item );
-            //}
-            //Console.WriteLine( "Чем открыть:" );
-            //foreach( var item in extractor.WhatOpen )
-            //{
-            //    Console.WriteLine( item );
-            //}
-            #endregion
-
-
-
         }
+        ////////////////////////////////////////////////////////////////
 
-        private void Extractor_CompleteExtParseEvent( List<ExtInfo> obj )
+        private void Extractor_CompleteExtParseEvent( List<ExtInfo> extList )
         {
-            throw new NotImplementedException();
+            XmlConstructor constructor = new XmlConstructor();
+            foreach( var item in extList )
+            {
+                constructor.AddToCategory(item);
+            }
+            constructor.Close();
         }
 
         private void Extractor_ChangeValueExtParseEvent()
