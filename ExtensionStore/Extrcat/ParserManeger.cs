@@ -41,10 +41,7 @@ namespace ExtensionStore
 
             extractor.BeginParse();
 
-            ExtParser parser = new ExtParser("", codePage);
-            //parser.fileTempAddress = "psd.htm";
-            //parser.CompleteExtractLinkEvent += Parser_CompleteConvertEvent;
-            //parser.BeginParse();
+            
 
             #region Create XML            
             ///////////////////////////////////////////////////////////////////////////////////// 
@@ -117,6 +114,11 @@ namespace ExtensionStore
                   (Action)delegate
                   {
                       mainWindow.pb_allExtension.Value += 1;
+                      mainWindow.tb_allExtension.Text =
+                                    "Форматов: "
+                                    + mainWindow.pb_allExtension.Value
+                                    + " из "
+                                    + mainWindow.pb_allExtension.Maximum;
                   });
         }
 
@@ -142,6 +144,11 @@ namespace ExtensionStore
                    (Action)delegate
                    {
                        mainWindow.pb_allLinks.Value += 1;
+                       mainWindow.tb_allLinks.Text =
+                                    "Ссылок на формат: "
+                                    + mainWindow.pb_allLinks.Value
+                                    + " из "
+                                    + mainWindow.pb_allLinks.Maximum;
                    });
         }
 
