@@ -23,6 +23,8 @@ namespace ExtensionStore
         public MainWindow()
         {
             InitializeComponent();
+            tb_descripEngHeader.Visibility = Visibility.Collapsed;
+            tb_descripEng.Visibility = Visibility.Collapsed;
         }
 
         private void button_Click( object sender, RoutedEventArgs e )

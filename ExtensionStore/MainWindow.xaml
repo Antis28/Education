@@ -40,7 +40,7 @@
                         <ColumnDefinition Width="120"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Описание файла на английском" VerticalAlignment="Top" Height="auto" Width="110" Margin="0,0,0,10" FontSize="14"/>
+                    <TextBlock x:Name="tb_descripEngHeader" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Описание файла на английском" VerticalAlignment="Top" Height="auto" Width="110" Margin="0,0,0,10" FontSize="14"/>
                     <TextBlock x:Name="tb_descripEng" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="--------" VerticalAlignment="Top" Margin="5,0,0,10" FontSize="14" Height="auto"/>
                 </Grid>
                 <Grid>
@@ -69,20 +69,20 @@
                     <TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Информация о заголовке файла" VerticalAlignment="Top" Height="auto" Width="120" Margin="0,0,0,10" FontSize="14"/>
                     <ListBox x:Name="lb_InfoHeaderFile" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto" Height="auto" MinWidth="{Binding ElementName=lb_WhatOpenWindows, Path=MinWidth}" MinHeight="40" Margin="5,0,0,0"/>
 
-                </Grid>                
+                </Grid>
                 <TextBlock Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Как, чем открыть файл" VerticalAlignment="Top" Height="auto" Margin="0,0,0,10" FontSize="14"/>
                 <Grid>
-                    
-                <StackPanel>
-                    <TextBlock x:Name="tb_wOpWin" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Windows" VerticalAlignment="Top" Height="auto" Width="120" Margin="5,0,0,10" FontSize="14"/>
-                    <ListBox x:Name="lb_WhatOpenWindows" Grid.Column="1" Grid.Row="5" VerticalAlignment="Top" MinWidth="{Binding ElementName=tb_wOpWin, Path= Width}" Height="auto" MinHeight="40" Margin="5,0" HorizontalContentAlignment="Stretch"/>
 
-                    <TextBlock Grid.Column="2" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Linux" VerticalAlignment="Top" Height="auto" Width="120" Margin="5,0,0,10" FontSize="14"/>
-                    <ListBox x:Name="lb_WhatOpenLinux" Grid.Column="2" Grid.Row="5" VerticalAlignment="Top" MinWidth="{Binding ElementName=tb_wOpWin, Path= Width}" Height="auto" MinHeight="40" Margin="5,0" HorizontalContentAlignment="Stretch"/>
+                    <StackPanel>
+                        <TextBlock x:Name="tb_wOpWin" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Windows" VerticalAlignment="Top" Height="auto" Width="120" Margin="5,0,0,10" FontSize="14"/>
+                        <ListBox x:Name="lb_WhatOpenWindows" Grid.Column="1" Grid.Row="5" VerticalAlignment="Top" MinWidth="{Binding ElementName=tb_wOpWin, Path= Width}" Height="auto" MinHeight="40" Margin="5,0" HorizontalContentAlignment="Stretch"/>
 
-                    <TextBlock Grid.Column="3" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Mac" VerticalAlignment="Top" Height="auto" Width="120" Margin="5,0,0,10" FontSize="14"/>
-                    <ListBox x:Name="lb_WhatOpenMac" Grid.Column="3" Grid.Row="5" VerticalAlignment="Top" MinWidth="{Binding ElementName=tb_wOpWin, Path= Width}" Height="auto" MinHeight="40" Margin="5,0,5,5" HorizontalContentAlignment="Stretch"/>
-                </StackPanel>
+                        <TextBlock Grid.Column="2" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Linux" VerticalAlignment="Top" Height="auto" Width="120" Margin="5,0,0,10" FontSize="14"/>
+                        <ListBox x:Name="lb_WhatOpenLinux" Grid.Column="2" Grid.Row="5" VerticalAlignment="Top" MinWidth="{Binding ElementName=tb_wOpWin, Path= Width}" Height="auto" MinHeight="40" Margin="5,0" HorizontalContentAlignment="Stretch"/>
+
+                        <TextBlock Grid.Column="3" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Mac" VerticalAlignment="Top" Height="auto" Width="120" Margin="5,0,0,10" FontSize="14"/>
+                        <ListBox x:Name="lb_WhatOpenMac" Grid.Column="3" Grid.Row="5" VerticalAlignment="Top" MinWidth="{Binding ElementName=tb_wOpWin, Path= Width}" Height="auto" MinHeight="40" Margin="5,0,5,5" HorizontalContentAlignment="Stretch"/>
+                    </StackPanel>
                 </Grid>
             </StackPanel>
         </ScrollViewer>
