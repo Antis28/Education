@@ -44,7 +44,7 @@
 
             <TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Информация о заголовке файла" VerticalAlignment="Top" Height="auto" Width="120" Margin="0,0,0,10" FontSize="14"/>
 
-            <ListBox x:Name="lb_InfoHeaderFile" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto" Height="auto" MinWidth="{Binding ElementName=listBox1, Path=Width}" MinHeight="40" Margin="5,0,0,0"/>
+            <ListBox x:Name="lb_InfoHeaderFile" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto" Height="auto" MinWidth="{Binding ElementName=lb_WhatOpenWindows, Path=Width}" MinHeight="40" Margin="5,0,0,0"/>
 
             <TextBlock Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Как, чем открыть файл" VerticalAlignment="Top" Height="auto" Width="120" Margin="0,0,0,10" FontSize="14"/>
             <TextBlock x:Name="tb_wOpWin" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Windows" VerticalAlignment="Top" Height="auto" Width="120" Margin="5,0,0,10" FontSize="14"/>
