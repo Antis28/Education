@@ -24,18 +24,37 @@ namespace ExtensionStore
         public static ExtInfo operator +( ExtInfo left, ExtInfo right )
         {
             ExtInfo temp = new ExtInfo();
-            temp.Name = left.Name;
+            temp.Name = right.Name;
+
             if( left.TypeFile != string.Empty  )
                 temp.TypeFile = left.TypeFile + ", " + right.TypeFile;
+            else
+                temp.TypeFile = right.TypeFile;
+
+            if( left.EngDescription != string.Empty )
+                temp.EngDescription = left.EngDescription + "\n" + right.EngDescription;
+            else
+                temp.EngDescription = right.EngDescription;
+
+            if( left.RusDescription != string.Empty )
+                temp.RusDescription = left.RusDescription + "\n" + right.RusDescription;
+            else
+                temp.RusDescription = right.RusDescription;
+
+            if( left.DetailedDescription != string.Empty )
+                temp.DetailedDescription = left.DetailedDescription + "\n" + right.DetailedDescription;
+            else
+                temp.DetailedDescription = right.DetailedDescription;
+
             temp.InfoHeaderFile.AddRange(left.InfoHeaderFile);
             temp.InfoHeaderFile.AddRange(right.InfoHeaderFile);
-            temp.EngDescription = left.EngDescription + "\n" + right.EngDescription;
-            temp.RusDescription = left.RusDescription + "\n" + right.RusDescription;
-            temp.DetailedDescription = left.DetailedDescription + "\n" + right.DetailedDescription;
+
             temp.WhatOpenWindows.AddRange(left.WhatOpenWindows);
             temp.WhatOpenWindows.AddRange(right.WhatOpenWindows);
+
             temp.WhatOpenLinux.AddRange(left.WhatOpenLinux);
             temp.WhatOpenLinux.AddRange(right.WhatOpenLinux);
+
             temp.WhatOpenMac.AddRange(left.WhatOpenMac);
             temp.WhatOpenMac.AddRange(right.WhatOpenMac);
 
