@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ExtensionStore"
         mc:Ignorable="d"
         x:Name="mainWindow"
-        Title="MainWindow" Height="590" Width="557">
+        Title="MainWindow" Height="572" Width="602">
     <Grid>
         <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="62,39,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
         <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="20" Margin="169,13,0,0" VerticalAlignment="Top" Width="295"/>
@@ -17,47 +17,66 @@
         <TextBlock x:Name="tb_allLinks" HorizontalAlignment="Left" Margin="169,82,0,0" TextWrapping="Wrap" Text="Ссылки на формат" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock x:Name="tb_allExtension" HorizontalAlignment="Left" Margin="169,118,0,0" TextWrapping="Wrap" Text="Форматов" VerticalAlignment="Top" FontSize="14"/>
         <Button x:Name="button_extract" Content="Button" HorizontalAlignment="Left" Margin="62,79,0,0" VerticalAlignment="Top" Width="75" Click="button_extract_Click"/>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Background="Black" Margin="30,180,0,0">
-            <Grid  Background="Wheat">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"></RowDefinition>
-                    <RowDefinition Height="auto"></RowDefinition>
-                    <RowDefinition Height="auto"></RowDefinition>
-                    <RowDefinition Height="auto"></RowDefinition>
-                    <RowDefinition Height="auto"></RowDefinition>
-                    <RowDefinition Height="auto"></RowDefinition>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Формат файла" VerticalAlignment="Top" Margin="0,0,0,10" FontSize="14" Height="auto"/>
-                <TextBlock x:Name="tb_formatfile" Text="--------" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Left"  TextWrapping="Wrap"  VerticalAlignment="Top" Margin="5,0,0,10" FontSize="14" Height="auto"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Background="BlanchedAlmond" Margin="30,180,0,0">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Формат файла" VerticalAlignment="Top" Margin="0,0,0,10" FontSize="14" Height="auto"/>
+                    <TextBlock x:Name="tb_formatfile" Text="--------" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Left"  TextWrapping="Wrap"  VerticalAlignment="Top" Margin="5,0,0,10" FontSize="14" Height="auto"/>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Тип файла" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"  TextWrapping="Wrap"  VerticalAlignment="Top" Margin="0,0,0,10" FontSize="14" Height="auto"/>
+                    <TextBlock x:Name="tb_typefile" Text="--------" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Left"  TextWrapping="Wrap"  VerticalAlignment="Top" Margin="5,0,0,10" FontSize="14" Height="auto"/>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Описание файла на английском" VerticalAlignment="Top" Height="auto" Width="110" Margin="0,0,0,10" FontSize="14"/>
+                    <TextBlock x:Name="tb_descripEng" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="--------" VerticalAlignment="Top" Margin="5,0,0,10" FontSize="14" Height="auto"/>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Описание файла на русском" VerticalAlignment="Top" Height="auto" Width="120" Margin="0,0,0,10" FontSize="14"/>
+                    <TextBlock  x:Name="tb_descripRus" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="--------" VerticalAlignment="Top" Margin="5,0,0,10" FontSize="14" Height="auto"/>
 
-                <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Описание файла на английском" VerticalAlignment="Top" Height="auto" Width="110" Margin="0,0,0,10" FontSize="14"/>
-                <TextBlock x:Name="tb_descripEng" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="--------" VerticalAlignment="Top" Margin="5,0,0,10" FontSize="14" Height="auto"/>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Информация о заголовке файла" VerticalAlignment="Top" Height="auto" Width="120" Margin="0,0,0,10" FontSize="14"/>
+                    <ListBox x:Name="lb_InfoHeaderFile" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto" Height="auto" MinWidth="{Binding ElementName=lb_WhatOpenWindows, Path=MinWidth}" MinHeight="40" Margin="5,0,0,0"/>
 
-                <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Описание файла на русском" VerticalAlignment="Top" Height="auto" Width="120" Margin="0,0,0,10" FontSize="14"/>
-                <TextBlock  x:Name="tb_descripRus" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="--------" VerticalAlignment="Top" Margin="5,0,0,10" FontSize="14" Height="auto"/>
+                </Grid>                
+                <TextBlock Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Как, чем открыть файл" VerticalAlignment="Top" Height="auto" Margin="0,0,0,10" FontSize="14"/>
+                <Grid>
+                    
+                <StackPanel>
+                    <TextBlock x:Name="tb_wOpWin" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Windows" VerticalAlignment="Top" Height="auto" Width="120" Margin="5,0,0,10" FontSize="14"/>
+                    <ListBox x:Name="lb_WhatOpenWindows" Grid.Column="1" Grid.Row="5" VerticalAlignment="Top" MinWidth="{Binding ElementName=tb_wOpWin, Path= Width}" Height="auto" MinHeight="40" Margin="5,0" HorizontalContentAlignment="Stretch"/>
 
-                <TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Информация о заголовке файла" VerticalAlignment="Top" Height="auto" Width="120" Margin="0,0,0,10" FontSize="14"/>
+                    <TextBlock Grid.Column="2" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Linux" VerticalAlignment="Top" Height="auto" Width="120" Margin="5,0,0,10" FontSize="14"/>
+                    <ListBox x:Name="lb_WhatOpenLinux" Grid.Column="2" Grid.Row="5" VerticalAlignment="Top" MinWidth="{Binding ElementName=tb_wOpWin, Path= Width}" Height="auto" MinHeight="40" Margin="5,0" HorizontalContentAlignment="Stretch"/>
 
-                <ListBox x:Name="lb_InfoHeaderFile" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto" Height="auto" MinWidth="{Binding ElementName=lb_WhatOpenWindows, Path=Width}" MinHeight="40" Margin="5,0,0,0"/>
-
-                <TextBlock Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Как, чем открыть файл" VerticalAlignment="Top" Height="auto" Width="120" Margin="0,0,0,10" FontSize="14"/>
-                <TextBlock x:Name="tb_wOpWin" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Windows" VerticalAlignment="Top" Height="auto" Width="120" Margin="5,0,0,10" FontSize="14"/>
-                <TextBlock Grid.Column="2" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Linux" VerticalAlignment="Top" Height="auto" Width="120" Margin="5,0,0,10" FontSize="14"/>
-                <TextBlock Grid.Column="3" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Mac" VerticalAlignment="Top" Height="auto" Width="120" Margin="5,0,0,10" FontSize="14"/>
-
-                <ListBox x:Name="lb_WhatOpenWindows" Grid.Column="1" Grid.Row="5" VerticalAlignment="Top" MinWidth="{Binding ElementName=tb_wOpWin, Path= Width}" Height="auto" MinHeight="40" Margin="5,0" HorizontalContentAlignment="Stretch"/>
-                <ListBox x:Name="lb_WhatOpenLinux" Grid.Column="2" Grid.Row="5" VerticalAlignment="Top" MinWidth="{Binding ElementName=tb_wOpWin, Path= Width}" Height="auto" MinHeight="40" Margin="5,0" HorizontalContentAlignment="Stretch"/>
-                <ListBox x:Name="lb_WhatOpenMac" Grid.Column="3" Grid.Row="5" VerticalAlignment="Top" MinWidth="{Binding ElementName=tb_wOpWin, Path= Width}" Height="auto" MinHeight="40" Margin="5,0" HorizontalContentAlignment="Stretch"/>
-
-            </Grid>
+                    <TextBlock Grid.Column="3" Grid.Row="4" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Mac" VerticalAlignment="Top" Height="auto" Width="120" Margin="5,0,0,10" FontSize="14"/>
+                    <ListBox x:Name="lb_WhatOpenMac" Grid.Column="3" Grid.Row="5" VerticalAlignment="Top" MinWidth="{Binding ElementName=tb_wOpWin, Path= Width}" Height="auto" MinHeight="40" Margin="5,0,5,5" HorizontalContentAlignment="Stretch"/>
+                </StackPanel>
+                </Grid>
+            </StackPanel>
         </ScrollViewer>
-
         <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="17,114,0,0" TextWrapping="Wrap" Text=".669" VerticalAlignment="Top" Width="120" TextAlignment="Center"/>
 
     </Grid>
