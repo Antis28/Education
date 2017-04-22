@@ -8,10 +8,14 @@ using System.Xml;
 
 namespace ExtensionStore
 {
+    /// <summary>
+    /// Создает или переписывает xml
+    /// в соответсвии с данными
+    /// </summary>
     class XmlConstructor
     {
         string fileName = "ExtensionsBase.xml";
-        
+
         XmlTextWriter xmlTWriter;
         XDocument doc;
         XElement root;
@@ -59,32 +63,31 @@ namespace ExtensionStore
                     // ищем в xml полученое разрешение
                     foreach( var item in ext )
                     {
-                        bool coincidence = item.Attribute("Name").Value == itemExt.Name;
+                        bool coincidence = item.Attribute("Name").Value == itemExt.Name;                        
                         // если xml уже есть токое расширение выходим
                         if( coincidence )
+                        {
+                            AddInfoExtension(itemExt, item);                            
                             return;
+                        }
                     }
                     XmlWriter xmlTWriter;
                     // категория найдена?
                     if( category != null )
                     {
                         xmlTWriter = category.CreateWriter();
-                        AddExtension(itemExt, xmlTWriter);
+                        AddNewExtension(itemExt, xmlTWriter);
                     }
                     else
                     {
                         xmlTWriter = root.CreateWriter();
 
                         xmlTWriter.WriteStartElement(cat.Key);
-                        AddExtension(itemExt, xmlTWriter);
+                        AddNewExtension(itemExt, xmlTWriter);
                         xmlTWriter.WriteEndElement();
                     }
                     xmlTWriter.Close();
                     break;
-                }
-                else
-                {
-                    System.Windows.MessageBox.Show("В словаре не найдено категории файла");
                 }
             }
         }
@@ -174,22 +177,35 @@ namespace ExtensionStore
                 { "geo" , "Географические файлы, карты"}
         };
         }
-
-        void AddExtension( ExtInfo itemExt, XmlWriter xmlTWriter )
+        /// <summary>
+        /// Добавляет новый элемент в xml
+        /// </summary>
+        /// <param name="itemExt"></param>
+        /// <param name="xmlTWriter"></param>
+        void AddNewExtension( ExtInfo itemExt, XmlWriter xmlTWriter )
         {
             string element = "e";
+            string eName = "Name";
+            string eTypeFile = "typeFile";
+            string eRusDescription = "rusDescription";
+            string eEngDescription = "engDescription";
+            string eDetailedDescription = "detailedDescription";
+            string eInfoHeaderFile = "infoHeaderFile";
+            string eWhatOpenWindows = "WhatOpenWindows";
+            string eWhatOpenLinux = "WhatOpenLinux";
+            string eWhatOpenMac = "WhatOpenMac";
 
             xmlTWriter.WriteStartElement("ext");
             {
-                xmlTWriter.WriteAttributeString("Name", itemExt.Name);
-                xmlTWriter.WriteAttributeString("typeFile", itemExt.TypeFile);
-                xmlTWriter.WriteAttributeString("rusDescription", itemExt.RusDescription);
-                xmlTWriter.WriteAttributeString("engDescription", itemExt.EngDescription);
-                xmlTWriter.WriteAttributeString("detailedDescription", itemExt.DetailedDescription);
+                xmlTWriter.WriteAttributeString(eName, itemExt.Name);
+                xmlTWriter.WriteAttributeString(eTypeFile, itemExt.TypeFile);
+                xmlTWriter.WriteAttributeString(eRusDescription, itemExt.RusDescription);
+                xmlTWriter.WriteAttributeString(eEngDescription, itemExt.EngDescription);
+                xmlTWriter.WriteAttributeString(eDetailedDescription, itemExt.DetailedDescription);
 
                 if( itemExt.InfoHeaderFile.Count > 0 )
                 {
-                    xmlTWriter.WriteStartElement("infoHeaderFile");
+                    xmlTWriter.WriteStartElement(eInfoHeaderFile);
                     foreach( var item in itemExt.InfoHeaderFile )
                     {
                         xmlTWriter.WriteElementString(element, item);
@@ -198,7 +214,7 @@ namespace ExtensionStore
                 }
                 if( itemExt.WhatOpenWindows.Count > 0 )
                 {
-                    xmlTWriter.WriteStartElement("WhatOpenWindows");
+                    xmlTWriter.WriteStartElement(eWhatOpenWindows);
                     foreach( var item in itemExt.WhatOpenWindows )
                     {
                         xmlTWriter.WriteElementString(element, item);
@@ -207,7 +223,7 @@ namespace ExtensionStore
                 }
                 if( itemExt.WhatOpenLinux.Count > 0 )
                 {
-                    xmlTWriter.WriteStartElement("WhatOpenLinux");
+                    xmlTWriter.WriteStartElement(eWhatOpenLinux);
                     foreach( var item in itemExt.WhatOpenLinux )
                     {
                         xmlTWriter.WriteElementString(element, item);
@@ -216,7 +232,7 @@ namespace ExtensionStore
                 }
                 if( itemExt.WhatOpenMac.Count > 0 )
                 {
-                    xmlTWriter.WriteStartElement("WhatOpenMac");
+                    xmlTWriter.WriteStartElement(eWhatOpenMac);
                     foreach( var item in itemExt.WhatOpenMac )
                     {
                         xmlTWriter.WriteElementString(element, item);
@@ -227,15 +243,34 @@ namespace ExtensionStore
             xmlTWriter.WriteEndElement();
         }
 
+        /// <summary>
+        /// Проверяет xml аттрибут с данными в объекте,
+        /// если отличаются то добавляются новые данные
+        /// </summary>
+        /// <param name="itemExt">объект с данными</param>
+        /// <param name="element">элемент с именем как в объекте</param>
+        void AddInfoExtension( ExtInfo itemExt, XElement element )
+        {
+            XAttribute attr;
+            bool coincidence;
+
+            attr = element.Attribute("detailedDescription");
+            coincidence = attr.Value == itemExt.DetailedDescription;
+            if( !coincidence )
+            {
+                attr.Value = itemExt.DetailedDescription;
+            }
+        }
+
         public void Close()
         {
             if( xmlTWriter != null )
                 xmlTWriter.Close();
             if( doc != null )
             {
-                doc.Save(fileName);                
+                doc.Save(fileName);
             }
-        }               
+        }
     }
 }
 
