@@ -262,24 +262,38 @@ namespace ExtensionStore
                 key = tdNode.InnerText;
                 int index = TableNodes.IndexOf(tdNode);
 
-                if( key.Contains("Тип файла") )
+                if( key.Contains("Формат") )
                 {
-                    ext.TypeFile = TableNodes[index + 1].InnerText;
-                }else if( key.Contains("Формат") ) {
                     Match m = Regex.Match(tdNode.InnerText, @"\.[a-zа-я0-9]*");
                     ext.Name = m.Value;
                 }
+                else if( key.Contains("Тип файла") )
+                {
+                    if( ext.TypeFile == string.Empty )
+                        ext.TypeFile = TableNodes[index + 1].InnerText;
+                    else
+                        ext.TypeFile += ",\n " + TableNodes[index + 1].InnerText;
+                }
                 else if( key.Contains("на русском") )
                 {
-                    ext.RusDescription = TableNodes[index + 1].InnerText;
+                    if( ext.RusDescription == string.Empty )
+                        ext.RusDescription = TableNodes[index + 1].InnerText;
+                    else
+                        ext.RusDescription += ",\n " + TableNodes[index + 1].InnerText;
                 }
                 else if( key.Contains("на английском") )
                 {
-                    ext.EngDescription = TableNodes[index + 1].InnerText;
+                    if( ext.EngDescription == string.Empty )
+                        ext.EngDescription = TableNodes[index + 1].InnerText;
+                    else
+                        ext.EngDescription += ",\n " + TableNodes[index + 1].InnerText;
                 }
                 else if( key.Contains("Подробное описание") )
                 {
-                    ext.DetailedDescription = TableNodes[index + 1].InnerText;
+                    if( ext.DetailedDescription == string.Empty )
+                        ext.DetailedDescription = TableNodes[index + 1].InnerText;
+                    else
+                        ext.DetailedDescription += ",\n " + TableNodes[index + 1].InnerText;
                 }
                 else if( key.Contains("ASCII:") )
                 {
@@ -343,7 +357,7 @@ namespace ExtensionStore
             foreach( KeyValuePair<string, List<string>> item in AllLink )
             {
                 foreach( string link in item.Value )
-                    //for( int i = 0; i < 5; i++ )
+                //for( int i = 0; i < 5; i++ )
                 {
                     //ExtInfo ext = GetDescriptionExtension(item.Value[i]);
                     ExtInfo ext = GetDescriptionExtension(link);
