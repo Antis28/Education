@@ -59,13 +59,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Data\ExtInfo.cs" />    
+    <Compile Include="Data\ExtInfo.cs" />
     <Compile Include="Extrcat\ExtractorLinkExt.cs" />
     <Compile Include="Extrcat\ExtractOnFile.cs" />
     <Compile Include="Extrcat\HtmlString.cs" />
     <Compile Include="Extrcat\ParserManeger.cs" />
     <Compile Include="XmlAdd\XmlConstructor.cs" />
     <Compile Include="XmlAdd\xmlSanitizingString.cs" />
+    <Compile Include="XmlExtract\XmlExtractor.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
