@@ -13,9 +13,9 @@
         <ProgressBar x:Name="pb_genLinks" HorizontalAlignment="Left" Height="12" Margin="169,64,0,0" VerticalAlignment="Top" Width="321" FontSize="14"/>
         <ProgressBar x:Name="pb_allLinks" HorizontalAlignment="Left" Height="12" Margin="169,101,0,0" VerticalAlignment="Top" Width="321" FontSize="14"/>
         <ProgressBar x:Name="pb_allExtension" HorizontalAlignment="Left" Height="12" Margin="169,137,0,0" VerticalAlignment="Top" Width="321" FontSize="14"/>
-        <TextBlock x:Name="tb_genLinks" HorizontalAlignment="Left" Margin="169,40,0,0" TextWrapping="Wrap" Text="Общие ссылки" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock x:Name="tb_allLinks" HorizontalAlignment="Left" Margin="169,82,0,0" TextWrapping="Wrap" Text="Ссылки на формат" VerticalAlignment="Top" FontSize="14"/>
-        <TextBlock x:Name="tb_allExtension" HorizontalAlignment="Left" Margin="169,118,0,0" TextWrapping="Wrap" Text="Форматов" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="tb_genLinks" HorizontalAlignment="Left" Margin="169,40,0,0" TextWrapping="Wrap" Text="Ссылки на типы файлов: " VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="tb_allLinks" HorizontalAlignment="Left" Margin="169,82,0,0" TextWrapping="Wrap" Text="Ссылки на форматы файлов: " VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock x:Name="tb_allExtension" HorizontalAlignment="Left" Margin="169,118,0,0" TextWrapping="Wrap" Text="Форматов: " VerticalAlignment="Top" FontSize="14"/>
         <Button x:Name="button_extract" Content="Найти в xml" HorizontalAlignment="Left" Margin="62,79,0,0" VerticalAlignment="Top" Width="75" Click="button_extract_Click"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Background="BlanchedAlmond" Margin="30,180,0,0">
             <StackPanel>

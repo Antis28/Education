@@ -17,12 +17,21 @@ namespace ExtensionStore
     class ParserManeger
     {
         MainWindow mainWindow;
+        string linkTypes;
+        string linkFormats;
+        string formats;
+
         public ParserManeger( MainWindow mainWindow )
         {
             this.mainWindow = mainWindow;
         }
         public void Parse()
         {
+
+            linkTypes = mainWindow.tb_genLinks.Text;
+            linkFormats = mainWindow.tb_allLinks.Text;
+            formats = mainWindow.tb_allExtension.Text;            
+
             Encoding codePage = Encoding.GetEncoding(1251);
 
             ExtractorLinkExt extractor = new ExtractorLinkExt("http://open-file.ru", codePage);
@@ -110,7 +119,7 @@ namespace ExtensionStore
                   {
                       mainWindow.pb_allExtension.Value += 1;
                       mainWindow.tb_allExtension.Text =
-                                    "Форматов: "
+                                    formats
                                     + mainWindow.pb_allExtension.Value
                                     + " из "
                                     + mainWindow.pb_allExtension.Maximum;
@@ -122,7 +131,7 @@ namespace ExtensionStore
             mainWindow.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
                    (Action)delegate
                    {
-                       mainWindow.tb_allExtension.Text = "Форматов: " + obj;
+                       mainWindow.tb_allExtension.Text = formats + obj;
                        mainWindow.pb_allExtension.Maximum = obj;
                        mainWindow.pb_allExtension.Value = 0;
                    });
@@ -140,7 +149,7 @@ namespace ExtensionStore
                    {
                        mainWindow.pb_allLinks.Value += 1;
                        mainWindow.tb_allLinks.Text =
-                                    "Ссылок на формат: "
+                                    linkFormats 
                                     + mainWindow.pb_allLinks.Value
                                     + " из "
                                     + mainWindow.pb_allLinks.Maximum;
@@ -152,7 +161,7 @@ namespace ExtensionStore
             mainWindow.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
                    (Action)delegate
                    {
-                       mainWindow.tb_allLinks.Text = "Ссылки на формат: " + obj;
+                       mainWindow.tb_allLinks.Text = linkTypes + obj;
                        mainWindow.pb_allLinks.Maximum = obj;
                        mainWindow.pb_allLinks.Value = 0;
                    });
@@ -171,7 +180,7 @@ namespace ExtensionStore
             mainWindow.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
                    (Action)delegate
                    {
-                       mainWindow.tb_genLinks.Text = "Общие ссылки: " + obj;
+                       mainWindow.tb_genLinks.Text = linkTypes + obj; 
                        mainWindow.pb_genLinks.Maximum = obj;
                    });
         }
