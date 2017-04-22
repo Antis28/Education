@@ -165,13 +165,11 @@ namespace ExtensionStore
 
             HtmlDocument allHTML = new HtmlDocument();
             HtmlDocument currentHTML = new HtmlDocument();
-
-            //fileTempAddress = "allLink.txt";
-            fileTempAddress = "audio.htm";
+            
             OnMaxValueAll(linkList.Count);
             foreach( KeyValuePair<string, string> item in linkList )
             {
-                fileTempAddress = item.Key + ".txt";
+                fileTempAddress = "linkTypes\\" + item.Key + ".txt";
                 List<string> templinkType = new List<string>();
                 if( !allLinkDict.ContainsKey(item.Key) )
                 {
