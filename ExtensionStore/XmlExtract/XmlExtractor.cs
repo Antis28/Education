@@ -61,7 +61,35 @@ namespace ExtensionStore
         {
             if( !isReady )
                 return;
-            XElement foundItem = null;
+           List<XElement> foundItems = new List<XElement>();            
+
+            foreach( KeyValuePair<string, string> cat in Category.categoryes2 )
+            {
+                XElement category = root.Element(cat.Key);
+                foreach( XElement item in category.Elements("ext") )
+                {
+                    bool condit = item.Attribute("Name").Value == word;
+                    if( condit )
+                    {
+                        foundItems.Add(item);
+                    }
+                }
+            }
+
+            if( foundItems.Count > 0 )
+            {
+                ExtInfo extInfo = new ExtInfo();
+                foreach( XElement foundItem in foundItems )
+                {
+                    extInfo += Extract(foundItem);
+                }
+
+                OnComplete(extInfo);
+            }
+        }
+
+        ExtInfo Extract( XElement foundItem )
+        {
             string element = "e";
             string eName = "Name";
             string eTypeFile = "typeFile";
@@ -73,68 +101,51 @@ namespace ExtensionStore
             string eWhatOpenLinux = "WhatOpenLinux";
             string eWhatOpenMac = "WhatOpenMac";
 
-            foreach( KeyValuePair<string, string> cat in Category.categoryes2 )
+            ExtInfo extInfo = new ExtInfo()
             {
-                XElement category = root.Element(cat.Key);
-                foreach( XElement item in category.Elements("ext") )
+                Name = foundItem.Attribute(eName).Value,
+                TypeFile = foundItem.Attribute(eTypeFile).Value,
+                RusDescription = foundItem.Attribute(eRusDescription).Value,
+                EngDescription = foundItem.Attribute(eEngDescription).Value,
+                DetailedDescription = foundItem.Attribute(eDetailedDescription).Value
+            };
+            XElement xElem = foundItem.Element(eInfoHeaderFile);
+            if( xElem != null )
+            {
+                extInfo.InfoHeaderFile = new List<string>();
+                foreach( var item in xElem.Elements(element) )
                 {
-                    bool condit = item.Attribute("Name").Value == word;
-                    if( condit )
-                    {
-                        foundItem = item;
-                        goto found;
-                    }
+                    extInfo.InfoHeaderFile.Add(item.Value);
                 }
             }
-        found:
-            if( foundItem != null )
-            { 
-                ExtInfo extInfo = new ExtInfo()
+            xElem = foundItem.Element(eWhatOpenWindows);
+            if( xElem != null )
+            {
+                extInfo.WhatOpenWindows = new List<string>();
+                foreach( var item in xElem.Elements(element) )
                 {
-                    Name = foundItem.Attribute(eName).Value,
-                    TypeFile = foundItem.Attribute(eTypeFile).Value,
-                    RusDescription = foundItem.Attribute(eRusDescription).Value,
-                    EngDescription = foundItem.Attribute(eEngDescription).Value,
-                    DetailedDescription = foundItem.Attribute(eDetailedDescription).Value
-                };                
-                XElement xElem = foundItem.Element(eInfoHeaderFile);
-                if( xElem != null )
-                {
-                    extInfo.InfoHeaderFile = new List<string>();
-                    foreach( var item in xElem.Elements(element) )
-                    {                        
-                        extInfo.InfoHeaderFile.Add(item.Value);
-                    }
+                    extInfo.WhatOpenWindows.Add(item.Value);
                 }
-                xElem = foundItem.Element(eWhatOpenWindows);
-                if( xElem != null )
+            }
+            xElem = foundItem.Element(eWhatOpenLinux);
+            if( xElem != null )
+            {
+                extInfo.WhatOpenLinux = new List<string>();
+                foreach( var item in xElem.Elements(element) )
                 {
-                    extInfo.WhatOpenWindows = new List<string>();
-                    foreach( var item in xElem.Elements(element) )
-                    {
-                        extInfo.WhatOpenWindows.Add(item.Value);
-                    }
+                    extInfo.WhatOpenLinux.Add(item.Value);
                 }
-                xElem = foundItem.Element(eWhatOpenLinux);
-                if( xElem != null )
+            }
+            xElem = foundItem.Element(eWhatOpenMac);
+            if( xElem != null )
+            {
+                extInfo.WhatOpenMac = new List<string>();
+                foreach( var item in xElem.Elements(element) )
                 {
-                    extInfo.WhatOpenLinux = new List<string>();
-                    foreach( var item in xElem.Elements(element) )
-                    {
-                        extInfo.WhatOpenLinux.Add(item.Value);
-                    }
+                    extInfo.WhatOpenMac.Add(item.Value);
                 }
-                xElem = foundItem.Element(eWhatOpenMac);
-                if( xElem != null )
-                {
-                    extInfo.WhatOpenMac = new List<string>();
-                    foreach( var item in xElem.Elements(element) )
-                    {
-                        extInfo.WhatOpenMac.Add(item.Value);
-                    }
-                }
-                OnComplete(extInfo);
-            }            
+            }
+            return extInfo;
         }
 
         class Category
@@ -222,82 +233,7 @@ namespace ExtensionStore
                 { "geo" , "Географические файлы, карты"}
         };
         }
-        /// <summary>
-        /// Добавляет новый элемент в xml
-        /// </summary>
-        /// <param name="itemExt"></param>
-        /// <param name="xmlTWriter"></param>
-        void AddNewExtension( ExtInfo itemExt, XmlWriter xmlTWriter )
-        {
-            string element = "e";
-
-            xmlTWriter.WriteStartElement("ext");
-            {
-                xmlTWriter.WriteAttributeString("Name", itemExt.Name);
-                xmlTWriter.WriteAttributeString("typeFile", itemExt.TypeFile);
-                xmlTWriter.WriteAttributeString("rusDescription", itemExt.RusDescription);
-                xmlTWriter.WriteAttributeString("engDescription", itemExt.EngDescription);
-                xmlTWriter.WriteAttributeString("detailedDescription", itemExt.DetailedDescription);
-
-                if( itemExt.InfoHeaderFile.Count > 0 )
-                {
-                    xmlTWriter.WriteStartElement("infoHeaderFile");
-                    foreach( var item in itemExt.InfoHeaderFile )
-                    {
-                        xmlTWriter.WriteElementString(element, item);
-                    }
-                    xmlTWriter.WriteEndElement();
-                }
-                if( itemExt.WhatOpenWindows.Count > 0 )
-                {
-                    xmlTWriter.WriteStartElement("WhatOpenWindows");
-                    foreach( var item in itemExt.WhatOpenWindows )
-                    {
-                        xmlTWriter.WriteElementString(element, item);
-                    }
-                    xmlTWriter.WriteEndElement();
-                }
-                if( itemExt.WhatOpenLinux.Count > 0 )
-                {
-                    xmlTWriter.WriteStartElement("WhatOpenLinux");
-                    foreach( var item in itemExt.WhatOpenLinux )
-                    {
-                        xmlTWriter.WriteElementString(element, item);
-                    }
-                    xmlTWriter.WriteEndElement();
-                }
-                if( itemExt.WhatOpenMac.Count > 0 )
-                {
-                    xmlTWriter.WriteStartElement("WhatOpenMac");
-                    foreach( var item in itemExt.WhatOpenMac )
-                    {
-                        xmlTWriter.WriteElementString(element, item);
-                    }
-                    xmlTWriter.WriteEndElement();
-                }
-            }
-            xmlTWriter.WriteEndElement();
-        }
-
-        /// <summary>
-        /// Проверяет xml аттрибут с данными в объекте,
-        /// если отличаются то добавляются новые данные
-        /// </summary>
-        /// <param name="itemExt">объект с данными</param>
-        /// <param name="element">элемент с именем как в объекте</param>
-        void AddInfoExtension( ExtInfo itemExt, XElement element )
-        {
-            XAttribute attr;
-            bool coincidence;
-
-            attr = element.Attribute("detailedDescription");
-            coincidence = attr.Value == itemExt.DetailedDescription;
-            if( !coincidence )
-            {
-                attr.Value = itemExt.DetailedDescription;
-            }
-        }
-
+       
         public void Close()
         {            
             if( doc != null )
