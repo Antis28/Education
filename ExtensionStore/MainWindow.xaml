@@ -8,7 +8,7 @@
         x:Name="mainWindow"
         Title="MainWindow" Height="572" Width="602">
     <Grid>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="62,39,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <Button x:Name="button" Content="Создать xml" HorizontalAlignment="Left" Margin="62,39,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
         <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="20" Margin="169,13,0,0" VerticalAlignment="Top" Width="295"/>
         <ProgressBar x:Name="pb_genLinks" HorizontalAlignment="Left" Height="12" Margin="169,64,0,0" VerticalAlignment="Top" Width="321" FontSize="14"/>
         <ProgressBar x:Name="pb_allLinks" HorizontalAlignment="Left" Height="12" Margin="169,101,0,0" VerticalAlignment="Top" Width="321" FontSize="14"/>
@@ -16,7 +16,7 @@
         <TextBlock x:Name="tb_genLinks" HorizontalAlignment="Left" Margin="169,40,0,0" TextWrapping="Wrap" Text="Общие ссылки" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock x:Name="tb_allLinks" HorizontalAlignment="Left" Margin="169,82,0,0" TextWrapping="Wrap" Text="Ссылки на формат" VerticalAlignment="Top" FontSize="14"/>
         <TextBlock x:Name="tb_allExtension" HorizontalAlignment="Left" Margin="169,118,0,0" TextWrapping="Wrap" Text="Форматов" VerticalAlignment="Top" FontSize="14"/>
-        <Button x:Name="button_extract" Content="Button" HorizontalAlignment="Left" Margin="62,79,0,0" VerticalAlignment="Top" Width="75" Click="button_extract_Click"/>
+        <Button x:Name="button_extract" Content="Найти в xml" HorizontalAlignment="Left" Margin="62,79,0,0" VerticalAlignment="Top" Width="75" Click="button_extract_Click"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Background="BlanchedAlmond" Margin="30,180,0,0">
             <StackPanel>
                 <Grid>
@@ -50,6 +50,15 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Описание файла на русском" VerticalAlignment="Top" Height="auto" Width="120" Margin="0,0,0,10" FontSize="14"/>
                     <TextBlock  x:Name="tb_descripRus" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="--------" VerticalAlignment="Top" Margin="5,0,0,10" FontSize="14" Height="auto"/>
+
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Подробное описание" VerticalAlignment="Top" Height="auto" Width="120" Margin="0,0,0,10" FontSize="14"/>
+                    <TextBlock  x:Name="tb_FullDescrip" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="--------" VerticalAlignment="Top" Margin="5,0,0,10" FontSize="14" Height="auto"/>
 
                 </Grid>
                 <Grid>

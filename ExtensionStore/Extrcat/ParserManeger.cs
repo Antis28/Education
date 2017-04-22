@@ -68,6 +68,7 @@ namespace ExtensionStore
             BindProp(mainWindow.tb_descripEng, currentExt, "EngDescription");
             BindProp(mainWindow.tb_descripRus, currentExt, "RusDescription");
             BindProp(mainWindow.tb_typefile, currentExt, "TypeFile");
+            BindProp(mainWindow.tb_FullDescrip, currentExt, "DetailedDescription");
             BindProp(mainWindow.lb_InfoHeaderFile, currentExt, "InfoHeaderFile");
             BindProp(mainWindow.lb_WhatOpenWindows, currentExt, "WhatOpenWindows");
             BindProp(mainWindow.lb_WhatOpenLinux, currentExt, "WhatOpenLinux");
