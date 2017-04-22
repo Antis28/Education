@@ -316,7 +316,7 @@ namespace ExtensionStore
                     HtmlNodeCollection li_s = TableNodes[index + 1].SelectNodes("*/li");
                     foreach( HtmlNode li in li_s )
                     {
-                        ext.WhatOpenLinux.Add(li.InnerText);
+                        ext.WhatOpenMac.Add(li.InnerText);
                     }
                 }
             }

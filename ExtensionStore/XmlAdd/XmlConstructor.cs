@@ -59,22 +59,23 @@ namespace ExtensionStore
                 {
                     // то ищем ее в xml
                     XElement category = root.Element(cat.Key);
-                    var ext = category.Elements("ext");
-                    // ищем в xml полученое разрешение
-                    foreach( var item in ext )
-                    {
-                        bool coincidence = item.Attribute("Name").Value == itemExt.Name;                        
-                        // если xml уже есть токое расширение выходим
-                        if( coincidence )
-                        {
-                            AddInfoExtension(itemExt, item);                            
-                            return;
-                        }
-                    }
+
                     XmlWriter xmlTWriter;
                     // категория найдена?
                     if( category != null )
                     {
+                        // ищем в xml полученое разрешение
+                        foreach( var item in category.Elements("ext") )
+                        {
+                            bool coincidence = item.Attribute("Name").Value == itemExt.Name;
+                            // если xml уже есть такое расширение
+                            if( coincidence )
+                            {
+                                AddInfoExtension(itemExt, item);
+                                return;
+                            }
+                        }
+
                         xmlTWriter = category.CreateWriter();
                         AddNewExtension(itemExt, xmlTWriter);
                     }
