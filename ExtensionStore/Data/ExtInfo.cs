@@ -27,22 +27,22 @@ namespace ExtensionStore
             temp.Name = right.Name;
 
             if( left.TypeFile != string.Empty  )
-                temp.TypeFile = left.TypeFile + ", " + right.TypeFile;
+                temp.TypeFile = left.TypeFile + ", " + right.TypeFile.TrimStart();
             else
                 temp.TypeFile = right.TypeFile;
 
             if( left.EngDescription != string.Empty )
-                temp.EngDescription = left.EngDescription + "\n" + right.EngDescription;
+                temp.EngDescription = left.EngDescription + "\n" + right.EngDescription.TrimStart();
             else
                 temp.EngDescription = right.EngDescription;
 
             if( left.RusDescription != string.Empty )
-                temp.RusDescription = left.RusDescription + "\n" + right.RusDescription;
+                temp.RusDescription = left.RusDescription + "\n" + right.RusDescription.TrimStart();
             else
                 temp.RusDescription = right.RusDescription;
 
             if( left.DetailedDescription != string.Empty )
-                temp.DetailedDescription = left.DetailedDescription + "\n" + right.DetailedDescription;
+                temp.DetailedDescription = left.DetailedDescription + "\n" + right.DetailedDescription.TrimStart();
             else
                 temp.DetailedDescription = right.DetailedDescription;
 
