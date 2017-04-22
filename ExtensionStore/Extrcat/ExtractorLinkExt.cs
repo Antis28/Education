@@ -265,28 +265,29 @@ namespace ExtensionStore
                 if( key.Contains("Формат") )
                 {
                     Match m = Regex.Match(tdNode.InnerText, @"\.[a-zа-я0-9]*");
-                    ext.Name = m.Value;
+                    if( m.Value != string.Empty )
+                        ext.Name = m.Value.Remove(0, 1);
                 }
                 else if( key.Contains("Тип файла") )
                 {
                     if( ext.TypeFile == string.Empty )
                         ext.TypeFile = TableNodes[index + 1].InnerText;
                     else
-                        ext.TypeFile += ",\n " + TableNodes[index + 1].InnerText;
+                        ext.TypeFile += ",\n" + TableNodes[index + 1].InnerText;
                 }
                 else if( key.Contains("на русском") )
                 {
                     if( ext.RusDescription == string.Empty )
                         ext.RusDescription = TableNodes[index + 1].InnerText;
                     else
-                        ext.RusDescription += ",\n " + TableNodes[index + 1].InnerText;
+                        ext.RusDescription += ",\n" + TableNodes[index + 1].InnerText;
                 }
                 else if( key.Contains("на английском") )
                 {
                     if( ext.EngDescription == string.Empty )
                         ext.EngDescription = TableNodes[index + 1].InnerText;
                     else
-                        ext.EngDescription += ",\n " + TableNodes[index + 1].InnerText;
+                        ext.EngDescription += ",\n" + TableNodes[index + 1].InnerText;
                 }
                 else if( key.Contains("Подробное описание") )
                 {
