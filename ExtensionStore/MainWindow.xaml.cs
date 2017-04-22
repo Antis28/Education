@@ -30,5 +30,11 @@ namespace ExtensionStore
             ParserManeger pm = new ParserManeger(this);
             pm.Parse();
         }
+
+        private void button_extract_Click( object sender, RoutedEventArgs e )
+        {
+            ParserManeger pm = new ParserManeger(this);
+            pm.ExtractExt();
+        }
     }
 }

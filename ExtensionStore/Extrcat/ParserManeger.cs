@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Threading;
 
 namespace ExtensionStore
@@ -35,13 +38,57 @@ namespace ExtensionStore
             extractor.CompleteAllLinkParseEvent += Extractor_CompleteAllLinkParseEvent;
 
             //события заполнения списка объектов на расширения
-            extractor.MaxValueExtParseEvent += Extractor_MaxValueExtParseEvent; ;
-            extractor.ChangeValueExtParseEvent += Extractor_ChangeValueExtParseEvent; ;
-            extractor.CompleteExtParseEvent += Extractor_CompleteExtParseEvent; ;
+            extractor.MaxValueExtParseEvent += Extractor_MaxValueExtParseEvent;
+            extractor.ChangeValueExtParseEvent += Extractor_ChangeValueExtParseEvent;
+            extractor.CompleteExtParseEvent += Extractor_CompleteExtParseEvent;
 
             extractor.BeginParse();
 
         }
+
+        public void ExtractExt()
+        {
+            Encoding codePage = Encoding.GetEncoding(1251);
+            XmlExtractor xmlE = new XmlExtractor();
+            xmlE.CompleteExtractEvent += XmlE_CompleteExtractEvent;
+            xmlE.ExtractExt(mainWindow.textBox.Text);
+        }
+        ////////////////////////////////////////////////////////////////
+        private void XmlE_CompleteExtractEvent( ExtInfo obj )
+        {
+            mainWindow.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
+                   (Action)delegate
+                   {
+                       ShowResult(obj);
+                   });
+        }
+        void ShowResult( ExtInfo currentExt )
+        {
+            BindProp(mainWindow.tb_formatfile, currentExt, "Name");
+            BindProp(mainWindow.tb_descripEng, currentExt, "EngDescription");
+            BindProp(mainWindow.tb_descripRus, currentExt, "RusDescription");
+            BindProp(mainWindow.lb_InfoHeaderFile, currentExt, "InfoHeaderFile");
+            BindProp(mainWindow.lb_WhatOpenWindows, currentExt, "WhatOpenWindows");
+            BindProp(mainWindow.lb_WhatOpenLinux, currentExt, "WhatOpenLinux");
+            BindProp(mainWindow.lb_WhatOpenMac, currentExt, "WhatOpenMac");
+        }
+        void BindProp( TextBlock tb, ExtInfo currentExt, string property )
+        {
+            Binding bind = new Binding();
+            bind.Source = currentExt;
+            bind.Path = new PropertyPath(property);
+            bind.Mode = BindingMode.OneWay;
+            tb.SetBinding(TextBlock.TextProperty, bind);
+        }
+        void BindProp( ListBox lb, ExtInfo currentExt, string property )
+        {
+            Binding bind = new Binding();
+            bind.Source = currentExt;
+            bind.Path = new PropertyPath(property);
+            bind.Mode = BindingMode.OneWay;
+            lb.SetBinding(ListBox.ItemsSourceProperty, bind);
+        }
+
         ////////////////////////////////////////////////////////////////
 
         private void Extractor_CompleteExtParseEvent( List<ExtInfo> extList )
@@ -69,7 +116,7 @@ namespace ExtensionStore
         }
 
         private void Extractor_MaxValueExtParseEvent( int obj )
-        {            
+        {
             mainWindow.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
                    (Action)delegate
                    {
@@ -81,7 +128,7 @@ namespace ExtensionStore
 
         private void Extractor_CompleteAllLinkParseEvent( Dictionary<string, List<string>> obj )
         {
-            System.Windows.MessageBox.Show("Fine");            
+            System.Windows.MessageBox.Show("Fine");
         }
 
         private void Extractor_ChangeValueAllEvent()
@@ -125,7 +172,7 @@ namespace ExtensionStore
                        mainWindow.tb_genLinks.Text = "Общие ссылки: " + obj;
                        mainWindow.pb_genLinks.Maximum = obj;
                    });
-        }       
+        }
 
         private void Extractor_CompleteConvertEvent( Dictionary<string, string> obj )
         {
