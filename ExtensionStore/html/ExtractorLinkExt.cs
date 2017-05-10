@@ -244,7 +244,6 @@ namespace ExtensionStore
             }
             //xPathQuery
             //table class="desc"
-            string xpq_allWorks;
             HtmlNodeCollection TableNodes;
             HtmlNodeCollection TableHaderNodes;
 
@@ -257,14 +256,8 @@ namespace ExtensionStore
                 //MessageBox.Show("Ошибка - " + link);
                 return null;
             }
-
-
-            foreach( var tdNode in TableNodes )
-            {
             string key = null;
             key = TableHaderNodes[0].InnerText;
-                int index = TableNodes.IndexOf(tdNode);
-
             if( key.Contains("Формат") )
             {
                 Match m = Regex.Match(key, @"\.[a-zа-я0-9]*");
@@ -308,10 +301,15 @@ namespace ExtensionStore
                 }
                 else if( key.Contains("Подробное описание") )
                 {
+                    string description = TableNodes[index + 1].InnerText;
+                    description = description.Replace("&lt;", "<");
+                    description = description.Replace("&gt;", ">");
+                    description = description.Replace("&nbsp;", " ");
+
                     if( ext.DetailedDescription == string.Empty )
-                        ext.DetailedDescription = TableNodes[index + 1].InnerText;
+                        ext.DetailedDescription = description;
                     else
-                        ext.DetailedDescription += ",\n " + TableNodes[index + 1].InnerText;
+                        ext.DetailedDescription += ",\n " + description;
                 }
                 else if( key.Contains("ASCII:") )
                 {
@@ -378,7 +376,6 @@ namespace ExtensionStore
             {
                 count += item.Value.Count;
             }
-
             OnMaxValueExtParse(count);
             foreach( KeyValuePair<string, List<string>> item in AllLink )
             {
@@ -409,7 +406,6 @@ namespace ExtensionStore
             ParallelLoopResult loopResult = Parallel.ForEach(AllLink, ( item ) =>
             {
                 foreach( string link in item.Value )
-                //for( int i = 0; i < 5; i++ )
                 {
                     //ExtInfo ext = GetDescriptionExtension(item.Value[i]);
                     ExtInfo ext = GetDescriptionExtension(link);
