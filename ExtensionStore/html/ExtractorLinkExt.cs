@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -346,6 +347,13 @@ namespace ExtensionStore
         }
         private List<ExtInfo> GetExtensionList( Dictionary<string, List<string>> AllLink )
         {
+            //List<ExtInfo> extList = FillList(AllLink);
+            List<ExtInfo> extList = BeginFillList(AllLink);
+
+            return extList;
+        }
+        private List<ExtInfo> FillList( Dictionary<string, List<string>> AllLink )
+        {
             List<ExtInfo> extList = new List<ExtInfo>();
 
             int count = 0;
@@ -355,26 +363,7 @@ namespace ExtensionStore
             }
 
             OnMaxValueExtParse(count);
-            //sw1.Start();
-            //foreach( KeyValuePair<string, List<string>> item in AllLink )
-            //{
-            //    foreach( string link in item.Value )
-            //    //for( int i = 0; i < 5; i++ )
-            //    {
-            //        //ExtInfo ext = GetDescriptionExtension(item.Value[i]);
-            //        ExtInfo ext = GetDescriptionExtension(link);
-            //        extList.Add(ext);
-            //        OnChangeValueExtParse();
-            //    }
-            //}
-            //sw1.Stop();
-            //MessageBox.Show(String.Format("Последовательно выполняемый цикл: " +
-            //"{0} Seconds", sw1.Elapsed.TotalSeconds));
-            //sw1.Reset();
-            //*****************************************************
-            Stopwatch sw1 = new Stopwatch();
-            sw1.Start();
-            ParallelLoopResult loopResult = Parallel.ForEach(AllLink, ( item ) =>            
+            foreach( KeyValuePair<string, List<string>> item in AllLink )
             {
                 foreach( string link in item.Value )
                 //for( int i = 0; i < 5; i++ )
@@ -385,11 +374,39 @@ namespace ExtensionStore
                     OnChangeValueExtParse();
                 }
             }
+            return extList;
+        }
+        private List<ExtInfo> BeginFillList( Dictionary<string, List<string>> AllLink )
+        {
+            BlockingCollection<ExtInfo> extListSafe = new BlockingCollection<ExtInfo>();
+
+            int count = 0;
+            foreach( KeyValuePair<string, List<string>> item in AllLink )
+            {
+                count += item.Value.Count;
+            }
+
+            OnMaxValueExtParse(count);
+            Stopwatch sw1 = new Stopwatch();
+            sw1.Start();
+            ParallelLoopResult loopResult = Parallel.ForEach(AllLink, ( item ) =>
+            {
+                foreach( string link in item.Value )
+                //for( int i = 0; i < 5; i++ )
+                {
+                    //ExtInfo ext = GetDescriptionExtension(item.Value[i]);
+                    ExtInfo ext = GetDescriptionExtension(link);
+                    extListSafe.Add(ext);
+                    OnChangeValueExtParse();
+                }
+            }
             );
             sw1.Stop();
             MessageBox.Show(String.Format("Последовательно выполняемый цикл: " +
             "{0} Seconds", sw1.Elapsed.TotalSeconds));
-            //*****************************************************
+
+            List<ExtInfo> extList = new List<ExtInfo>();
+            extList.AddRange(extListSafe);
             return extList;
         }
     }
