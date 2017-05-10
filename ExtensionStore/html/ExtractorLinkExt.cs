@@ -22,7 +22,7 @@ namespace ExtensionStore
         private string fileTempAddress;
 
         public Encoding encoding;
-
+        #region Events
         ///////////////////////////////////////////////////////////////////////
 
         //события заполнения словаря на категории форматов
@@ -92,6 +92,7 @@ namespace ExtensionStore
         }
 
         ///////////////////////////////////////////////////////////////////////
+#endregion
         public ExtractorLinkExt()
         {
             siteAddress = "http://open-file.ru/";

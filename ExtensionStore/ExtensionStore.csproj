@@ -66,6 +66,7 @@
     <Compile Include="Xml\XmlConstructor.cs" />
     <Compile Include="Xml\XmlExtractor.cs" />
     <Compile Include="Xml\xmlSanitizingString.cs" />
+    <Compile Include="Xml\XmlStruct.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
