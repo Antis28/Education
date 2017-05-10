@@ -20,12 +20,16 @@ namespace ExtensionStore
         /// <param name="encoding">кодировка сайта</param>
         /// <param name="fileTemp">имя файла для кэширования страницы </param>
         /// <returns>html код</returns>
+
+        static object lockObj = new object();
+
         public static string Read( string url, Encoding encoding, string fileTemp = null )
         {
             string result = "";
             // Создать объект запроса
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
             HttpWebResponse response;
+
             try
             {
                 // Получить ответ с сервера
@@ -39,36 +43,32 @@ namespace ExtensionStore
                 }
                 if( fileTemp != null )
                 {
-                    using( StreamWriter streawr = new StreamWriter(
-                        Environment.CurrentDirectory + "\\" + fileTemp
-                        , false
-                        , encoding) )
+                    lock ( lockObj )
                     {
-                        streawr.WriteLine(result);
+                        using( StreamWriter streawr = new StreamWriter(
+                            Environment.CurrentDirectory + "\\" + fileTemp
+                            , false
+                            , encoding) )
+                        {
+                            streawr.WriteLine(result);
+                        }
                     }
                 }
-            } catch {
-                using( StreamWriter streawr = new StreamWriter(
-                        Environment.CurrentDirectory + "\\" + "logError"
-                        , true
-                        , encoding) )
+            } catch
+            {
+                lock ( lockObj )
                 {
-                    //streawr.WriteLine(fileTemp);
+                    using( StreamWriter streawr = new StreamWriter(
+                            Environment.CurrentDirectory + "\\" + "logError"
+                            , true
+                            , encoding) )
+                    {
+                        streawr.WriteLine(fileTemp);
+                        streawr.WriteLine();
+                    }
                 }
             }
-            //
-            // Получаем некоторые данные о сервере
-            //string messageServer = "Целевой URL: \t" + 
-            //                            request.RequestUri + 
-            //                            "\nМетод запроса: \t" + 
-            //                            request.Method +
-            //                            "\nТип полученных данных: \t" + 
-            //                            response.ContentType + 
-            //                            "\nДлина ответа: \t" + 
-            //                            response.ContentLength + 
-            //                            "\nЗаголовки";
-            //Console.WriteLine( messageServer );
-            //
+
             xmlSanitizingString sanizer = new xmlSanitizingString();
             return sanizer.SanitizeXmlString(result);
         }
@@ -93,7 +93,7 @@ namespace ExtensionStore
                     // Выводим исходный код страницы
                     result = stream.ReadToEnd();
                 }
-            } catch(Exception ex)
+            } catch( Exception ex )
             {
                 ;
             }
