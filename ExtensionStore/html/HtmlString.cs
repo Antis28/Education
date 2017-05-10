@@ -83,15 +83,21 @@ namespace ExtensionStore
             if( encoding == null )
                 encoding = Encoding.UTF8;
 
-            // Получаем поток данных из ответа
-            using( StreamReader stream = new StreamReader(
-                Environment.CurrentDirectory + "\\" + fileСache
-                 , encoding) )
+            try
             {
-                // Выводим исходный код страницы
-                result = stream.ReadToEnd();
+                // Получаем поток данных из ответа
+                using( StreamReader stream = new StreamReader(
+                    Environment.CurrentDirectory + @"\" + fileСache
+                     , encoding) )
+                {
+                    // Выводим исходный код страницы
+                    result = stream.ReadToEnd();
+                }
+            } catch(Exception ex)
+            {
+                ;
             }
-            xmlSanitizingString sanizer = new xmlSanitizingString();            
+            xmlSanitizingString sanizer = new xmlSanitizingString();
             return sanizer.SanitizeXmlString(result);
         }
     }
