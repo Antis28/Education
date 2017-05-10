@@ -86,6 +86,10 @@ namespace ExtensionStore
 
                 OnComplete(extInfo);
             }
+            else
+            {
+                MessageBox.Show("Расширение " + word + " не найдено");
+            }
         }
 
         ExtInfo Extract( XElement foundItem )
