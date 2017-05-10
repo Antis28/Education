@@ -370,14 +370,15 @@ namespace ExtensionStore
         }
         private List<ExtInfo> FillList( Dictionary<string, List<string>> AllLink )
         {
-            List<ExtInfo> extList = new List<ExtInfo>();
-
             int count = 0;
             foreach( KeyValuePair<string, List<string>> item in AllLink )
             {
                 count += item.Value.Count;
             }
             OnMaxValueExtParse(count);
+            List<ExtInfo> extList = new List<ExtInfo>(count);
+            System.Diagnostics.Stopwatch sw1 = new System.Diagnostics.Stopwatch();
+            sw1.Start();
             foreach( KeyValuePair<string, List<string>> item in AllLink )
             {
                 foreach( string link in item.Value )
@@ -389,12 +390,13 @@ namespace ExtensionStore
                     OnChangeValueExtParse();
                 }
             }
+            sw1.Stop();
+            MessageBox.Show(String.Format("Последовательно выполняемый цикл: " +
+            "{0} Seconds", sw1.Elapsed.TotalSeconds));
             return extList;
         }
         private List<ExtInfo> BeginFillList( Dictionary<string, List<string>> AllLink )
         {
-            BlockingCollection<ExtInfo> extListSafe = new BlockingCollection<ExtInfo>();
-
             int count = 0;
             foreach( KeyValuePair<string, List<string>> item in AllLink )
             {
@@ -402,6 +404,7 @@ namespace ExtensionStore
             }
 
             OnMaxValueExtParse(count);
+            BlockingCollection<ExtInfo> extListSafe = new BlockingCollection<ExtInfo>(count);
             Stopwatch sw1 = new Stopwatch();
             sw1.Start();
             ParallelLoopResult loopResult = Parallel.ForEach(AllLink, ( item ) =>
@@ -416,12 +419,10 @@ namespace ExtensionStore
             }
             );
             sw1.Stop();
-            MessageBox.Show(String.Format("Последовательно выполняемый цикл: " +
+            MessageBox.Show(String.Format("Параллельно выполняемый цикл: " +
             "{0} Seconds", sw1.Elapsed.TotalSeconds));
 
-            List<ExtInfo> extList = new List<ExtInfo>();
-            extList.AddRange(extListSafe);
-            return extList;
+            return extListSafe.ToList();
         }
     }
 }
