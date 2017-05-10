@@ -105,17 +105,13 @@ namespace ExtensionStore
         private void Extractor_CompleteExtParseEvent( List<ExtInfo> extList )
         {
             XmlConstructor constructor = new XmlConstructor();
-            //System.Diagnostics.Stopwatch sw1 = new System.Diagnostics.Stopwatch();
-            //sw1.Start();
             foreach( var item in extList )
             {
                 if( item == null )
                     continue;
                 constructor.AddToCategory(item);
             }
-            //sw1.Stop();
-            //MessageBox.Show(String.Format("Последовательно выполняемый цикл: " +
-            //"{0} Seconds", sw1.Elapsed.TotalSeconds));
+
             constructor.Close();
         }
 
