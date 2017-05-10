@@ -114,8 +114,8 @@ namespace ExtensionStore
                 constructor.AddToCategory(item);
             }
             sw1.Stop();
-            MessageBox.Show(String.Format("Последовательно выполняемый цикл: " +
-            "{0} Seconds", sw1.Elapsed.TotalSeconds));
+            //MessageBox.Show(String.Format("Последовательно выполняемый цикл: " +
+            //"{0} Seconds", sw1.Elapsed.TotalSeconds));
             constructor.Close();
         }
 
