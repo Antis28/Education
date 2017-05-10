@@ -62,7 +62,7 @@
     <Compile Include="Data\ExtInfo.cs" />
     <Compile Include="html\ExtractorLinkExt.cs" />
     <Compile Include="html\HtmlString.cs" />
-    <Compile Include="html\ParserManeger.cs" />
+    <Compile Include="Maneger\ParserManeger.cs" />
     <Compile Include="Xml\XmlConstructor.cs" />
     <Compile Include="Xml\XmlExtractor.cs" />
     <Compile Include="Xml\xmlSanitizingString.cs" />
