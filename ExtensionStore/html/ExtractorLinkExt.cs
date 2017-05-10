@@ -167,7 +167,7 @@ namespace ExtensionStore
 
             HtmlDocument allHTML = new HtmlDocument();
             HtmlDocument currentHTML = new HtmlDocument();
-            
+
             OnMaxValueAll(linkList.Count);
             foreach( KeyValuePair<string, string> item in linkList )
             {
@@ -246,29 +246,46 @@ namespace ExtensionStore
             //table class="desc"
             string xpq_allWorks;
             HtmlNodeCollection TableNodes;
+            HtmlNodeCollection TableHaderNodes;
 
-            xpq_allWorks = "//table[@class=\"desc\"]/*/*/*/td|//table[@class=\"desc\"]/*/*/td|//table[@class=\"desc\"]/*/td|//table[@class=\"desc\"]/td|//table[@class=\"desc\"]/th";
+            string xpq_allWorks = "//table[@class=\"desc\"]/*/*/*/td|//table[@class=\"desc\"]/*/*/td|//table[@class=\"desc\"]/*/td|//table[@class=\"desc\"]/td|//table[@class=\"desc\"]/th";
+            string xpq_HeaderExt = "//table[@class=\"desc\"]/td|//table[@class=\"desc\"]/th";
             TableNodes = allHTML.DocumentNode.SelectNodes(xpq_allWorks);
+            TableHaderNodes = allHTML.DocumentNode.SelectNodes(xpq_HeaderExt);
             if( TableNodes == null )
             {
-                MessageBox.Show("Ошибка - " + link);
+                //MessageBox.Show("Ошибка - " + link);
                 return null;
             }
 
 
             foreach( var tdNode in TableNodes )
             {
-                string key = null;
-                key = tdNode.InnerText;
+            string key = null;
+            key = TableHaderNodes[0].InnerText;
                 int index = TableNodes.IndexOf(tdNode);
 
-                if( key.Contains("Формат") )
-                {
-                    Match m = Regex.Match(tdNode.InnerText, @"\.[a-zа-я0-9]*");
-                    if( m.Value != string.Empty )
-                        ext.Name = m.Value.Remove(0, 1);
-                }
-                else if( key.Contains("Тип файла") )
+            if( key.Contains("Формат") )
+            {
+                Match m = Regex.Match(key, @"\.[a-zа-я0-9]*");
+                if( m.Value != string.Empty )
+                    ext.Name = m.Value.Remove(0, 1);
+            }
+            else
+            {
+                MessageBox.Show("Заголовок таблицы: " + key);
+            }
+
+            foreach( var tdNode in TableNodes )
+            {
+                key = null;
+                key = tdNode.InnerText;
+                key = key.Replace("&lt;", "<");
+                key = key.Replace("&nbsp;", " ");
+
+                int index = TableNodes.IndexOf(tdNode);
+
+                if( key.Contains("Тип файла") )
                 {
                     if( ext.TypeFile == string.Empty )
                         ext.TypeFile = TableNodes[index + 1].InnerText;
