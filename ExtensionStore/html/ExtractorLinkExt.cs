@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -352,8 +353,28 @@ namespace ExtensionStore
             {
                 count += item.Value.Count;
             }
+
             OnMaxValueExtParse(count);
-            foreach( KeyValuePair<string, List<string>> item in AllLink )
+            //sw1.Start();
+            //foreach( KeyValuePair<string, List<string>> item in AllLink )
+            //{
+            //    foreach( string link in item.Value )
+            //    //for( int i = 0; i < 5; i++ )
+            //    {
+            //        //ExtInfo ext = GetDescriptionExtension(item.Value[i]);
+            //        ExtInfo ext = GetDescriptionExtension(link);
+            //        extList.Add(ext);
+            //        OnChangeValueExtParse();
+            //    }
+            //}
+            //sw1.Stop();
+            //MessageBox.Show(String.Format("Последовательно выполняемый цикл: " +
+            //"{0} Seconds", sw1.Elapsed.TotalSeconds));
+            //sw1.Reset();
+            //*****************************************************
+            Stopwatch sw1 = new Stopwatch();
+            sw1.Start();
+            ParallelLoopResult loopResult = Parallel.ForEach(AllLink, ( item ) =>            
             {
                 foreach( string link in item.Value )
                 //for( int i = 0; i < 5; i++ )
@@ -364,6 +385,11 @@ namespace ExtensionStore
                     OnChangeValueExtParse();
                 }
             }
+            );
+            sw1.Stop();
+            MessageBox.Show(String.Format("Последовательно выполняемый цикл: " +
+            "{0} Seconds", sw1.Elapsed.TotalSeconds));
+            //*****************************************************
             return extList;
         }
     }
