@@ -74,18 +74,24 @@ namespace SearchWorkWPF
         }
 
         public bool isPercent = false;
+        double maximum = 0, current;
         void onChangeIndicator()
         {
             Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
                     (Action)delegate
                     {
-                        pb_loadJob.Value += 1;
+                        current++;
                         string currentValue;
+                        //if( isPercent )
+                        //    currentValue = (int)(pb_loadJob.Value / pb_loadJob.Maximum * 100) + " %";
+                        //else
+                        //    currentValue = pb_loadJob.Value + " из " + pb_loadJob.Maximum;
                         if( isPercent )
-                            currentValue = (int)(pb_loadJob.Value / pb_loadJob.Maximum * 100) + " %";
+                            currentValue = (int)(current / maximum * 100) + " %";
                         else
-                            currentValue = pb_loadJob.Value + " из " + pb_loadJob.Maximum;
+                            currentValue = current + " из " + maximum;
 
+                        pb_loadJob.Value = Math.Round(current/maximum,1);
                         tb_loadJob.Text = currentValue;//;
                     });
 
@@ -94,8 +100,10 @@ namespace SearchWorkWPF
         {
             Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate
             {
-                pb_loadJob.Value = 0;
-                pb_loadJob.Maximum = maximum;
+                pb_loadJob.Value = current = 0;
+                this.maximum = maximum;
+                //pb_loadJob.Maximum = maximum;
+                pb_loadJob.Maximum = 1;
             });
 
         }
