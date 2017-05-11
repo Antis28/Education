@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,7 +22,7 @@ namespace ExtensionStore
         private string fileTempAddress;
 
         public Encoding encoding;
-
+        #region Events
         ///////////////////////////////////////////////////////////////////////
 
         //события заполнения словаря на категории форматов
@@ -90,6 +92,7 @@ namespace ExtensionStore
         }
 
         ///////////////////////////////////////////////////////////////////////
+#endregion
         public ExtractorLinkExt()
         {
             siteAddress = "http://open-file.ru/";
@@ -165,7 +168,7 @@ namespace ExtensionStore
 
             HtmlDocument allHTML = new HtmlDocument();
             HtmlDocument currentHTML = new HtmlDocument();
-            
+
             OnMaxValueAll(linkList.Count);
             foreach( KeyValuePair<string, string> item in linkList )
             {
@@ -242,31 +245,41 @@ namespace ExtensionStore
             }
             //xPathQuery
             //table class="desc"
-            string xpq_allWorks;
             HtmlNodeCollection TableNodes;
+            HtmlNodeCollection TableHaderNodes;
 
-            xpq_allWorks = "//table[@class=\"desc\"]/*/*/*/td|//table[@class=\"desc\"]/*/*/td|//table[@class=\"desc\"]/*/td|//table[@class=\"desc\"]/td|//table[@class=\"desc\"]/th";
+            string xpq_allWorks = "//table[@class=\"desc\"]/*/*/*/td|//table[@class=\"desc\"]/*/*/td|//table[@class=\"desc\"]/*/td|//table[@class=\"desc\"]/td|//table[@class=\"desc\"]/th";
+            string xpq_HeaderExt = "//table[@class=\"desc\"]/td|//table[@class=\"desc\"]/th";
             TableNodes = allHTML.DocumentNode.SelectNodes(xpq_allWorks);
+            TableHaderNodes = allHTML.DocumentNode.SelectNodes(xpq_HeaderExt);
             if( TableNodes == null )
             {
-                MessageBox.Show("Ошибка - " + link);
+                //MessageBox.Show("Ошибка - " + link);
                 return null;
             }
-
+            string key = null;
+            key = TableHaderNodes[0].InnerText;
+            if( key.Contains("Формат") )
+            {
+                Match m = Regex.Match(key, @"\.[a-zа-я0-9]*");
+                if( m.Value != string.Empty )
+                    ext.Name = m.Value.Remove(0, 1);
+            }
+            else
+            {
+                MessageBox.Show("Заголовок таблицы: " + key);
+            }
 
             foreach( var tdNode in TableNodes )
             {
-                string key = null;
+                key = null;
                 key = tdNode.InnerText;
+                key = key.Replace("&lt;", "<");
+                key = key.Replace("&nbsp;", " ");
+
                 int index = TableNodes.IndexOf(tdNode);
 
-                if( key.Contains("Формат") )
-                {
-                    Match m = Regex.Match(tdNode.InnerText, @"\.[a-zа-я0-9]*");
-                    if( m.Value != string.Empty )
-                        ext.Name = m.Value.Remove(0, 1);
-                }
-                else if( key.Contains("Тип файла") )
+                if( key.Contains("Тип файла") )
                 {
                     if( ext.TypeFile == string.Empty )
                         ext.TypeFile = TableNodes[index + 1].InnerText;
@@ -289,10 +302,15 @@ namespace ExtensionStore
                 }
                 else if( key.Contains("Подробное описание") )
                 {
+                    string description = TableNodes[index + 1].InnerText;
+                    description = description.Replace("&lt;", "<");
+                    description = description.Replace("&gt;", ">");
+                    description = description.Replace("&nbsp;", " ");
+
                     if( ext.DetailedDescription == string.Empty )
-                        ext.DetailedDescription = TableNodes[index + 1].InnerText;
+                        ext.DetailedDescription = description;
                     else
-                        ext.DetailedDescription += ",\n " + TableNodes[index + 1].InnerText;
+                        ext.DetailedDescription += ",\n " + description;
                 }
                 else if( key.Contains("ASCII:") )
                 {
@@ -345,14 +363,22 @@ namespace ExtensionStore
         }
         private List<ExtInfo> GetExtensionList( Dictionary<string, List<string>> AllLink )
         {
-            List<ExtInfo> extList = new List<ExtInfo>();
+            //List<ExtInfo> extList = FillList(AllLink);
+            List<ExtInfo> extList = BeginFillList(AllLink);
 
+            return extList;
+        }
+        private List<ExtInfo> FillList( Dictionary<string, List<string>> AllLink )
+        {
             int count = 0;
             foreach( KeyValuePair<string, List<string>> item in AllLink )
             {
                 count += item.Value.Count;
             }
             OnMaxValueExtParse(count);
+            List<ExtInfo> extList = new List<ExtInfo>(count);
+            System.Diagnostics.Stopwatch sw1 = new System.Diagnostics.Stopwatch();
+            sw1.Start();
             foreach( KeyValuePair<string, List<string>> item in AllLink )
             {
                 foreach( string link in item.Value )
@@ -364,7 +390,39 @@ namespace ExtensionStore
                     OnChangeValueExtParse();
                 }
             }
+            sw1.Stop();
+            MessageBox.Show(String.Format("Последовательно выполняемый цикл: " +
+            "{0} Seconds", sw1.Elapsed.TotalSeconds));
             return extList;
+        }
+        private List<ExtInfo> BeginFillList( Dictionary<string, List<string>> AllLink )
+        {
+            int count = 0;
+            foreach( KeyValuePair<string, List<string>> item in AllLink )
+            {
+                count += item.Value.Count;
+            }
+
+            OnMaxValueExtParse(count);
+            BlockingCollection<ExtInfo> extListSafe = new BlockingCollection<ExtInfo>(count);
+            Stopwatch sw1 = new Stopwatch();
+            sw1.Start();
+            ParallelLoopResult loopResult = Parallel.ForEach(AllLink, ( item ) =>
+            {
+                foreach( string link in item.Value )
+                {
+                    //ExtInfo ext = GetDescriptionExtension(item.Value[i]);
+                    ExtInfo ext = GetDescriptionExtension(link);
+                    extListSafe.Add(ext);
+                    OnChangeValueExtParse();
+                }
+            }
+            );
+            sw1.Stop();
+            MessageBox.Show(String.Format("Параллельно выполняемый цикл: " +
+            "{0} Seconds", sw1.Elapsed.TotalSeconds));
+
+            return extListSafe.ToList();
         }
     }
 }

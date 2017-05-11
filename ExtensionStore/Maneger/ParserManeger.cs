@@ -107,8 +107,11 @@ namespace ExtensionStore
             XmlConstructor constructor = new XmlConstructor();
             foreach( var item in extList )
             {
+                if( item == null )
+                    continue;
                 constructor.AddToCategory(item);
             }
+
             constructor.Close();
         }
 

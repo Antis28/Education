@@ -16,9 +16,11 @@
 /FSM/*
 /PagesInterfaces/*
 /Registry/*
-/WpfApplication1/*
 /Thread*/
+/WpfApp*/
 /ConsoleApp*/
+/Parallel*/
+/Task*/
 
 
 */bin/*
