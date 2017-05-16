@@ -115,6 +115,12 @@
   <ItemGroup>
     <Resource Include="searchJob3.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZeroLib\AntisLib.csproj">
+      <Project>{61f1925d-4454-4c91-bc46-bcd126e088fb}</Project>
+      <Name>AntisLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
