@@ -34,17 +34,17 @@ namespace SearchWorkWPF
 						// Подготовка вызова в другом потоке
             BeginGetJobInMozaika();
         }
-				
-				private void BeginGetJobInMozaika()
+
+        private void BeginGetJobInMozaika()
         {
             JobsInMozaika jMozaika = new JobsInMozaika();
             // Добавляем обработчик события             
             jMozaika.MaxValueEvent += onInitialValue;
             jMozaika.ChangeValueEvent += onChangeIndicator;
-            jMozaika.CompleteConvertEvent += onCompleteConvert;
-            jMozaika.CanceledConvertEvent += onCanceledConvert;
-						
-						// Вызов в другом потоке
+            jMozaika.CompleteEvent += onCompleteConvert;
+            jMozaika.CanceledEvent += onCanceledConvert;
+
+            // Вызов в другом потоке
             jMozaika.BeginGetJobList();
         }
 
@@ -70,7 +70,7 @@ namespace SearchWorkWPF
         private void TextBox_MouseDown( object sender, MouseButtonEventArgs e )
         {
             JobInfo ji = lstw.SelectedItem as JobInfo;
-            Clipboard.SetText( ji.Url);
+            Clipboard.SetText(ji.Url);
         }
 
         public bool isPercent = false;
@@ -91,7 +91,7 @@ namespace SearchWorkWPF
                         else
                             currentValue = current + " из " + maximum;
 
-                        pb_loadJob.Value = Math.Round(current/maximum,1);
+                        pb_loadJob.Value = Math.Round(current / maximum, 1);
                         tb_loadJob.Text = currentValue;//;
                     });
 
