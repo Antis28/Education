@@ -13,8 +13,8 @@ namespace SearchWorkWPF.Job
         // Объявляем событие для индикатора
         public event Action ChangeValueEvent;
         public event Action<int> MaxValueEvent;
-        public event Action<List<JobInfo>> CompleteConvertEvent;
-        public event Action CanceledConvertEvent;
+        public event Action<List<JobInfo>> CompleteEvent;
+        public event Action CanceledEvent;
 
         // Используем метод для запуска события
         protected void OnChangeValue()
@@ -27,19 +27,19 @@ namespace SearchWorkWPF.Job
         }
         protected void OnCompleteConvert( List<JobInfo> lJobs )
         {
-            CompleteConvertEvent(lJobs);
+            CompleteEvent(lJobs);
         }
         protected void OnCanceledConvert()
         {
-            CanceledConvertEvent();
+            CanceledEvent();
         }
 
         protected void ClearEvents()
         {
             ChangeValueEvent = null;
             MaxValueEvent = null;
-            CompleteConvertEvent = null;
-            CanceledConvertEvent = null;
+            CompleteEvent = null;
+            CanceledEvent = null;
         }
 
         protected static string ReadHTML( string site, Encoding encoding )
@@ -58,21 +58,6 @@ namespace SearchWorkWPF.Job
                 // Выводим исходный код страницы
                 result = stream.ReadToEnd();
             }
-
-            //
-            // Получаем некоторые данные о сервере
-            //string messageServer = "Целевой URL: \t" + 
-            //                            request.RequestUri + 
-            //                            "\nМетод запроса: \t" + 
-            //                            request.Method +
-            //                            "\nТип полученных данных: \t" + 
-            //                            response.ContentType + 
-            //                            "\nДлина ответа: \t" + 
-            //                            response.ContentLength + 
-            //                            "\nЗаголовки";
-            //Console.WriteLine( messageServer );
-            //
-
             return result;
         }
         protected static string ReadHTML( string site = "http://www.professorweb.ru" )
