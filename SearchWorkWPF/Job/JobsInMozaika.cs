@@ -29,6 +29,7 @@ namespace SearchWorkWPF.Job
             HtmlDocument currentHTML = new HtmlDocument();
 
             allHTML.LoadHtml(ReadHTML(mozaika));
+
             var divNodes = allHTML.DocumentNode.SelectNodes(xpq_allWorks);
 
             OnMaxValue(divNodes.Count());
@@ -76,10 +77,16 @@ namespace SearchWorkWPF.Job
 
         private void Start()
         {
-            OnCompleteConvert(GetJobList());
+            try
+            {
+                OnCompleteConvert(GetJobList());
+            } catch
+            {
+                System.Windows.MessageBox.Show("Exception: не могу подключится к интернету");
+            }
         }
 
-        private  string searchByTitle( string URL, string title, string xPath )
+        private string searchByTitle( string URL, string title, string xPath )
         {
             HtmlDocument curHtmlDocument = new HtmlDocument();
             string curHtml = ReadHTML(URL);
@@ -100,7 +107,7 @@ namespace SearchWorkWPF.Job
             return "";
         }
 
-        private  string ExtractSalary( HtmlDocument currentHTML )
+        private string ExtractSalary( HtmlDocument currentHTML )
         {
             HtmlNode priseNode = currentHTML.DocumentNode.ChildNodes[1].ChildNodes[5];
             string salary = priseNode.InnerHtml;
