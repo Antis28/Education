@@ -57,25 +57,6 @@ namespace SearchWorkWPF
             jMozaika.BeginGetJobList();
         }
 
-        class CarTable
-        {
-            private int v;
-
-            public string ModelName { get; set; }
-            public string ModelNumber { get; set; }
-            public int? Cost { get; set; }
-            public string Description { get; set; }
-
-            public CarTable( int id )
-            {
-
-                this.v = id;
-                ModelName = "My car with ModelName and id = " + id + ".";
-                ModelNumber = "My car with ModelNumber and id = " + id + ".";
-                //Cost = id * 1000;
-            }
-        }
-
         private void TextBox_MouseDown( object sender, MouseButtonEventArgs e )
         {
             JobInfo ji = lstw.SelectedItem as JobInfo;
