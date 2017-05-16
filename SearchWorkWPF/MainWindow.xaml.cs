@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using SearchWork.Extract;
 using SearchWorkWPF.Job;
+using AntisLib.Net;
 
 namespace SearchWorkWPF
 {
@@ -30,9 +31,17 @@ namespace SearchWorkWPF
 
             //List<JobInfo> j = htd.GetJobLinksInMozaika();
             //lstw.ItemsSource = j;
-						
-						// Подготовка вызова в другом потоке
-            BeginGetJobInMozaika();
+            MessageBox.Show(ComputerEnum.GetComEnum());
+            if( InternetChecker.InternetGetConnectedState() )
+            {
+                // Подготовка вызова в другом потоке
+                BeginGetJobInMozaika();
+            }
+            else
+            {
+                MessageBox.Show("Не могу подключится к интернету");
+            }
+
         }
 
         private void BeginGetJobInMozaika()
