@@ -116,7 +116,7 @@
     <Resource Include="searchJob3.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ZeroLib\AntisLib.csproj">
+    <ProjectReference Include="..\AntisLib\AntisLib.csproj">
       <Project>{61f1925d-4454-4c91-bc46-bcd126e088fb}</Project>
       <Name>AntisLib</Name>
     </ProjectReference>

@@ -91,7 +91,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parallel_4_Break", "Paralle
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parallel_5_ ForEach", "Parallel_5_ ForEach\Parallel_5_ ForEach.csproj", "{51E3A23B-6F2C-4C94-8A0B-4CAB47CCDBB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntisLib", "ZeroLib\AntisLib.csproj", "{61F1925D-4454-4C91-BC46-BCD126E088FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntisLib", "AntisLib\AntisLib.csproj", "{61F1925D-4454-4C91-BC46-BCD126E088FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
