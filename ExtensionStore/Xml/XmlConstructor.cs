@@ -65,10 +65,13 @@ namespace ExtensionStore
                     // категория найдена?
                     if( category != null )
                     {
+                        string eName = XmlStruct.eName;
+                        //string eExt = XmlStruct.eExt;
+                        //string extName = itemExt.Name;
                         // ищем в xml полученое разрешение
                         foreach( var item in category.Elements(XmlStruct.eExt) )
                         {
-                            bool coincidence = item.Attribute(XmlStruct.eName).Value == itemExt.Name;
+                            bool coincidence = item.Attribute(eName).Value == itemExt.Name;
                             // если xml уже есть такое расширение
                             if( coincidence )
                             {
