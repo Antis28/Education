@@ -13,7 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AvorionGoodsParser.Parser;
-using AvorionGoodsParser.Data;
+using AvorionGoodsParser.myData;
+using AvorionGoodsParser.myXml;
 
 namespace AvorionGoodsParser
 {
@@ -29,11 +30,22 @@ namespace AvorionGoodsParser
 
         private void button_Click( object sender, RoutedEventArgs e )
         {
-            SiteParser siteParser = new SiteParser();
-            siteParser.CompleteConvertEvent += SiteParser_CompleteConvertEvent;
-            siteParser.BeginParse();
             comboBoxGoods.SelectionChanged += ComboBoxGoods_SelectionChanged;
-            
+            LoadBase();
+        }
+
+        private void LoadBase()
+        {
+            if( !XmlSrz.isFileExist )
+            {
+                SiteParser siteParser = new SiteParser();
+                siteParser.CompleteConvertEvent += SiteParser_CompleteConvertEvent;                
+                siteParser.BeginParse();
+            }
+            else
+            {
+                comboBoxGoods.ItemsSource = new myXml.XmlSrz().Load();
+            }
         }
 
         private void ComboBoxGoods_SelectionChanged( object sender, SelectionChangedEventArgs e )
@@ -42,12 +54,13 @@ namespace AvorionGoodsParser
             listViewBought.ItemsSource = ((GoodsInfo)comboBoxGoods.SelectedItem).BoughtBy;
         }
 
-        private void SiteParser_CompleteConvertEvent( List<Data.GoodsInfo> obj )
+        private void SiteParser_CompleteConvertEvent( List<myData.GoodsInfo> obj )
         {
             Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
                     (Action)delegate
                     {
                         comboBoxGoods.ItemsSource = obj;
+                        new AvorionGoodsParser.myXml.XmlSrz().Save(obj);
                     });
 
         }

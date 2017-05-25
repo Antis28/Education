@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using AvorionGoodsParser.Data;
+using AvorionGoodsParser.myData;
 
 namespace AvorionGoodsParser.Parser
 {
@@ -16,8 +16,7 @@ namespace AvorionGoodsParser.Parser
         public SiteParser( )
         {
             siteAddress = "http://avorion.gamepedia.com/index.php?title=Goods";
-            siteAddress = "Goods.txt";//"Goods - Official Avorion Wiki.htm";
-            siteAddress = "psd.htm";//"Goods - Official Avorion Wiki.htm";
+            siteAddress = "Goods.txt";//"Goods - Official Avorion Wiki.htm";            
         }
 
         public SiteParser( string siteAddress )
@@ -47,7 +46,6 @@ namespace AvorionGoodsParser.Parser
             string xpq_allWorks = "//table[@class=\"wikitable sortable\"]/tr";          //<table class="wikitable sortable">   //<div id="dle-content">//class="rabota-all"
 
             HtmlDocument allHTML = new HtmlDocument();
-            HtmlDocument currentHTML = new HtmlDocument();
 
             //allHTML.LoadHtml(ReadHTML(siteAddress));
             allHTML.LoadHtml(ReadFileHTML(siteAddress));

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AvorionGoodsParser.Data
+namespace AvorionGoodsParser.myData
 {
-    class GoodsInfo    
+    [Serializable]
+    public class GoodsInfo    
     {
-        
-
+        // необходим для сериализации
         public GoodsInfo()
         {
         }

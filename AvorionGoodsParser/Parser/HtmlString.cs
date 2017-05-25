@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using AvorionGoodsParser.Data;
+using AvorionGoodsParser.myData;
 
 namespace AvorionGoodsParser.Parser
 {
