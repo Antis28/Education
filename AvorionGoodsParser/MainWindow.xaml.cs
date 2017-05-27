@@ -64,5 +64,29 @@ namespace AvorionGoodsParser
                     });
 
         }
+
+        private void button1_Click( object sender, RoutedEventArgs e )
+        {
+            double price1, price2, deposit;
+            Double.TryParse(tbx_bought.Text, out price1);
+            Double.TryParse(tbx_sell.Text, out price2);
+            Double.TryParse(tbx_deposit.Text, out deposit);
+
+            double resultPrice1, resultPrice2, count;
+            string result;
+
+            resultPrice1 = price2 - price1;
+            System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("en-us");
+            ci.NumberFormat.CurrencyDecimalDigits = 0;
+            ci.NumberFormat.CurrencyGroupSeparator = " ";
+            result = string.Format("Прибыль за 1 товар: {0}", resultPrice1.ToString("C", ci));
+            if( deposit > 0 )
+            {
+                count = Math.Round(deposit / price1);
+                resultPrice2 = resultPrice1 * count;
+                result += string.Format("\nПрибыль за {0}: {1}", count, resultPrice2.ToString("C", ci));
+            }
+            tb_result.Text = result;
+        }
     }
 }
