@@ -12,6 +12,7 @@ namespace SearchWorkWPF.Job
     {
         // Объявляем событие для индикатора
         public event Action ChangeValueEvent;
+        public event Action<JobInfo> NextStepEvent;
         public event Action<int> MaxValueEvent;
         public event Action<List<JobInfo>> CompleteEvent;
         public event Action CanceledEvent;
@@ -20,6 +21,10 @@ namespace SearchWorkWPF.Job
         protected void OnChangeValue()
         {
             ChangeValueEvent();
+        }
+        protected void OnNextStepEvent( JobInfo job )
+        {
+            NextStepEvent(job);
         }
         protected void OnMaxValue( int maxValue )
         {
