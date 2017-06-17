@@ -5,7 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SearchWorkWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="602">
+        Title="MainWindow" Height="350" Width="600">
+    <Window.Resources>
+        <DataTemplate x:Key="JobDataTemplate">
+            <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4" Width="auto" HorizontalAlignment="Center">
+                <StackPanel Background="#FFFBFBE4" Margin="5" Visibility="Visible" ScrollViewer.CanContentScroll="True" MaxWidth="550" MinWidth="550" HorizontalAlignment="Stretch">
+
+                    <TextBlock  Text="{Binding Path=Title}"  Margin="5" FontSize="21.333" TextWrapping="WrapWithOverflow"/>
+                    <TextBlock  Text="{Binding Path=Date}"   Margin="5,5,0,0"/>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock Text="Зарплата:"   Margin="5,5,0,0" FontSize="14.667"/>
+                        <TextBlock Text="{Binding Path=Salary}" Margin="5,5,20,0" FontSize="14.667"/>
+                        <TextBlock Text="График:"   Margin="5,5,0,0" FontSize="14.667"/>
+                        <TextBlock Text="{Binding Path=Schedule}" Margin="5,5,20,0" FontSize="14.667"/>
+                        <TextBlock Text="Город:" Margin="5,5,0,0" FontSize="14.667"/>
+                        <TextBlock Text="{Binding Path=City}" Margin="5,5,0,0" FontSize="14.667" TextWrapping="Wrap" MaxWidth="100"/>
+
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Телефон:"   Margin="5,5,0,0" FontSize="14.667"/>
+                        <TextBlock Text="{Binding Path=Telephone}"   Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Url:" Margin="5,5,0,0" FontSize="14.667" MouseDown="TextBox_MouseDown"/>
+                        <TextBox Text="{Binding Path=Url}" Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap" Width="400"/>
+                    </StackPanel>
+                    <TextBlock Text="Описание:"  Margin="5,5,0,0" FontSize="14.667" TextWrapping="Wrap" Visibility="Hidden"/>
+                    <TextBlock Text="{Binding Path=Description}"   Margin="5,5,20,0" FontSize="14.667" TextWrapping="WrapWithOverflow" Width="200" MinWidth="500"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
 
     <Grid ScrollViewer.VerticalScrollBarVisibility="Auto">
 
@@ -14,7 +44,7 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="60" ></RowDefinition>
         </Grid.RowDefinitions>
-        <ListView Name="lstw" Margin="5" ScrollViewer.CanContentScroll="False" Visibility="Collapsed" >
+        <ListView Name="lstv" Margin="5" ScrollViewer.CanContentScroll="False" Visibility="Hidden" >
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
@@ -60,38 +90,40 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <StackPanel Background="#FFFBFBE4" Margin="5" Visibility="Collapsed">
+            <TextBlock x:Name="tb_title" Text="Плотник" Grid.Row="0" Margin="5,5,0,0" FontSize="21.333"/>
+            <TextBlock x:Name="tb_date" Text="17 06 2017" Grid.Row="1"  Margin="5,5,0,0"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="2">
+                <TextBlock Text="Зарплата:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
+                <TextBlock x:Name="tb_infoPrice" Text="10000" Grid.Row="2"  Margin="5,5,20,0" FontSize="14.667"/>
+                <TextBlock Text="График:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
+                <TextBlock x:Name="tb_emp" Text="Полный день" Grid.Row="2"  Margin="5,5,20,0" FontSize="14.667"/>
+                <TextBlock Text="Город:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
+                <TextBlock x:Name="tb_city" Text="Горловка" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
 
-        <StackPanel x:Name="splContentView" Grid.Row="0" Margin="5" Orientation="Vertical">
-            <StackPanel.Background>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Телефон:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
+                <TextBlock x:Name="tb_phone" Text="000-00-00-000" Grid.Row="2"  Margin="5,5,20,0" FontSize="14.667"/>
+                <TextBlock Text="Url:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
+                <TextBlock x:Name="tb_url" Text="http:\\" Grid.Row="2"  Margin="5,5,20,0" FontSize="14.667"/>
+            </StackPanel>
+            <TextBlock Text="Описание:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
+            <TextBlock x:Name="tb_description" Text="+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" Grid.Row="2"  Margin="5,5,20,0" FontSize="14.667" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap"/>
+
+        </StackPanel>
+
+        <ListBox x:Name="lbContentView" Grid.Row="0" Margin="5"
+                 ItemTemplate="{StaticResource JobDataTemplate}" Padding="5" RenderTransformOrigin="0,0" ScrollViewer.HorizontalScrollBarVisibility="Auto" SnapsToDevicePixels="True" ScrollViewer.CanContentScroll="False" HorizontalContentAlignment="Center" SelectionMode="Extended"
+                 >
+            <ListBox.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#7F5E07C7" Offset="0.011"/>
                     <GradientStop Color="#3FD191F5" Offset="1"/>
                 </LinearGradientBrush>
-            </StackPanel.Background>
-            <StackPanel Background="#FFFBFBE4" Margin="5">
-                <TextBlock x:Name="tb_title" Text="Плотник" Grid.Row="0" Margin="5,5,0,0" FontSize="21.333"/>
-                <TextBlock x:Name="tb_date" Text="17 06 2017" Grid.Row="1"  Margin="5,5,0,0"/>
-                <StackPanel Orientation="Horizontal" Grid.Row="2">
-                    <TextBlock Text="Зарплата:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
-                    <TextBlock x:Name="tb_infoPrice" Text="10000" Grid.Row="2"  Margin="5,5,20,0" FontSize="14.667"/>
-                    <TextBlock Text="График:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
-                    <TextBlock x:Name="tb_emp" Text="Полный день" Grid.Row="2"  Margin="5,5,20,0" FontSize="14.667"/>
-                    <TextBlock Text="Город:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
-                    <TextBlock x:Name="tb_city" Text="Горловка" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
+            </ListBox.Background>
+        </ListBox>
 
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Телефон:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
-                    <TextBlock x:Name="tb_phone" Text="000-00-00-000" Grid.Row="2"  Margin="5,5,20,0" FontSize="14.667"/>
-                    <TextBlock Text="Url:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
-                    <TextBlock x:Name="tb_url" Text="http:\\" Grid.Row="2"  Margin="5,5,20,0" FontSize="14.667"/>                    
-                </StackPanel>
-                <TextBlock Text="Описание:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
-                <TextBlock x:Name="tb_description" Text="--------" Grid.Row="2"  Margin="5,5,20,0" FontSize="14.667"/>
-
-            </StackPanel>
-        </StackPanel>
-       
         <GridSplitter Grid.Row="1" IsEnabled="False" HorizontalAlignment="Stretch" 
                       VerticalAlignment="Bottom" ResizeBehavior="PreviousAndNext" Height="5" Foreground="Black"/>
         <StackPanel Grid.Row="2" VerticalAlignment="Bottom" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" d:IsLocked="True">
