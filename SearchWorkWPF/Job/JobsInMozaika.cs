@@ -24,6 +24,7 @@ namespace SearchWorkWPF.Job
             string xpq_allWorks = "//div[@id=\"dle-content\"]/div[@class=\"rabota-all\"]";          //<div id="dle-content">//class="rabota-all"
             string xpq_currentWork = "/div[@class=\"rabota-data\"]/div[@class=\"rabota-title\"]/a";  // rabota-data/rabota-title/a
             string xpq_phone = "//div[@class=\"rabota-allfull\"]/div[@class=\"rabota-fields\"]/span[@class=\"masha_index masha_index9\"]";
+            string xpq_date = "/div[@class=\"rabota-data\"]/ul[@class=\"info-doska\"]/li[1]";
 
             HtmlDocument allHTML = new HtmlDocument();
             HtmlDocument currentHTML = new HtmlDocument();
@@ -41,7 +42,6 @@ namespace SearchWorkWPF.Job
                 HtmlNode currentWork = currentHTML
                                         .DocumentNode
                                         .SelectSingleNode(xpq_currentWork);
-
                 string curUrl = currentHTML
                                     .DocumentNode
                                     .SelectSingleNode(xpq_currentWork)
@@ -49,8 +49,8 @@ namespace SearchWorkWPF.Job
 
                 //Зайти на страницу вакансии и получить телефон                    
                 string curPhone = searchByTitle(curUrl, "Телефон:&nbsp; ", xpq_phone);
-
-
+              
+                
                 MozaikaJobList.Add(new JobInfo
                 {
                     Title = currentHTML
@@ -58,6 +58,10 @@ namespace SearchWorkWPF.Job
                                 .SelectSingleNode(xpq_currentWork)
                                 .InnerText,
                     Price = ExtractSalary(currentHTML),
+                    Date = currentHTML
+                                .DocumentNode
+                                .SelectSingleNode(xpq_date)
+                                .FirstChild.InnerText,
                     Description = currentHTML
                                     .DocumentNode
                                     .ChildNodes[1]

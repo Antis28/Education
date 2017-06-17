@@ -31,7 +31,7 @@ namespace SearchWorkWPF
 
             //List<JobInfo> j = htd.GetJobLinksInMozaika();
             //lstw.ItemsSource = j;
-            MessageBox.Show(ComputerEnum.GetComEnum());
+            //MessageBox.Show(ComputerEnum.GetComEnum());
             if( InternetChecker.InternetGetConnectedState() )
             {
                 // Подготовка вызова в другом потоке

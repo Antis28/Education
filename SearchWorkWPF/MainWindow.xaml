@@ -19,8 +19,9 @@
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
+                        <GridViewColumn Header="Дата" DisplayMemberBinding="{Binding Path=Date, ConverterCulture='ru-ru', StringFormat={}{0:C}, TargetNullValue=[Данные не предоставлены]}"></GridViewColumn>
                         <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Path=Title, TargetNullValue=[Данные не предоставлены] }"></GridViewColumn>
-                        <GridViewColumn Header="Зарплата" DisplayMemberBinding="{Binding Path=Price, ConverterCulture='ru-ru', StringFormat={}{0:C}, TargetNullValue=[Данные не предоставлены]}"></GridViewColumn>
+                         <GridViewColumn Header="Зарплата" DisplayMemberBinding="{Binding Path=Price, ConverterCulture='ru-ru', StringFormat={}{0:C}, TargetNullValue=[Данные не предоставлены]}"></GridViewColumn>                        
                         <!-- Шаблоны ячеек ListView -->
 
                         <GridViewColumn Header="Telephone" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">
