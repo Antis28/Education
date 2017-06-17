@@ -20,18 +20,7 @@ namespace SearchWorkWPF
 
         private void btnGetInfoJob_Click( object sender, RoutedEventArgs e )
         {
-            // привязка lstw к свойству коллекции
-            //lstw.DataContext = "";
-            //List<CarTable> lk = new List<CarTable>() {
-            //    new CarTable(1), new CarTable(2),new CarTable(3)
-            //};
-            //lstw.ItemsSource = lk;
-
-            //WorkFinder htd = new WorkFinder();           
-
-            //List<JobInfo> j = htd.GetJobLinksInMozaika();
-            //lstw.ItemsSource = j;
-            //MessageBox.Show(ComputerEnum.GetComEnum());
+            lbContentView.Items.Clear();
             if( InternetChecker.InternetGetConnectedState() )
             {
                 // Подготовка вызова в другом потоке
