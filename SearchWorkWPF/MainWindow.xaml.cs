@@ -50,6 +50,7 @@ namespace SearchWorkWPF
             // Добавляем обработчик события             
             jMozaika.MaxValueEvent += onInitialValue;
             jMozaika.ChangeValueEvent += onChangeIndicator;
+            jMozaika.NextStepEvent += JMozaika_NextStepEvent;
             jMozaika.CompleteEvent += onCompleteConvert;
             jMozaika.CanceledEvent += onCanceledConvert;
 
@@ -57,9 +58,18 @@ namespace SearchWorkWPF
             jMozaika.BeginGetJobList();
         }
 
+        private void JMozaika_NextStepEvent( JobInfo obj )
+        {
+            this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
+                   (Action)delegate
+                   {
+                       lbContentView.Items.Add(obj);
+                   });
+        }
+
         private void TextBox_MouseDown( object sender, MouseButtonEventArgs e )
         {
-            JobInfo ji = lstw.SelectedItem as JobInfo;
+            JobInfo ji = lstv.SelectedItem as JobInfo;
             Clipboard.SetText(ji.Url);
         }
 
@@ -114,8 +124,8 @@ namespace SearchWorkWPF
                     {
                         this.tb_loadJob.Text = "Загрузка завершена";
                         //isRunning = !isRunning;
-                        //this.btn_convert.Content = "Начать";                        
-                        lstw.ItemsSource = lJobs;
+                        //this.btn_convert.Content = "Начать";
+                        lstv.ItemsSource = lJobs;
                     });
 
         }
