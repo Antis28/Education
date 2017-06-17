@@ -11,24 +11,24 @@ namespace SearchWorkWPF.Job
         {
         }
 
-        private string _price = string.Empty;
+        private string _salary = string.Empty;
 
         public string Date { get; set; }
         public string Url { get; set; }
         public string Title { get; set; }
-        public string Price
+        public string Salary
         {
             get
             {
-                return _price;
+                return _salary;
             }
             set
             {
-                _price = value;
-                if( _price != "з/п договорная" || _price != "" )
+                _salary = value;
+                if( _salary != "з/п договорная" || _salary != ""  || _salary != "Сдельная" )
                 {
                     int priceMoney;
-                    if( int.TryParse( _price, out priceMoney ) )
+                    if( int.TryParse( _salary, out priceMoney ) )
                         PriceMoney = priceMoney;
                 }
             }
@@ -46,7 +46,8 @@ namespace SearchWorkWPF.Job
 
         public Education Education { get; set; }
 
-        public Employment Employment { get; set; }
+        public string Employment { get; set; }
+        public string Schedule { get; set; }
 
         public static Education ParseEducation( string education )
         {
@@ -69,20 +70,38 @@ namespace SearchWorkWPF.Job
             }
         }
 
-        public static Employment ParseEmployment( string employment )
-        {
-            switch( employment )
-            {
-                case "полная":
-                    return Employment.Full;
-                case "частичная":
-                    return Employment.Partial;
-                case "фриланс":
-                    return Employment.Freelance;
-                default:
-                    throw new Exception();
-            }
-        }
+        //public static Employment ParseEmployment( string employment )
+        //{
+        //    switch( employment )
+        //    {
+        //        case "полная":
+        //            return Employment.Full;
+        //        case "частичная":
+        //            return Employment.Partial;
+        //        case "фриланс":
+        //            return Employment.Freelance;
+        //        case "свободный график":
+        //            return Employment.FreeSchedule;
+        //        default:
+        //            throw new Exception();
+        //    }
+        //}
+        //public static string ParseEmployment( Employment employment )
+        //{
+        //    switch( employment )
+        //    {
+        //        case Employment.Full:
+        //            return "полная";
+        //        case Employment.Partial:
+        //            return "частичная";
+        //        case Employment.Freelance:
+        //            return "фриланс";
+        //        case Employment.FreeSchedule:
+        //            return "свободный график";
+        //        default:
+        //            throw new Exception();
+        //    }
+        //}
 
     }
     public enum Education
@@ -98,6 +117,7 @@ namespace SearchWorkWPF.Job
     {
         Full,
         Partial,
-        Freelance
+        Freelance,
+        FreeSchedule
     }
 }
