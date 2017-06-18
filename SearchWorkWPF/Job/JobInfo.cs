@@ -34,6 +34,9 @@ namespace SearchWorkWPF.Job
             }
         }
         public string Telephone { get; set; }
+        public string ContFace { get; set; }
+        public string Email { get; set; }
+
         public int PriceMoney { get; set; }
 
         public string Company { get; set; }
