@@ -5,12 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SearchWorkWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="600">
+        Title="MainWindow" Height="350" Width="650">
     <Window.Resources>
         <DataTemplate x:Key="JobDataTemplate">
-            <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4" Width="auto" HorizontalAlignment="Center">
-                <StackPanel Background="#FFFBFBE4" Margin="5" Visibility="Visible" ScrollViewer.CanContentScroll="True" MaxWidth="550" MinWidth="550" HorizontalAlignment="Stretch">
-
+            <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4" HorizontalAlignment="Center" Background="{x:Null}" MinWidth="400">
+                <StackPanel Background="#FFFBFBE4" Margin="2" Visibility="Visible" ScrollViewer.CanContentScroll="True" MinWidth="400" HorizontalAlignment="Stretch" CanVerticallyScroll="True">
                     <TextBlock  Text="{Binding Path=Title}"  Margin="5" FontSize="21.333" TextWrapping="WrapWithOverflow"/>
                     <TextBlock  Text="{Binding Path=Date}"   Margin="5,5,0,0" Foreground="#FF001C9B"/>
                     <StackPanel Orientation="Horizontal" >
@@ -40,9 +39,9 @@
                         <TextBox Text="{Binding Path=Email}"   Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Url:" Margin="5,5,0,0" FontSize="14.667" MouseDown="TextBox_MouseDown"/>
-                        <CheckBox Content="показать" Margin="0,5,0,0"></CheckBox>
-                        <TextBox Text="{Binding Path=Url}" Visibility="Hidden" Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap" Width="450"/>
+                        <TextBlock Text="Url:" Margin="5,5,0,0" FontSize="14.667" MouseDown="TextBox_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                        <TextBox Text="{Binding Path=Url}" Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap" Width="500"/>
                     </StackPanel>
                     <TextBlock Text="Описание:"  Margin="5,5,0,0" FontSize="14.667" TextWrapping="Wrap" Visibility="Hidden"/>
                     <TextBlock Text="{Binding Path=Description}"   Margin="5,5,10,10" FontSize="14.667" TextWrapping="WrapWithOverflow" Width="200" MinWidth="500"/>
@@ -51,14 +50,13 @@
         </DataTemplate>
     </Window.Resources>
 
-    <Grid ScrollViewer.VerticalScrollBarVisibility="Auto">
-
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="*" MinHeight="150"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="60" ></RowDefinition>
         </Grid.RowDefinitions>
-        <ListView Name="lstv" Margin="5" ScrollViewer.CanContentScroll="False" Visibility="Hidden" >
+        <ListView Name="lstv" Margin="5" ScrollViewer.CanContentScroll="False" Visibility="Collapsed" >
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
@@ -127,8 +125,8 @@
 
         </StackPanel>
 
-        <ListBox x:Name="lbContentView" Grid.Row="0" Margin="5"
-                 ItemTemplate="{StaticResource JobDataTemplate}" Padding="5" RenderTransformOrigin="0,0" ScrollViewer.HorizontalScrollBarVisibility="Auto" SnapsToDevicePixels="True" ScrollViewer.CanContentScroll="False" HorizontalContentAlignment="Center" SelectionMode="Extended"
+        <ListBox x:Name="lbContentView" Grid.Row="0" Margin="2"
+                 ItemTemplate="{StaticResource JobDataTemplate}" Padding="5" RenderTransformOrigin="0,0" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False" HorizontalContentAlignment="Center" SelectionMode="Extended"
                  >
             <ListBox.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

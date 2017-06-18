@@ -5,6 +5,7 @@ using System.Windows.Input;
 using SearchWork.Extract;
 using SearchWorkWPF.Job;
 using AntisLib.Net;
+using System.Windows.Media;
 
 namespace SearchWorkWPF
 {
@@ -20,6 +21,7 @@ namespace SearchWorkWPF
 
         private void btnGetInfoJob_Click( object sender, RoutedEventArgs e )
         {
+            btnGetInfoJob.Background = new SolidColorBrush(Colors.Gold);
             lbContentView.Items.Clear();
             if( InternetChecker.InternetGetConnectedState() )
             {
@@ -115,6 +117,8 @@ namespace SearchWorkWPF
                         //isRunning = !isRunning;
                         //this.btn_convert.Content = "Начать";
                         lstv.ItemsSource = lJobs;
+
+                        btnGetInfoJob.Background = new SolidColorBrush(Color.FromArgb(255, 221, 221, 221));
                     });
 
         }
