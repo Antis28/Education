@@ -8,6 +8,8 @@ namespace SearchWorkWPF.Job
 {
     class JobsInMozaika : Jobs
     {
+        private HtmlNodeCollection contactFieldsNodes = null;
+
         public void BeginGetJobList()
         {
             Thread backgroundThread = new Thread(new ThreadStart(Start));
@@ -50,8 +52,7 @@ namespace SearchWorkWPF.Job
 
         private JobInfo ExtractInfoJob( HtmlDocument currentHTML )
         {
-            string xpq_currentWork = "/div[@class=\"rabota-data\"]/div[@class=\"rabota-title\"]/a";  // rabota-data/rabota-title/a
-            string xpq_phone = "//div[@class=\"rabota-allfull\"]/div[@class=\"rabota-fields\"]/span[@class=\"masha_index masha_index9\"]";
+            string xpq_currentWork = "/div[@class=\"rabota-data\"]/div[@class=\"rabota-title\"]/a";  // rabota-data/rabota-title/a           
             string xpq_date = "/div[@class=\"rabota-data\"]/ul[@class=\"info-doska\"]/li[1]";
 
             HtmlNode currentWork = currentHTML
@@ -81,8 +82,12 @@ namespace SearchWorkWPF.Job
                                 ?.Attributes?[0].Value;
 
             //Зайти на страницу вакансии и получить телефон                    
-            string curPhone = searchByTitle(curUrl, "Телефон:&nbsp; ", xpq_phone);
-
+            string curPhone = searchByTitle(curUrl, "Телефон:&nbsp; ");
+            string curContFace = searchByTitle(curUrl, "Контактное лицо:&nbsp; ", true);
+            string curEmail = searchByTitle(curUrl, "Емайл, ICQ:&nbsp; ", true);
+            string curExperience = searchByTitle(curUrl, " Стаж:&nbsp; ", true);
+            string curEducation = searchByTitle(curUrl, " Образование:&nbsp; ", true);
+            
             return new JobInfo()
             {
                 Title = currentHTML
@@ -95,7 +100,11 @@ namespace SearchWorkWPF.Job
                 City = City,
                 Description = Description,
                 Url = curUrl,
-                Telephone = curPhone
+                Telephone = curPhone,
+                ContFace = curContFace,
+                Email = curEmail,
+                Experience = curExperience,
+                Education = curEducation,
             };
         }
 
@@ -110,14 +119,18 @@ namespace SearchWorkWPF.Job
             }
         }
 
-        private string searchByTitle( string URL, string title, string xPath )
+        private string searchByTitle( string URL, string title, bool isLoaded = false )
         {
-            HtmlDocument curHtmlDocument = new HtmlDocument();
-            string curHtml = ReadHTML(URL);
-            curHtmlDocument.LoadHtml(curHtml);
-            xPath = "//div[@class=\"rabota-allfull\"]/div[@class=\"rabota-fields\"]";
-            HtmlNodeCollection divNodes = curHtmlDocument.DocumentNode.SelectNodes(xPath);
-            foreach( var item in divNodes )
+            if( !isLoaded || contactFieldsNodes == null )
+            {
+                HtmlDocument curHtmlDocument = new HtmlDocument();
+                string curHtml = ReadHTML(URL);
+                curHtmlDocument.LoadHtml(curHtml);
+                string xPath = "//div[@class=\"rabota-allfull\"]/div[@class=\"rabota-fields\"]";
+                contactFieldsNodes = curHtmlDocument.DocumentNode.SelectNodes(xPath);
+            }
+            
+            foreach( var item in contactFieldsNodes )
             {
                 bool isContain = item.InnerText.Contains(title);
                 string findedElement = item.InnerText;
@@ -128,7 +141,7 @@ namespace SearchWorkWPF.Job
                     return findedElement;
                 }
             }
-            return "";
+            return "Не указано";
         }
 
         private string ExtractSalary( HtmlDocument currentHTML )
