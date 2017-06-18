@@ -16,6 +16,7 @@ namespace SearchWorkWPF.Job
         public string Date { get; set; }
         public string Url { get; set; }
         public string Title { get; set; }
+
         public string Salary
         {
             get
@@ -29,49 +30,51 @@ namespace SearchWorkWPF.Job
                 {
                     int priceMoney;
                     if( int.TryParse( _salary, out priceMoney ) )
-                        PriceMoney = priceMoney;
+                        PriceValue = priceMoney;
                 }
             }
         }
-        public string Telephone { get; set; }
-        public string ContFace { get; set; }
-        public string Email { get; set; }
-
-        public int PriceMoney { get; set; }
-
-        public string Company { get; set; }
-
-        public string Country { get; set; }
-        public string Region { get; set; }
         public string City { get; set; }
-        public string Description { get; set; }
-
-
-        public Education Education { get; set; }
-
-        public string Employment { get; set; }
+        public string Education { get; set; }
+        public string Experience { get; set; }
         public string Schedule { get; set; }
 
-        public static Education ParseEducation( string education )
-        {
-            switch( education )
-            {
-                case "Высшее":
-                    return Education.Higher;
-                case "Неполное высшее":
-                    return Education.IncompleteHigher;
-                case "Среднее специальное":
-                    return Education.SecondaryVocational;
-                case "Среднее":
-                    return Education.Secondary;
-                case "Учащийся":
-                    return Education.Pupil;
-                case "Не имеет значения":
-                    return Education.None;
-                default:
-                    throw new Exception();
-            }
-        }
+        public string ContFace { get; set; }
+        public string Telephone { get; set; }        
+        public string Email { get; set; }
+        
+        public string Description { get; set; }
+
+        public int PriceValue { get; set; }
+        public string Company { get; set; }
+        public string Country { get; set; }
+        public string Region { get; set; }
+        
+        
+        public string Employment { get; set; }
+        
+
+        //public Education Education { get; set; }
+        //public static Education ParseEducation( string education )
+        //{
+        //    switch( education )
+        //    {
+        //        case "Высшее":
+        //            return Education.Higher;
+        //        case "Неполное высшее":
+        //            return Education.IncompleteHigher;
+        //        case "Среднее специальное":
+        //            return Education.SecondaryVocational;
+        //        case "Среднее":
+        //            return Education.Secondary;
+        //        case "Учащийся":
+        //            return Education.Pupil;
+        //        case "Не имеет значения":
+        //            return Education.None;
+        //        default:
+        //            throw new Exception();
+        //    }
+        //}
 
         //public static Employment ParseEmployment( string employment )
         //{
@@ -107,20 +110,20 @@ namespace SearchWorkWPF.Job
         //}
 
     }
-    public enum Education
-    {
-        None,
-        Higher,
-        IncompleteHigher,
-        SecondaryVocational,
-        Secondary,
-        Pupil
-    }
-    public enum Employment
-    {
-        Full,
-        Partial,
-        Freelance,
-        FreeSchedule
-    }
+    //public enum Education
+    //{
+    //    None,
+    //    Higher,
+    //    IncompleteHigher,
+    //    SecondaryVocational,
+    //    Secondary,
+    //    Pupil
+    //}
+    //public enum Employment
+    //{
+    //    Full,
+    //    Partial,
+    //    Freelance,
+    //    FreeSchedule
+    //}
 }
