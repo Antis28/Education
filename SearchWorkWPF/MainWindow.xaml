@@ -12,26 +12,40 @@
                 <StackPanel Background="#FFFBFBE4" Margin="5" Visibility="Visible" ScrollViewer.CanContentScroll="True" MaxWidth="550" MinWidth="550" HorizontalAlignment="Stretch">
 
                     <TextBlock  Text="{Binding Path=Title}"  Margin="5" FontSize="21.333" TextWrapping="WrapWithOverflow"/>
-                    <TextBlock  Text="{Binding Path=Date}"   Margin="5,5,0,0"/>
+                    <TextBlock  Text="{Binding Path=Date}"   Margin="5,5,0,0" Foreground="#FF001C9B"/>
                     <StackPanel Orientation="Horizontal" >
-                        <TextBlock Text="Зарплата:"   Margin="5,5,0,0" FontSize="14.667"/>
-                        <TextBlock Text="{Binding Path=Salary}" Margin="5,5,20,0" FontSize="14.667"/>
+                        <TextBlock Text="Зарплата:"   Margin="5,5,0,0" FontSize="14.667" Foreground="#FF009B1C"/>
+                        <TextBlock Text="{Binding Path=Salary}" Margin="5,5,20,0" FontSize="14.667" Foreground="#FF017C17"/>
                         <TextBlock Text="График:"   Margin="5,5,0,0" FontSize="14.667"/>
                         <TextBlock Text="{Binding Path=Schedule}" Margin="5,5,20,0" FontSize="14.667"/>
-                        <TextBlock Text="Город:" Margin="5,5,0,0" FontSize="14.667"/>
-                        <TextBlock Text="{Binding Path=City}" Margin="5,5,0,0" FontSize="14.667" TextWrapping="Wrap" MaxWidth="100"/>
-
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock Text="Стаж:"   Margin="5,5,0,0" FontSize="14.667" Foreground="#FFDA2525"/>
+                        <TextBlock Text="{Binding Path=Experience}" Margin="5,5,20,0" FontSize="14.667" Foreground="#FFDA2525"/>
+                        <TextBlock Text="Образование:"   Margin="5,5,0,0" FontSize="14.667"/>
+                        <TextBlock Text="{Binding Path=Education}" Margin="5,5,20,0" FontSize="14.667" Foreground="#FFDA2525"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Телефон:"   Margin="5,5,0,0" FontSize="14.667"/>
-                        <TextBlock Text="{Binding Path=Telephone}"   Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap"/>
+                        <TextBlock Text="Город:" Margin="5,5,0,0" FontSize="14.667"/>
+                        <TextBlock Text="{Binding Path=City}" Margin="5,5,0,0" FontSize="14.667" TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <TextBlock Text="Контактное лицо:"   Margin="5,5,0,0" FontSize="14.667"/>
+                        <TextBlock Text="{Binding Path=ContFace}"   Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap"/>
+                        <TextBlock Text="Телефон:"   Margin="5,5,0,0" FontSize="14.667" Foreground="#FF274D83"/>
+                        <TextBox Text="{Binding Path=Telephone}"   Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap" Foreground="#FF274D83"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Емайл, ICQ:"   Margin="5,5,0,0" FontSize="14.667"/>
+                        <TextBox Text="{Binding Path=Email}"   Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Url:" Margin="5,5,0,0" FontSize="14.667" MouseDown="TextBox_MouseDown"/>
-                        <TextBox Text="{Binding Path=Url}" Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap" Width="400"/>
+                        <CheckBox Content="показать" Margin="0,5,0,0"></CheckBox>
+                        <TextBox Text="{Binding Path=Url}" Visibility="Hidden" Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap" Width="450"/>
                     </StackPanel>
                     <TextBlock Text="Описание:"  Margin="5,5,0,0" FontSize="14.667" TextWrapping="Wrap" Visibility="Hidden"/>
-                    <TextBlock Text="{Binding Path=Description}"   Margin="5,5,20,0" FontSize="14.667" TextWrapping="WrapWithOverflow" Width="200" MinWidth="500"/>
+                    <TextBlock Text="{Binding Path=Description}"   Margin="5,5,10,10" FontSize="14.667" TextWrapping="WrapWithOverflow" Width="200" MinWidth="500"/>
                 </StackPanel>
             </Border>
         </DataTemplate>
