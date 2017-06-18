@@ -8,6 +8,23 @@ namespace SearchWorkWPF.Job
 {
     class JobsInMozaika : Jobs
     {
+        private int pageNumber = 1;
+
+        public int PageNumber
+        {
+            get
+            {
+                return pageNumber;
+            }
+            set
+            {
+                if( value < 1 || value > 61 )
+                    pageNumber = 1;
+                else
+                    pageNumber = value;
+            }
+        }
+
         private HtmlNodeCollection contactFieldsNodes = null;
 
         public void BeginGetJobList()
@@ -21,7 +38,7 @@ namespace SearchWorkWPF.Job
         {
             List<JobInfo> MozaikaJobList = new List<JobInfo>();
 
-            string mozaika = "http://mozaika.dn.ua/vakansy/";
+            string mozaika = "http://mozaika.dn.ua/vakansy/page/"+ pageNumber + "/";
             //string mozaika = "http://html5-ap/mozaika.dn.ua.htm";            
             //xPathQuery
             string xpq_allWorks = "//div[@id=\"dle-content\"]/div[@class=\"rabota-all\"]";          //<div id="dle-content">//class="rabota-all"

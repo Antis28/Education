@@ -19,8 +19,12 @@ namespace SearchWorkWPF
             InitializeComponent();
         }
 
+        private int curPage;
+
+
         private void btnGetInfoJob_Click( object sender, RoutedEventArgs e )
         {
+            int.TryParse(tbxPageNumber.Text, out curPage);
             btnGetInfoJob.Background = new SolidColorBrush(Colors.Gold);
             lbContentView.Items.Clear();
             if( InternetChecker.InternetGetConnectedState() )
@@ -32,12 +36,12 @@ namespace SearchWorkWPF
             {
                 MessageBox.Show("Не могу подключится к интернету");
             }
-
         }
 
         private void BeginGetJobInMozaika()
         {
             JobsInMozaika jMozaika = new JobsInMozaika();
+            jMozaika.PageNumber = curPage;
             // Добавляем обработчик события             
             jMozaika.MaxValueEvent += onInitialValue;
             jMozaika.ChangeValueEvent += onChangeIndicator;
@@ -62,6 +66,19 @@ namespace SearchWorkWPF
         {
             JobInfo ji = lstv.SelectedItem as JobInfo;
             Clipboard.SetText(ji.Url);
+        }
+
+        private void btnNextInfoJob_Click( object sender, RoutedEventArgs e )
+        {
+            int.TryParse(tbxPageNumber.Text, out curPage);
+            tbxPageNumber.Text = (++curPage).ToString();
+            btnGetInfoJob_Click(sender, e);
+        }
+        private void btnPrevInfoJob_Click( object sender, RoutedEventArgs e )
+        {
+            int.TryParse(tbxPageNumber.Text, out curPage);
+            tbxPageNumber.Text = (--curPage).ToString();
+            btnGetInfoJob_Click(sender, e);
         }
 
         public bool isPercent = false;
