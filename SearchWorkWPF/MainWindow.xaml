@@ -126,7 +126,10 @@
         </StackPanel>
 
         <ListBox x:Name="lbContentView" Grid.Row="0" Margin="2"
-                 ItemTemplate="{StaticResource JobDataTemplate}" Padding="5" RenderTransformOrigin="0,0" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False" HorizontalContentAlignment="Center" SelectionMode="Extended"
+                 ItemTemplate="{StaticResource JobDataTemplate}" Padding="5" 
+                 RenderTransformOrigin="0,0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                 ScrollViewer.CanContentScroll="False" HorizontalContentAlignment="Left" 
+                 SelectionMode="Extended"
                  >
             <ListBox.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
