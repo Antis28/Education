@@ -1,104 +1,118 @@
-﻿<Window x:Class="SearchWorkWPF.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SearchWorkWPF"
+        xmlns:Job="clr-namespace:SearchWorkWPF.Job" x:Class="SearchWorkWPF.MainWindow"
         mc:Ignorable="d"
         Title="Поиск работы в Горловке" Height="450" Width="650">
     <Window.Resources>
         <DataTemplate x:Key="JobDataTemplate">
-            <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4" HorizontalAlignment="Center" Background="{x:Null}" MinWidth="400">
+            <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4" HorizontalAlignment="Center" Background="{x:Null}" MinWidth="550">
                 <StackPanel Background="#FFFBFBE4" Margin="2" Visibility="Visible" ScrollViewer.CanContentScroll="True" MinWidth="400" HorizontalAlignment="Stretch" CanVerticallyScroll="True">
-                    <TextBlock  Text="{Binding Path=Title}"  Margin="5" FontSize="21.333" TextWrapping="WrapWithOverflow"/>
-                    <TextBlock  Text="{Binding Path=Date}"   Margin="5,5,0,0" Foreground="#FF001C9B"/>
-                    <StackPanel Orientation="Horizontal" >
-                        <TextBlock Text="Зарплата:"   Margin="5,5,0,0" FontSize="14.667" Foreground="Black"/>
-                        <TextBlock Text="{Binding Path=Salary}" Margin="5,5,20,0" FontSize="14.667" Foreground="#FF017C17"/>
-                        <TextBlock Text="График:"   Margin="5,5,0,0" FontSize="14.667"/>
-                        <TextBlock Text="{Binding Path=Schedule}" Margin="5,5,20,0" FontSize="14.667"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" >
-                        <TextBlock Text="Стаж:"   Margin="5,5,0,0" FontSize="14.667" Foreground="Black"/>
-                        <TextBlock Text="{Binding Path=Experience}" Margin="5,5,20,0" FontSize="14.667" Foreground="#FFDA2525"/>
-                        <TextBlock Text="Образование:"   Margin="5,5,0,0" FontSize="14.667"/>
-                        <TextBlock Text="{Binding Path=Education}" Margin="5,5,20,0" FontSize="14.667" Foreground="#FFDA2525"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Город:" Margin="5,5,0,0" FontSize="14.667"/>
-                        <TextBlock Text="{Binding Path=City}" Margin="5,5,0,0" FontSize="14.667" TextWrapping="Wrap"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                        <TextBlock Text="Контактное лицо:"   Margin="5,5,0,0" FontSize="14.667"/>
-                        <TextBlock Text="{Binding Path=ContFace}"   Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap"/>
-                        <TextBlock Text="Телефон:"   Margin="5,5,0,0" FontSize="14.667" Foreground="#FF274D83"/>
-                        <TextBox Text="{Binding Path=Telephone}"   Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap" Foreground="#FF274D83"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Емайл, ICQ:"   Margin="5,5,0,0" FontSize="14.667"/>
-                        <TextBox Text="{Binding Path=Email}"   Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Url:" Margin="5,5,0,0" FontSize="14.667" MouseDown="TextBox_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <TextBlock  Text="{Binding Title}"  Margin="5" FontSize="24" TextWrapping="WrapWithOverflow" MaxWidth="500" TextAlignment="Center"/>
+                    <TextBlock  Text="{Binding Date}"   Margin="10,5,0,0" Foreground="#FF001C9B" FontSize="13.333"/>
+                    
+                    <Grid Margin="5,5,0,0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-                        <TextBox Text="{Binding Path=Url}" Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap" Width="500"/>
-                    </StackPanel>
-                    <TextBlock Text="Описание:"  Margin="5,5,0,0" FontSize="14.667" TextWrapping="Wrap" Visibility="Hidden"/>
-                    <TextBlock Text="{Binding Path=Description}"   Margin="5,5,10,10" FontSize="16" TextWrapping="WrapWithOverflow" Width="200" MinWidth="500"/>
+                        <TextBlock Text="Зарплата:"   Margin="5,5,0,0" FontSize="14.667" Foreground="Black"/>
+                        <TextBlock Text="{Binding Salary}" Margin="5,5,20,0" FontSize="14.667" Foreground="#FF017C17" Grid.Column="1"/>
+                        <TextBlock Text="График:"   Margin="5,5,0,0" FontSize="14.667" Grid.Column="2"/>
+                        <TextBlock Text="{Binding Schedule}" Margin="5,5,20,0" FontSize="14.667" Grid.Column="3"/>
+
+                        <TextBlock Text="Стаж:"   Margin="5,5,0,0" FontSize="14.667" Foreground="Black" Grid.Row="1"/>
+                        <TextBlock Text="{Binding Experience}" Margin="5,5,20,0" FontSize="14.667" Foreground="#FFDA2525" Grid.Row="1" Grid.Column="1"/>
+                        <TextBlock Text="Образование:"   Margin="5,5,0,0" FontSize="14.667" Grid.Row="1" Grid.Column="2"/>
+                        <TextBlock Text="{Binding Education}" Margin="5,5,20,0" FontSize="14.667" Foreground="#FFDA2525" Grid.Row="1" Grid.Column="3"/>
+
+                        <TextBlock Text="Город:" Margin="5,5,0,0" FontSize="14.667" Grid.Row="2"/>
+                        <TextBlock Text="{Binding City}" Margin="5,5,0,0" FontSize="14.667" TextWrapping="Wrap" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"/>
+
+                        <TextBlock Text="Контактное лицо:"   Margin="5,5,0,0" FontSize="14.667" Grid.Row="3"/>
+                        <TextBlock Text="{Binding ContFace}"   Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap" Grid.Row="3" Grid.Column="1"/>
+                        <TextBlock Text="Телефон:"   Margin="5,5,0,0" FontSize="14.667" Foreground="#FF274D83" Grid.Row="3" Grid.Column="2"/>
+                        <TextBox Text="{Binding Telephone}"   Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap" Foreground="#FF274D83" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Left" Width="110"/>
+
+                        <TextBlock Text="Емайл, ICQ:"   Margin="5,5,0,0" FontSize="14.667" Grid.Row="4"/>
+                        <TextBox Text="{Binding Email}"   Margin="5,5,0,0" FontSize="14.667" TextWrapping="Wrap" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left"/>
+
+                        <TextBlock Text="Url:" Margin="5,5,0,0" FontSize="14.667" MouseDown="TextBox_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5"/>
+                        <TextBox Text="{Binding Url}" FontSize="14.667" TextWrapping="Wrap" Width="Auto" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="0,5" MaxWidth="400"/>
+
+                        <TextBlock Text="{Binding Description}"   Margin="10,5,10,10" FontSize="17.333" TextWrapping="Wrap" Width="Auto" MinWidth="500" Grid.ColumnSpan="6" Grid.Row="7" MaxWidth="500"/>
+                    </Grid>
                 </StackPanel>
             </Border>
         </DataTemplate>
     </Window.Resources>
 
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo x:Name="taskBarItem" ProgressState="Normal"  ProgressValue="{Binding Value, ElementName=pb_loadJob}"/>
+    </Window.TaskbarItemInfo>
+
     <Grid >
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" MinHeight="150"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="60" ></RowDefinition>
+            <RowDefinition Height="*" MinHeight="150"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="60" />
         </Grid.RowDefinitions>
-        <ListView Name="lstv" Margin="5" ScrollViewer.CanContentScroll="False" Visibility="Collapsed" >
+        <ListView x:Name="lstv" Margin="5" ScrollViewer.CanContentScroll="False" Visibility="Collapsed" >
             <ListView.View>
                 <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Header="Дата" DisplayMemberBinding="{Binding Path=Date, ConverterCulture='ru-ru', StringFormat={}{0:C}, TargetNullValue=[Данные не предоставлены]}"></GridViewColumn>
-                        <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Path=Title, TargetNullValue=[Данные не предоставлены] }"></GridViewColumn>
-                        <GridViewColumn Header="Зарплата" DisplayMemberBinding="{Binding Path=Price, ConverterCulture='ru-ru', StringFormat={}{0:C}, TargetNullValue=[Данные не предоставлены]}"></GridViewColumn>
+                    <GridViewColumn Header="Дата" DisplayMemberBinding="{Binding Date, ConverterCulture=ru-ru, StringFormat=\{0:C\}, TargetNullValue=[Данные не предоставлены]}"/>
+                    <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Title, TargetNullValue=[Данные не предоставлены]}"/>
+                    <GridViewColumn Header="Зарплата" DisplayMemberBinding="{Binding Price, ConverterCulture=ru-ru, StringFormat=\{0:C\}, TargetNullValue=[Данные не предоставлены]}"/>
 
-                        <GridViewColumn Header="Telephone" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox 
-                                        Text="{Binding Path=Telephone, 
-                                        TargetNullValue=[Данные не предоставлены]}"
-                                        Margin="5" MouseDown="TextBox_MouseDown"   
-                                        TextWrapping="Wrap"
+                    <GridViewColumn Header="Telephone" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox 
+									Text="{Binding Telephone, TargetNullValue=[Данные не предоставлены]}"
+									Margin="5" MouseDown="TextBox_MouseDown"   
+									TextWrapping="Wrap"
                                         />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
-                        <GridViewColumn Header="Описание" Width="300">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock  FontSize="15" Text="{Binding Path=Description}" 
-                                                TextWrapping="Wrap"
-                                                Foreground="BlueViolet" Margin="5" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                    <GridViewColumn Header="Описание" Width="300">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock  FontSize="15" Text="{Binding Description}" 
+									TextWrapping="Wrap"
+									Foreground="BlueViolet" Margin="5" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
-                        <GridViewColumn Header="Url" Width="50" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox 
-                                        Text="{Binding Path=Url, 
-                                        TargetNullValue=[Данные не предоставлены]}"
-                                        Margin="5" MouseDown="TextBox_MouseDown"                                        
+                    <GridViewColumn Header="Url" Width="50" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox 
+									Text="{Binding Url, TargetNullValue=[Данные не предоставлены]}"
+									Margin="5" MouseDown="TextBox_MouseDown"                                        
                                         />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView.Columns>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -126,10 +140,10 @@
         </StackPanel>
 
         <ListBox x:Name="lbContentView" Grid.Row="0" Margin="2"
-                 ItemTemplate="{StaticResource JobDataTemplate}" Padding="5" 
-                 RenderTransformOrigin="0,0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                 ScrollViewer.CanContentScroll="False" HorizontalContentAlignment="Left" 
-                 SelectionMode="Extended"
+			ItemTemplate="{StaticResource JobDataTemplate}" Padding="5" 
+			RenderTransformOrigin="0,0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+			ScrollViewer.CanContentScroll="False" HorizontalContentAlignment="Left" 
+			SelectionMode="Extended"
                  >
             <ListBox.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -137,10 +151,12 @@
                     <GradientStop Color="#3FD191F5" Offset="1"/>
                 </LinearGradientBrush>
             </ListBox.Background>
-        </ListBox>
 
+            <Job:JobInfo Company="dfgfdg" ContFace="dfgfdg" City="City" Country="dfgfdgd" Date="dfgdfg" Description="Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description " Email="dfgdfg" Employment="dfgdg" Experience="gfdgd" Education="dfgfdg" PriceValue="4535" Region="dfgdgd" Salary="dfgfdg" Schedule="dfgdfg" Title="fdgfdg" Telephone="dfgdfg" Url="fdgdfg"/>
+        </ListBox>
+        
         <GridSplitter Grid.Row="1" IsEnabled="False" HorizontalAlignment="Stretch" 
-                      VerticalAlignment="Bottom" ResizeBehavior="PreviousAndNext" Height="5" Foreground="Black"/>
+			VerticalAlignment="Bottom" ResizeBehavior="PreviousAndNext" Height="5" Foreground="Black"/>
 
         <Grid Background="#FFB5FFBC" Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -148,21 +164,15 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Column="0" Background="#FFFFF5B9" >
-                <Button  Name="btnGetInfoJob"   Padding="4" Margin="20,17" HorizontalContentAlignment="Left" Click="btnGetInfoJob_Click" Width="120">
-                    <TextBlock TextAlignment="Center">
-                        Получить вакансии
-                    </TextBlock>                    
+                <Button  x:Name="btnGetInfoJob"   Padding="4" Margin="20,17" HorizontalContentAlignment="Left" Click="btnGetInfoJob_Click" Width="120">
+                    <TextBlock TextAlignment="Center"><Run Text="Получить вакансии"/></TextBlock>
                 </Button>
-                <Button  Name="btnPrevInfoJob"  Padding="4" Margin="20,10" HorizontalContentAlignment="Left" Click="btnPrevInfoJob_Click" Height="26" Content=" &lt;&lt; " />
-                <TextBox Name="tbxPageNumber" Text="1" Margin="2,15" TextAlignment="Center" FontSize="16" MouseDown="TextBox_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="30"/>
-                <Button  Name="btnNextInfoJob"  Padding="4" Margin="20,10" HorizontalContentAlignment="Left" Click="btnNextInfoJob_Click" Height="26" Content=" &gt;&gt; " />
+                <Button  x:Name="btnPrevInfoJob"  Padding="4" Margin="20,10" HorizontalContentAlignment="Left" Click="btnPrevInfoJob_Click" Height="26" Content=" &lt;&lt; " />
+                <TextBox x:Name="tbxPageNumber" Text="1" Margin="2,15" TextAlignment="Center" FontSize="16" MouseDown="TextBox_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="30"/>
+                <Button  x:Name="btnNextInfoJob"  Padding="4" Margin="20,10" HorizontalContentAlignment="Left" Click="btnNextInfoJob_Click" Height="26" Content=" &gt;&gt; " />
             </StackPanel>
             <ProgressBar x:Name="pb_loadJob" Grid.Column="1" Margin="20,0" Height="17" Maximum="1"  LargeChange="0.1"/>
             <TextBlock   x:Name="tb_loadJob" Grid.Column="1" Margin="20,0" TextWrapping="Wrap" Text="0/0" VerticalAlignment="Center" Height="16" HorizontalAlignment="Center"/>
         </Grid>
     </Grid>
-    <Window.TaskbarItemInfo>
-        <TaskbarItemInfo x:Name="taskBarItem" ProgressState="Normal"  ProgressValue="{Binding ElementName=pb_loadJob, Path=Value}">
-        </TaskbarItemInfo>
-    </Window.TaskbarItemInfo>
 </Window>
