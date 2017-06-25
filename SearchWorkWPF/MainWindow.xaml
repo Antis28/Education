@@ -12,8 +12,11 @@
             <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4" HorizontalAlignment="Center" Background="{x:Null}" MinWidth="550">
                 <StackPanel Background="#FFFBFBE4" Margin="2" Visibility="Visible" ScrollViewer.CanContentScroll="True" MinWidth="400" HorizontalAlignment="Stretch" CanVerticallyScroll="True">
                     <TextBlock  Text="{Binding Title}"  Margin="5" FontSize="24" TextWrapping="WrapWithOverflow" MaxWidth="500" TextAlignment="Center"/>
-                    <TextBlock  Text="{Binding Date}"   Margin="10,5,0,0" Foreground="#FF001C9B" FontSize="13.333"/>
-                    
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock  Text="{Binding Date}"   Margin="10,5,0,0" Foreground="#FF001C9B" FontSize="13.333"/>
+                        <TextBlock  Text="{Binding Category}"   Margin="50,5,0,0" Foreground="#FFE47416" FontSize="13.333"/>
+
+                    </StackPanel>
                     <Grid Margin="5,5,0,0" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -142,7 +145,7 @@
         <ListBox x:Name="lbContentView" Grid.Row="0" Margin="2"
 			ItemTemplate="{StaticResource JobDataTemplate}" Padding="5" 
 			RenderTransformOrigin="0,0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-			ScrollViewer.CanContentScroll="False" HorizontalContentAlignment="Left" 
+			ScrollViewer.CanContentScroll="False" HorizontalContentAlignment="Center" 
 			SelectionMode="Extended"
                  >
             <ListBox.Background>
@@ -151,10 +154,7 @@
                     <GradientStop Color="#3FD191F5" Offset="1"/>
                 </LinearGradientBrush>
             </ListBox.Background>
-
-            <Job:JobInfo Company="dfgfdg" ContFace="dfgfdg" City="City" Country="dfgfdgd" Date="dfgdfg" Description="Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description " Email="dfgdfg" Employment="dfgdg" Experience="gfdgd" Education="dfgfdg" PriceValue="4535" Region="dfgdgd" Salary="dfgfdg" Schedule="dfgdfg" Title="fdgfdg" Telephone="dfgdfg" Url="fdgdfg"/>
         </ListBox>
-        
         <GridSplitter Grid.Row="1" IsEnabled="False" HorizontalAlignment="Stretch" 
 			VerticalAlignment="Bottom" ResizeBehavior="PreviousAndNext" Height="5" Foreground="Black"/>
 

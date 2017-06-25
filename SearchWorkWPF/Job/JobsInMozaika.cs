@@ -74,6 +74,7 @@ namespace SearchWorkWPF.Job
         {
             string xpq_currentWork = "/div[@class=\"rabota-data\"]/div[@class=\"rabota-title\"]/a";  // rabota-data/rabota-title/a           
             string xpq_date = "/div[@class=\"rabota-data\"]/ul[@class=\"info-doska\"]/li[1]";
+            string xpq_category = "/div[@class=\"rabota-data\"]/ul[@class=\"info-doska\"]/li[3]/a[2]";
 
             HtmlNode currentWork = currentHTML
                                     .DocumentNode
@@ -87,6 +88,11 @@ namespace SearchWorkWPF.Job
                         .DocumentNode
                         .SelectSingleNode(xpq_date)
                         ?.FirstChild.InnerText;
+
+            var Category = currentHTML
+                        .DocumentNode
+                        .SelectSingleNode(xpq_category);
+
             string Salary;//= ExtractSalary(currentHTML);
             string Schedule;
             string City;
@@ -114,8 +120,9 @@ namespace SearchWorkWPF.Job
                      .DocumentNode
                      .SelectSingleNode(xpq_currentWork)
                      .InnerText,
-                Salary = Salary,
                 Date = Date,
+                Category = Category.InnerText,
+                Salary = Salary,
                 Schedule = Schedule,
                 City = City,
                 Description = Description,
