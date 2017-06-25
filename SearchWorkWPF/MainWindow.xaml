@@ -141,14 +141,18 @@
 
         <GridSplitter Grid.Row="1" IsEnabled="False" HorizontalAlignment="Stretch" 
                       VerticalAlignment="Bottom" ResizeBehavior="PreviousAndNext" Height="5" Foreground="Black"/>
-        
+
         <Grid Background="#FFB5FFBC" Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Column="0" Background="#FFFFF5B9" >
-                <Button  Name="btnGetInfoJob"  Padding="4" Margin="20,10" HorizontalContentAlignment="Left" Click="btnGetInfoJob_Click" Width="117" Height="26">Получить вакансии</Button>
+                <Button  Name="btnGetInfoJob"   Padding="4" Margin="20,17" HorizontalContentAlignment="Left" Click="btnGetInfoJob_Click" Width="120">
+                    <TextBlock TextAlignment="Center">
+                        Получить вакансии
+                    </TextBlock>                    
+                </Button>
                 <Button  Name="btnPrevInfoJob"  Padding="4" Margin="20,10" HorizontalContentAlignment="Left" Click="btnPrevInfoJob_Click" Height="26" Content=" &lt;&lt; " />
                 <TextBox Name="tbxPageNumber" Text="1" Margin="2,15" TextAlignment="Center" FontSize="16" MouseDown="TextBox_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="30"/>
                 <Button  Name="btnNextInfoJob"  Padding="4" Margin="20,10" HorizontalContentAlignment="Left" Click="btnNextInfoJob_Click" Height="26" Content=" &gt;&gt; " />

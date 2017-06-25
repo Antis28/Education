@@ -27,18 +27,21 @@ namespace SearchWorkWPF.Job
 
         private HtmlNodeCollection contactFieldsNodes = null;
 
-        public void BeginGetJobList()
+
+        public Thread BeginGetJobList()
         {
             Thread backgroundThread = new Thread(new ThreadStart(Start));
-            backgroundThread.Name = "Вторичный";
+            backgroundThread.Name = "JobsParser";
             backgroundThread.IsBackground = true;
+
             backgroundThread.Start();
+            return backgroundThread;
         }
         public List<JobInfo> GetJobList()
         {
             List<JobInfo> MozaikaJobList = new List<JobInfo>();
 
-            string mozaika = "http://mozaika.dn.ua/vakansy/page/"+ pageNumber + "/";
+            string mozaika = "http://mozaika.dn.ua/vakansy/page/" + pageNumber + "/";
             //string mozaika = "http://html5-ap/mozaika.dn.ua.htm";            
             //xPathQuery
             string xpq_allWorks = "//div[@id=\"dle-content\"]/div[@class=\"rabota-all\"]";          //<div id="dle-content">//class="rabota-all"
@@ -87,7 +90,7 @@ namespace SearchWorkWPF.Job
             string Salary;//= ExtractSalary(currentHTML);
             string Schedule;
             string City;
-            ExtractSchedSalCity(currentHTML, out Schedule, out Salary, out City);            
+            ExtractSchedSalCity(currentHTML, out Schedule, out Salary, out City);
             string Description = currentHTML
                             .DocumentNode
                             .ChildNodes?[1]
@@ -104,7 +107,7 @@ namespace SearchWorkWPF.Job
             string curEmail = searchByTitle(curUrl, "Емайл, ICQ:&nbsp; ", true);
             string curExperience = searchByTitle(curUrl, " Стаж:&nbsp; ", true);
             string curEducation = searchByTitle(curUrl, " Образование:&nbsp; ", true);
-            
+
             return new JobInfo()
             {
                 Title = currentHTML
@@ -129,10 +132,13 @@ namespace SearchWorkWPF.Job
         {
             try
             {
-                OnCompleteConvert(GetJobList());
+                OnComplete(GetJobList());
+            } catch( ThreadAbortException )
+            {
+                OnCanceled();
             } catch( Exception ex )
             {
-                System.Windows.MessageBox.Show("Exception: не могу подключится к интернету");
+                System.Windows.MessageBox.Show(ex.Message, "Exception: не могу выполнить задание.");
             }
         }
 
@@ -146,7 +152,7 @@ namespace SearchWorkWPF.Job
                 string xPath = "//div[@class=\"rabota-allfull\"]/div[@class=\"rabota-fields\"]";
                 contactFieldsNodes = curHtmlDocument.DocumentNode.SelectNodes(xPath);
             }
-            
+
             foreach( var item in contactFieldsNodes )
             {
                 bool isContain = item.InnerText.Contains(title);

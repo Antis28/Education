@@ -6,6 +6,7 @@ using SearchWork.Extract;
 using SearchWorkWPF.Job;
 using AntisLib.Net;
 using System.Windows.Media;
+using System.Threading;
 
 namespace SearchWorkWPF
 {
@@ -20,12 +21,34 @@ namespace SearchWorkWPF
         }
 
         private int curPage;
+        private Thread sercherJobs;
+        private object cacheButtonContent;
 
+        private void ResetButton()
+        {
+            btnGetInfoJob.Background = new SolidColorBrush(Color.FromArgb(255, 221, 221, 221));
+            btnGetInfoJob.Content = cacheButtonContent;
+        }
 
         private void btnGetInfoJob_Click( object sender, RoutedEventArgs e )
         {
+            if( sercherJobs != null && sercherJobs.IsAlive )
+            {
+                sercherJobs.Abort();
+                ResetButton();
+                return;
+            }
             int.TryParse(tbxPageNumber.Text, out curPage);
+
+            cacheButtonContent = btnGetInfoJob.Content;
+            System.Windows.Controls.TextBlock tb = new System.Windows.Controls.TextBlock();
+            tb.Text = "Отмена";
+            tb.Width = btnGetInfoJob.Width;
+            tb.TextAlignment = TextAlignment.Center;
+
+            btnGetInfoJob.Content = tb;
             btnGetInfoJob.Background = new SolidColorBrush(Colors.Gold);
+
             lbContentView.Items.Clear();
             if( InternetChecker.InternetGetConnectedState() )
             {
@@ -50,7 +73,7 @@ namespace SearchWorkWPF
             jMozaika.CanceledEvent += onCanceledConvert;
 
             // Вызов в другом потоке
-            jMozaika.BeginGetJobList();
+            sercherJobs = jMozaika.BeginGetJobList();
         }
 
         private void JMozaika_NextStepEvent( JobInfo obj )
@@ -120,7 +143,8 @@ namespace SearchWorkWPF
             this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
                     (Action)delegate
                     {
-                        //tb_percentConvert.Text = "Конвертировние отменено";
+
+                        this.tb_loadJob.Text = "Операция отменена, загружено - " + current + " из " + maximum;
                         //btn_convert.Content = "Начать";
                     });
 
@@ -135,7 +159,7 @@ namespace SearchWorkWPF
                         //this.btn_convert.Content = "Начать";
                         lstv.ItemsSource = lJobs;
 
-                        btnGetInfoJob.Background = new SolidColorBrush(Color.FromArgb(255, 221, 221, 221));
+                        ResetButton();                        
                     });
 
         }

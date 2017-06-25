@@ -30,11 +30,11 @@ namespace SearchWorkWPF.Job
         {
             MaxValueEvent(maxValue);
         }
-        protected void OnCompleteConvert( List<JobInfo> lJobs )
+        protected void OnComplete( List<JobInfo> lJobs )
         {
             CompleteEvent(lJobs);
         }
-        protected void OnCanceledConvert()
+        protected void OnCanceled()
         {
             CanceledEvent();
         }
