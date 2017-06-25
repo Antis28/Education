@@ -24,10 +24,21 @@ namespace SearchWorkWPF
         private Thread sercherJobs;
         private object cacheButtonContent;
 
-        private void ResetButton()
+        private void ResetLoadButton()
         {
             btnGetInfoJob.Background = new SolidColorBrush(Color.FromArgb(255, 221, 221, 221));
             btnGetInfoJob.Content = cacheButtonContent;
+        }
+        private void ConfigLoadButton(string s)
+        {
+            cacheButtonContent = btnGetInfoJob.Content;
+            System.Windows.Controls.TextBlock tb = new System.Windows.Controls.TextBlock();
+            tb.Text = s;
+            tb.Width = btnGetInfoJob.Width;
+            tb.TextAlignment = TextAlignment.Center;
+
+            btnGetInfoJob.Content = tb;
+            btnGetInfoJob.Background = new SolidColorBrush(Colors.Gold);
         }
 
         private void btnGetInfoJob_Click( object sender, RoutedEventArgs e )
@@ -35,21 +46,13 @@ namespace SearchWorkWPF
             if( sercherJobs != null && sercherJobs.IsAlive )
             {
                 sercherJobs.Abort();
-                ResetButton();
+                ResetLoadButton();
                 return;
             }
             int.TryParse(tbxPageNumber.Text, out curPage);
-
-            cacheButtonContent = btnGetInfoJob.Content;
-            System.Windows.Controls.TextBlock tb = new System.Windows.Controls.TextBlock();
-            tb.Text = "Отмена";
-            tb.Width = btnGetInfoJob.Width;
-            tb.TextAlignment = TextAlignment.Center;
-
-            btnGetInfoJob.Content = tb;
-            btnGetInfoJob.Background = new SolidColorBrush(Colors.Gold);
-
             lbContentView.Items.Clear();
+            ConfigLoadButton("Отмена");
+
             if( InternetChecker.InternetGetConnectedState() )
             {
                 // Подготовка вызова в другом потоке
@@ -100,7 +103,10 @@ namespace SearchWorkWPF
         private void btnPrevInfoJob_Click( object sender, RoutedEventArgs e )
         {
             int.TryParse(tbxPageNumber.Text, out curPage);
-            tbxPageNumber.Text = (--curPage).ToString();
+            if( --curPage < 1 )
+                curPage = 1;
+
+            tbxPageNumber.Text = (curPage).ToString();
             btnGetInfoJob_Click(sender, e);
         }
 
@@ -159,7 +165,7 @@ namespace SearchWorkWPF
                         //this.btn_convert.Content = "Начать";
                         lstv.ItemsSource = lJobs;
 
-                        ResetButton();                        
+                        ResetLoadButton();                        
                     });
 
         }
