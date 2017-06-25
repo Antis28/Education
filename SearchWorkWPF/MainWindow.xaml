@@ -12,11 +12,15 @@
             <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4" HorizontalAlignment="Center" Background="{x:Null}" MinWidth="550">
                 <StackPanel Background="#FFFBFBE4" Margin="2" Visibility="Visible" ScrollViewer.CanContentScroll="True" MinWidth="400" HorizontalAlignment="Stretch" CanVerticallyScroll="True">
                     <TextBlock  Text="{Binding Title}"  Margin="5" FontSize="24" TextWrapping="WrapWithOverflow" MaxWidth="500" TextAlignment="Center"/>
-                    <StackPanel Orientation="Horizontal" >
-                        <TextBlock  Text="{Binding Date}"   Margin="10,5,0,0" Foreground="#FF001C9B" FontSize="13.333"/>
-                        <TextBlock  Text="{Binding Category}"   Margin="50,5,0,0" Foreground="#FFE47416" FontSize="13.333"/>
+                    <Grid  >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"  Text="{Binding Date}"   Margin="10,5,0,5" Foreground="#FF001C9B" FontSize="14.667" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Column="1"  Text="{Binding Category}"   Margin="50,5,20,5" Foreground="#FFE47416" FontSize="14.667" HorizontalAlignment="Right"/>
 
-                    </StackPanel>
+                    </Grid>
                     <Grid Margin="5,5,0,0" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -55,7 +59,7 @@
                         <TextBox Text="{Binding Telephone}"   Margin="5,5,20,0" FontSize="14.667" TextWrapping="Wrap" Foreground="#FF274D83" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Left" Width="110"/>
 
                         <TextBlock Text="Емайл, ICQ:"   Margin="5,5,0,0" FontSize="14.667" Grid.Row="4"/>
-                        <TextBox Text="{Binding Email}"   Margin="5,5,0,0" FontSize="14.667" TextWrapping="Wrap" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left"/>
+                        <TextBox Text="{Binding Email}"   Margin="5,5,0,0" FontSize="14.667" TextWrapping="Wrap" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left"/>
 
                         <TextBlock Text="Url:" Margin="5,5,0,0" FontSize="14.667" MouseDown="TextBox_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5"/>
                         <TextBox Text="{Binding Url}" FontSize="14.667" TextWrapping="Wrap" Width="Auto" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="0,5" MaxWidth="400"/>
@@ -154,6 +158,9 @@
                     <GradientStop Color="#3FD191F5" Offset="1"/>
                 </LinearGradientBrush>
             </ListBox.Background>
+            <Job:JobInfo Category="dfsdfsdfsf" Date="dsadasd" City="dfsdfsdfsf" ContFace="dfsdfsdfsf" Description="dfsdfsdfsf" Education="dfsdfsdfsf" Email="dfsdfsdfsf" Experience="dfsdfsdfsf" Salary="dfsdfsdfsf" Schedule="dfsdfsdfsf" Telephone="dfsdfsdfsf" Title="dfsdfsdfsf" Url="dfsdfsdfsf" />
+            <Job:JobInfo Category="dfsdfsdfsf" Date="dsadasd" City="dfsdfsdfsf" ContFace="dfsdfsdfsf" Description="dfsdfsdfsf" Education="dfsdfsdfsf" Email="dfsdfsdfsf" Experience="dfsdfsdfsf" Salary="dfsdfsdfsf" Schedule="dfsdfsdfsf" Telephone="dfsdfsdfsf" Title="dfsdfsdfsf" Url="dfsdfsdfsf" />
+            <Job:JobInfo Category="dfsdfsdfsf" Date="dsadasd" City="dfsdfsdfsf" ContFace="dfsdfsdfsf" Description="dfsdfsdfsf" Education="dfsdfsdfsf" Email="dfsdfsdfsf" Experience="dfsdfsdfsf" Salary="dfsdfsdfsf" Schedule="dfsdfsdfsf" Telephone="dfsdfsdfsf" Title="dfsdfsdfsf" Url="dfsdfsdfsf" />
         </ListBox>
         <GridSplitter Grid.Row="1" IsEnabled="False" HorizontalAlignment="Stretch" 
 			VerticalAlignment="Bottom" ResizeBehavior="PreviousAndNext" Height="5" Foreground="Black"/>

@@ -14,8 +14,8 @@ namespace SearchWorkWPF.Job
         private string _salary = string.Empty;
 
         public string Date { get; set; }
-        public string Category { get; internal set; }
-        
+        public string Category { get; set; }
+
         public string Title { get; set; }
 
         public string Salary
