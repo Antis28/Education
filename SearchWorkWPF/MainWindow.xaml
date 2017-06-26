@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SearchWorkWPF"
         xmlns:Job="clr-namespace:SearchWorkWPF.Job" x:Class="SearchWorkWPF.MainWindow"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         Title="Поиск работы в Горловке" Height="450" Width="650">
     <Window.Resources>
@@ -94,6 +95,8 @@
                 </LinearGradientBrush>
             </ListBox.Background>
            </ListBox>
+        <Controls:ProgressRing x:Name="progressRing" IsActive="False" Width="80" Height="80" Foreground="#B2995DE0" />
+
         <GridSplitter Grid.Row="1" IsEnabled="False" HorizontalAlignment="Stretch" 
 			VerticalAlignment="Bottom" ResizeBehavior="PreviousAndNext" Height="5" Foreground="Black"/>
 

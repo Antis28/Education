@@ -28,6 +28,7 @@ namespace SearchWorkWPF
 
         private void ResetLoadButton()
         {
+            progressRing.IsActive = false;
             btnGetInfoJob.Background = new SolidColorBrush(Color.FromArgb(255, 221, 221, 221));
             btnGetInfoJob.Content = cacheButtonContent;
         }
@@ -45,24 +46,29 @@ namespace SearchWorkWPF
 
         private void btnGetInfoJob_Click( object sender, RoutedEventArgs e )
         {
+            ConfigLoadButton("Отмена");
             if( sercherJobs != null && sercherJobs.IsAlive )
             {
                 sercherJobs.Abort();
                 ResetLoadButton();
                 return;
             }
-            int.TryParse(tbxPageNumber.Text, out curPage);
-            lbContentView.Items.Clear();
-            ConfigLoadButton("Отмена");
 
+            // В системе есть подключение к интернету
             if( InternetChecker.InternetGetConnectedState() )
             {
+                progressRing.IsActive = true;
+                this.tb_loadJob.Text = "Загружаю";
+                int.TryParse(tbxPageNumber.Text, out curPage);
+                lbContentView.Items.Clear();
+
                 // Подготовка вызова в другом потоке
                 BeginGetJobInMozaika();
             }
             else
             {
-                MessageBox.Show("Не могу подключится к интернету");
+                this.tb_loadJob.Text = "Не могу подключится к интернету";
+                ResetLoadButton();
             }
         }
 
@@ -92,8 +98,8 @@ namespace SearchWorkWPF
 
         private void TextBox_MouseDown( object sender, MouseButtonEventArgs e )
         {
-            JobInfo ji = lstv.SelectedItem as JobInfo;
-            Clipboard.SetText(ji.Url);
+            //JobInfo ji = lstv.SelectedItem as JobInfo;
+            //Clipboard.SetText(ji.Url);
         }
 
         private void btnNextInfoJob_Click( object sender, RoutedEventArgs e )
@@ -143,17 +149,17 @@ namespace SearchWorkWPF
                 this.maximum = maximum;
                 //pb_loadJob.Maximum = maximum;
                 pb_loadJob.Maximum = 1;
+                progressRing.IsActive = false;
             });
 
         }
-        void onCanceledConvert()
+        void onCanceledConvert( string mesage )
         {
             this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
                     (Action)delegate
                     {
-
-                        this.tb_loadJob.Text = "Операция отменена, загружено - " + current + " из " + maximum;
-                        //btn_convert.Content = "Начать";
+                        this.tb_loadJob.Text = mesage;
+                        ResetLoadButton();
                     });
 
         }
@@ -163,11 +169,7 @@ namespace SearchWorkWPF
                     (Action)delegate
                     {
                         this.tb_loadJob.Text = "Загрузка завершена";
-                        //isRunning = !isRunning;
-                        //this.btn_convert.Content = "Начать";
-                        lstv.ItemsSource = lJobs;
-
-                        ResetLoadButton();                        
+                        ResetLoadButton();                    
                     });
 
         }
