@@ -81,71 +81,6 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
-        <ListView x:Name="lstv" Margin="5" ScrollViewer.CanContentScroll="False" Visibility="Collapsed" >
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Дата" DisplayMemberBinding="{Binding Date, ConverterCulture=ru-ru, StringFormat=\{0:C\}, TargetNullValue=[Данные не предоставлены]}"/>
-                    <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Title, TargetNullValue=[Данные не предоставлены]}"/>
-                    <GridViewColumn Header="Зарплата" DisplayMemberBinding="{Binding Price, ConverterCulture=ru-ru, StringFormat=\{0:C\}, TargetNullValue=[Данные не предоставлены]}"/>
-
-                    <GridViewColumn Header="Telephone" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox 
-									Text="{Binding Telephone, TargetNullValue=[Данные не предоставлены]}"
-									Margin="5" MouseDown="TextBox_MouseDown"   
-									TextWrapping="Wrap"
-                                        />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <GridViewColumn Header="Описание" Width="300">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock  FontSize="15" Text="{Binding Description}" 
-									TextWrapping="Wrap"
-									Foreground="BlueViolet" Margin="5" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <GridViewColumn Header="Url" Width="50" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox 
-									Text="{Binding Url, TargetNullValue=[Данные не предоставлены]}"
-									Margin="5" MouseDown="TextBox_MouseDown"                                        
-                                        />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <StackPanel Background="#FFFBFBE4" Margin="5" Visibility="Collapsed">
-            <TextBlock x:Name="tb_title" Text="Плотник" Grid.Row="0" Margin="5,5,0,0" FontSize="21.333"/>
-            <TextBlock x:Name="tb_date" Text="17 06 2017" Grid.Row="1"  Margin="5,5,0,0"/>
-            <StackPanel Orientation="Horizontal" Grid.Row="2">
-                <TextBlock Text="Зарплата:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
-                <TextBlock x:Name="tb_infoPrice" Text="10000" Grid.Row="2"  Margin="5,5,20,0" FontSize="14.667"/>
-                <TextBlock Text="График:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
-                <TextBlock x:Name="tb_emp" Text="Полный день" Grid.Row="2"  Margin="5,5,20,0" FontSize="14.667"/>
-                <TextBlock Text="Город:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
-                <TextBlock x:Name="tb_city" Text="Горловка" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
-
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Телефон:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
-                <TextBlock x:Name="tb_phone" Text="000-00-00-000" Grid.Row="2"  Margin="5,5,20,0" FontSize="14.667"/>
-                <TextBlock Text="Url:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
-                <TextBlock x:Name="tb_url" Text="http:\\" Grid.Row="2"  Margin="5,5,20,0" FontSize="14.667"/>
-            </StackPanel>
-            <TextBlock Text="Описание:" Grid.Row="2"  Margin="5,5,0,0" FontSize="14.667"/>
-            <TextBlock x:Name="tb_description" Text="+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" Grid.Row="2"  Margin="5,5,20,0" FontSize="14.667" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap"/>
-
-        </StackPanel>
-
         <ListBox x:Name="lbContentView" Grid.Row="0" Margin="2"
 			ItemTemplate="{StaticResource JobDataTemplate}" Padding="5" 
 			RenderTransformOrigin="0,0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -158,10 +93,7 @@
                     <GradientStop Color="#3FD191F5" Offset="1"/>
                 </LinearGradientBrush>
             </ListBox.Background>
-            <Job:JobInfo Category="dfsdfsdfsf" Date="dsadasd" City="dfsdfsdfsf" ContFace="dfsdfsdfsf" Description="dfsdfsdfsf" Education="dfsdfsdfsf" Email="dfsdfsdfsf" Experience="dfsdfsdfsf" Salary="dfsdfsdfsf" Schedule="dfsdfsdfsf" Telephone="dfsdfsdfsf" Title="dfsdfsdfsf" Url="dfsdfsdfsf" />
-            <Job:JobInfo Category="dfsdfsdfsf" Date="dsadasd" City="dfsdfsdfsf" ContFace="dfsdfsdfsf" Description="dfsdfsdfsf" Education="dfsdfsdfsf" Email="dfsdfsdfsf" Experience="dfsdfsdfsf" Salary="dfsdfsdfsf" Schedule="dfsdfsdfsf" Telephone="dfsdfsdfsf" Title="dfsdfsdfsf" Url="dfsdfsdfsf" />
-            <Job:JobInfo Category="dfsdfsdfsf" Date="dsadasd" City="dfsdfsdfsf" ContFace="dfsdfsdfsf" Description="dfsdfsdfsf" Education="dfsdfsdfsf" Email="dfsdfsdfsf" Experience="dfsdfsdfsf" Salary="dfsdfsdfsf" Schedule="dfsdfsdfsf" Telephone="dfsdfsdfsf" Title="dfsdfsdfsf" Url="dfsdfsdfsf" />
-        </ListBox>
+           </ListBox>
         <GridSplitter Grid.Row="1" IsEnabled="False" HorizontalAlignment="Stretch" 
 			VerticalAlignment="Bottom" ResizeBehavior="PreviousAndNext" Height="5" Foreground="Black"/>
 
