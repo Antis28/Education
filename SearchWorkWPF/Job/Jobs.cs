@@ -15,7 +15,7 @@ namespace SearchWorkWPF.Job
         public event Action<JobInfo> NextStepEvent;
         public event Action<int> MaxValueEvent;
         public event Action<List<JobInfo>> CompleteEvent;
-        public event Action CanceledEvent;
+        public event Action<string> CanceledEvent;
 
         // Используем метод для запуска события
         protected void OnChangeValue()
@@ -34,9 +34,9 @@ namespace SearchWorkWPF.Job
         {
             CompleteEvent(lJobs);
         }
-        protected void OnCanceled()
+        protected void OnCanceled(string mesage)
         {
-            CanceledEvent();
+            CanceledEvent(mesage);
         }
 
         protected void ClearEvents()

@@ -142,10 +142,10 @@ namespace SearchWorkWPF.Job
                 OnComplete(GetJobList());
             } catch( ThreadAbortException )
             {
-                OnCanceled();
-            } catch( Exception ex )
+                OnCanceled("Операция отменена.");
+            } catch( Exception )
             {
-                System.Windows.MessageBox.Show(ex.Message, "Exception: не могу выполнить задание.");
+                OnCanceled("Не могу загрузить.");                
             }
         }
 
