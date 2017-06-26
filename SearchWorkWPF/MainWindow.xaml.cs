@@ -7,6 +7,8 @@ using SearchWorkWPF.Job;
 using AntisLib.Net;
 using System.Windows.Media;
 using System.Threading;
+// To access MetroWindow, add the following reference
+using MahApps.Metro.Controls;
 
 namespace SearchWorkWPF
 {
